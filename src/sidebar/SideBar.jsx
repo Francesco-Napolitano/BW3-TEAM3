@@ -1,11 +1,45 @@
+// Importazione delle dipendenze necessarie da React e React Bootstrap
 import { useEffect, useState } from 'react'
-import { Card } from 'react-bootstrap'
+import { Card, Modal, Button, Form, Badge } from 'react-bootstrap'
 import './SideBar.css'
 
 const SideBar = () => {
-  const [profilo, setProfilo] = useState(null)
-  const [profiliSuggeriti, setProfiliSuggeriti] = useState([])
+  // Definizione degli stati per gestire i dati e le funzionalità della sidebar
+  const [profilo, setProfilo] = useState(null) // Stato per il profilo utente
+  const [profiliSuggeriti, setProfiliSuggeriti] = useState([]) // Stato per i profili suggeriti
+  const [tuttiProfili, setTuttiProfili] = useState([]) // Stato per tutti i profili disponibili
+  const [profiliFiltrati, setProfiliFiltrati] = useState(5) // Numero di profili da mostrare
+  const [showModal, setShowModal] = useState(false) // Stato per controllare la visibilità del modal
+  const [nuovaLingua, setNuovaLingua] = useState('') // Stato per la nuova lingua da aggiungere
+  const [modalitaModifica, setModalitaModifica] = useState(false) // Stato per la modalità modifica lingue
+  const [lingue, setLingue] = useState(['Italiano', 'Inglese']) // Array delle lingue conosciute
 
+  // Funzioni per gestire l'apertura e chiusura del modal
+  const handleClose = () => setShowModal(false)
+  const handleShow = () => setShowModal(true)
+
+  // Funzione per aggiungere una nuova lingua
+  const aggiungiLingua = () => {
+    if (nuovaLingua.trim() !== '') {
+      setLingue([...lingue, nuovaLingua.trim()])
+      setNuovaLingua('')
+      handleClose()
+    }
+  }
+
+  // Funzione per rimuovere una lingua esistente
+  const rimuoviLingua = (linguaDaRimuovere) => {
+    if (modalitaModifica) {
+      setLingue(lingue.filter(lingua => lingua !== linguaDaRimuovere))
+    }
+  }
+
+  // Funzione per attivare/disattivare la modalità modifica
+  const toggleModalitaModifica = () => {
+    setModalitaModifica(!modalitaModifica)
+  }
+
+  // Funzione per recuperare i dati del profilo utente dall'API
   const fetchMioProfilo = async () => {
     try {
       const risposta = await fetch('https://striveschool-api.herokuapp.com/api/profile/me', {
@@ -20,6 +54,7 @@ const SideBar = () => {
     }
   }
 
+  // Funzione per recuperare i profili suggeriti dall'API
   const fetchProfiliSuggeriti = async () => {
     try {
       const risposta = await fetch('https://striveschool-api.herokuapp.com/api/profile/', {
@@ -28,19 +63,99 @@ const SideBar = () => {
         }
       })
       const dati = await risposta.json()
-      setProfiliSuggeriti(dati.slice(0, 5))
+      // Mescola casualmente l'array dei profili
+      const profiliMescolati = [...dati].sort(() => Math.random() - 0.5)
+      setTuttiProfili(profiliMescolati)
+      setProfiliSuggeriti(profiliMescolati.slice(0, profiliFiltrati))
     } catch (errore) {
       console.error('Errore nel recupero dei profili suggeriti:', errore)
     }
   }
 
+  // Funzione per gestire la visualizzazione di tutti i profili
+  const handleShowAllProfiles = () => {
+    console.log("Mostra tutti i profili")
+  }
+
+  // Funzione per mostrare più profili suggeriti
+  const handleMostraTutto = () => {
+    // Aumenta il numero di profili da mostrare di 5
+    const nuovoNumero = profiliFiltrati + 5
+    setProfiliFiltrati(nuovoNumero)
+    // Aggiorna i profili mostrati
+    setProfiliSuggeriti(tuttiProfili.slice(0, nuovoNumero))
+  }
+
+  // Effect per caricare i dati iniziali
   useEffect(() => {
     fetchMioProfilo()
     fetchProfiliSuggeriti()
   }, [])
 
+  // Rendering del componente
   return (
     <div className="sidebar">
+      {/* Card per la gestione delle lingue conosciute */}
+      <Card className="languages-card mb-2">
+        <div className="languages-header">
+          <h5>Lingue conosciute</h5>
+          <div className="languages-buttons">
+            <button 
+              className={`edit-button ${modalitaModifica ? 'active' : ''}`} 
+              onClick={toggleModalitaModifica}
+              title="Modalità rimozione"
+            >
+              <i className="bi bi-trash"></i>
+            </button>
+            <button 
+              className="edit-button" 
+              onClick={handleShow}
+              title="Aggiungi lingua"
+            >
+              <i className="bi bi-plus-lg"></i>
+            </button>
+          </div>
+        </div>
+        <div className="languages-content">
+          {lingue.map((lingua, index) => (
+            <Badge 
+              key={index} 
+              className={`language-pill me-2 mb-2 ${modalitaModifica ? 'removable' : ''}`}
+              onClick={() => rimuoviLingua(lingua)}
+            >
+              {lingua}
+              {modalitaModifica && <i className="bi bi-x"></i>}
+            </Badge>
+          ))}
+        </div>
+      </Card>
+
+      {/* Modal per aggiungere una nuova lingua */}
+      <Modal show={showModal} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Aggiungi una lingua</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Group>
+            <Form.Control
+              type="text"
+              placeholder="Inserisci una lingua"
+              value={nuovaLingua}
+              onChange={(e) => setNuovaLingua(e.target.value)}
+            />
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Chiudi
+          </Button>
+          <Button variant="primary" onClick={aggiungiLingua}>
+            Aggiungi
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Card per mostrare l'URL del profilo */}
       <Card className="profile-url-card">
         <div className="profile-url-title">
           <h5>Profilo pubblico e URL</h5>
@@ -51,18 +166,25 @@ const SideBar = () => {
         </div>
       </Card>
 
+      {/* Card per i profili suggeriti */}
       <Card className="suggestions-card">
-        <img 
-          src="https://media.licdn.com/media/AAYQAgTPAAgAAQAAAAAAADVuOvKzTF-3RD6j-qFPqhubBQ.png" 
-          alt="LinkedIn Hiring" 
-          className="w-100"
-        />
+        <button 
+          className="hiring-image-button"
+          onClick={handleShowAllProfiles}
+        >
+          <img 
+            src="https://media.licdn.com/media/AAYQAgTPAAgAAQAAAAAAADVuOvKzTF-3RD6j-qFPqhubBQ.png" 
+            alt="LinkedIn Hiring" 
+            className="w-100"
+          />
+        </button>
         
         <div className="suggestions-header">
           <div className="suggestions-title">Persone che potresti conoscere</div>
           <div className="suggestions-subtitle">Dal tuo settore</div>
         </div>
 
+        {/* Lista dei profili suggeriti */}
         {profiliSuggeriti.map((profilo) => (
           <div key={profilo._id} className="profile-suggestion">
             <div className="d-flex align-items-start">
@@ -83,7 +205,8 @@ const SideBar = () => {
           </div>
         ))}
         
-        <div className="show-more">
+        {/* Pulsante per mostrare più profili */}
+        <div className="show-more" onClick={handleMostraTutto}>
           Mostra tutto
         </div>
       </Card>
