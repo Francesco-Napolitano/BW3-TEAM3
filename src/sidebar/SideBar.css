@@ -1,0 +1,222 @@
+/* Stile principale della sidebar */
+.sidebar {
+  width: 300px;
+  margin: 20px;
+  position: sticky; /* Mantiene la sidebar fissa durante lo scroll */
+  top: 20px;
+}
+
+/* Card per l'URL del profilo */
+.profile-url-card {
+  background: white;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 8px;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.08);
+}
+
+/* Intestazione della sezione URL profilo */
+.profile-url-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.profile-url-title h5 {
+  font-size: 16px;
+  margin: 0;
+}
+
+.profile-url {
+  color: #666;
+  font-size: 14px;
+}
+
+/* Card per i suggerimenti di connessione */
+.suggestions-card {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.08);
+}
+
+/* Intestazione della sezione suggerimenti */
+.suggestions-header {
+  padding: 12px 16px;
+}
+
+.suggestions-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.suggestions-subtitle {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Stile per ogni singolo profilo suggerito */
+.profile-suggestion {
+  padding: 12px 16px;
+  border-top: 1px solid #ebebeb;
+}
+
+/* Immagine del profilo circolare */
+.profile-image {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+/* Contenitore informazioni profilo */
+.profile-info {
+  flex: 1;
+}
+
+.profile-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.profile-title {
+  font-size: 12px;
+  color: #666;
+  margin: 4px 0;
+}
+
+/* Pulsante per connettersi */
+.connect-button {
+  background: transparent;
+  border: 1px solid #0a66c2;
+  color: #0a66c2;
+  padding: 4px 16px;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.connect-button i {
+  margin-right: 4px;
+}
+
+/* Pulsante "Mostra altro" */
+.show-more {
+  padding: 16px;
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border-top: 1px solid #ebebeb;
+}
+
+/* Stile per il pulsante con immagine "Hiring" */
+.hiring-image-button {
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.hiring-image-button:hover {
+  opacity: 0.9;
+}
+
+.hiring-image-button img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Card per le lingue conosciute */
+.languages-card {
+  background: white;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.08);
+}
+
+/* Intestazione sezione lingue */
+.languages-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.languages-header h5 {
+  font-size: 16px;
+  margin: 0;
+}
+
+/* Contenitore pulsanti di modifica */
+.languages-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+/* Stile pulsanti di modifica */
+.edit-button {
+  background: transparent;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.edit-button:hover {
+  background-color: rgba(0,0,0,0.05);
+  color: #0a66c2;
+}
+
+.edit-button.active {
+  background-color: #e0e0e0;
+  color: #0a66c2;
+}
+
+/* Stile per i badge delle lingue */
+.language-pill {
+  background-color: #f3f2ef !important;
+  color: #666 !important;
+  border: 1px solid #e0e0e0;
+  padding: 6px 12px;
+  transition: all 0.2s;
+}
+
+/* Stile per badge lingua selezionata */
+.language-pill.bg-primary {
+  background-color: #0a66c2 !important;
+  color: white !important;
+  border-color: #0a66c2;
+}
+
+/* Stile per badge lingua in modalità rimozione */
+.language-pill.removable {
+  cursor: pointer;
+  background-color: #fef2f2 !important;
+  border-color: #fecaca;
+  color: #dc2626 !important;
+}
+
+.language-pill.removable:hover {
+  background-color: #fee2e2 !important;
+}
+
+.language-pill i {
+  margin-left: 6px;
+  font-size: 12px;
+}
+
+/* Contenitore dei badge delle lingue */
+.languages-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
