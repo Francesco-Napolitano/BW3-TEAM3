@@ -80,15 +80,15 @@ const MainProfilePage = () => {
             <h2 className="d-flex">Analisi</h2>
             <Col xs={12} lg={4}>
               <i className="bi bi-people-fill me-3 fs-3"></i>
-              <span className="fs-4">----- visite al profilo</span>
+              <span className="">----- visite al profilo</span>
             </Col>
             <Col xs={12} lg={4}>
               <i className="bi bi-bar-chart-fill me-3 fs-3"></i>
-              <span className="fs-4">----- impressioni del post</span>
+              <span className="">----- impressioni del post</span>
             </Col>
             <Col xs={12} lg={4}>
               <i className="bi bi-search me-3 fs-3"></i>
-              <span className="fs-4">----- ricerche del profilo</span>
+              <span className="">----- ricerche del profilo</span>
             </Col>
           </Row>
         </Col>

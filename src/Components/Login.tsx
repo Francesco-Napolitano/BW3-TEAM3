@@ -1,24 +1,24 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "../actions/authActions";
-import { RootState, AppDispatch } from "../store/store";
-import "./Login.css";
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { login } from '../actions/authActions'
+import { RootState, AppDispatch } from '../store/store'
+import '..styles/Login.css'
 
 const Login: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { loading, error } = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch<AppDispatch>()
+  const { loading, error } = useSelector((state: RootState) => state.auth)
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
 
   const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev);
-  };
+    setShowPassword((prev) => !prev)
+  }
 
   const handleLogin = () => {
-    dispatch(login(email, password));
-  };
+    dispatch(login(email, password))
+  }
 
   return (
     <div className="login-container">
@@ -40,17 +40,14 @@ const Login: React.FC = () => {
         {/* Password Input */}
         <div className="input-group password-group">
           <input
-            type={showPassword ? "text" : "password"}
+            type={showPassword ? 'text' : 'password'}
             placeholder="Password"
             className="input-field"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <span
-            className="toggle-password"
-            onClick={togglePasswordVisibility}
-          >
-            {showPassword ? "Nascondi" : "Mostra"}
+          <span className="toggle-password" onClick={togglePasswordVisibility}>
+            {showPassword ? 'Nascondi' : 'Mostra'}
           </span>
         </div>
 
@@ -60,7 +57,7 @@ const Login: React.FC = () => {
           onClick={handleLogin}
           disabled={loading}
         >
-          {loading ? "Caricamento..." : "Accedi"}
+          {loading ? 'Caricamento...' : 'Accedi'}
         </button>
 
         {/* Error Message */}
@@ -81,14 +78,14 @@ const Login: React.FC = () => {
 
         {/* Privacy Links */}
         <p className="terms">
-          Cliccando su “Continua”, accetti il{" "}
-          <a href="#">Contratto di licenza</a>,{" "}
-          <a href="#">l'Informativa sulla privacy</a> e{" "}
+          Cliccando su “Continua”, accetti il{' '}
+          <a href="#">Contratto di licenza</a>,{' '}
+          <a href="#">l'Informativa sulla privacy</a> e{' '}
           <a href="#">l'Informativa sui cookie</a> di LinkedIn.
         </p>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

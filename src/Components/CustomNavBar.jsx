@@ -1,24 +1,22 @@
-import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
-import { Col, Image, Row } from "react-bootstrap";
-import { Link, NavLink } from "react-router-dom";
-import "../Style/CustomNavBar.css";
-import { useState } from "react";
-
+import Container from 'react-bootstrap/Container'
+import Form from 'react-bootstrap/Form'
+import Nav from 'react-bootstrap/Nav'
+import Navbar from 'react-bootstrap/Navbar'
+import NavDropdown from 'react-bootstrap/NavDropdown'
+import { Col, Image, Row } from 'react-bootstrap'
+import { Link, NavLink } from 'react-router-dom'
+import '../styles/CustomNavBar.css'
+import { useState } from 'react'
 
 export const CustomNavBar = () => {
-  const [Rightcollapse, setRightcollapse] = useState(false);
+  const [Rightcollapse, setRightcollapse] = useState(false)
 
-  
   const myProfile = {
-    image: "https://via.placeholder.com/150", 
-    name: "John", 
-    surname: "Doe", 
-    title: "Software Engineer", 
-  };
+    image: 'https://via.placeholder.com/150',
+    name: 'John',
+    surname: 'Doe',
+    title: 'Software Engineer',
+  }
 
   return (
     <header className="myNavbar">
@@ -28,7 +26,7 @@ export const CustomNavBar = () => {
             <Row className="innerNavbar">
               <Col xs={8} sm={3} lg={6} className="justify-content-start">
                 <Navbar.Brand>
-                  <NavLink to={"/"}>
+                  <NavLink to={'/'}>
                     <Image
                       src="https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Bug.svg.original.svg"
                       alt="linkedin"
@@ -49,50 +47,60 @@ export const CustomNavBar = () => {
                 <Navbar.Collapse id="basic-navbar-nav">
                   <Nav className="linkWrap">
                     <NavLink
-                      to={"/"}
-                      className={"justify-content-center justify-content-lg-between"}
+                      to={'/'}
+                      className={
+                        'justify-content-center justify-content-lg-between'
+                      }
                       onClick={() => {
-                        setRightcollapse(false);
+                        setRightcollapse(false)
                       }}
                     >
                       <i className="bi bi-house-fill"></i>
                       <p className="d-none d-lg-block">Home</p>
                     </NavLink>
                     <NavLink
-                      to={"/"}
-                      className={"justify-content-center justify-content-lg-between"}
+                      to={'/'}
+                      className={
+                        'justify-content-center justify-content-lg-between'
+                      }
                       onClick={() => {
-                        setRightcollapse(false);
+                        setRightcollapse(false)
                       }}
                     >
                       <i className="bi bi-people-fill"></i>
                       <p className="d-none d-lg-block">Rete</p>
                     </NavLink>
                     <NavLink
-                      to={"/"}
-                      className={"justify-content-center justify-content-lg-between"}
+                      to={'/'}
+                      className={
+                        'justify-content-center justify-content-lg-between'
+                      }
                       onClick={() => {
-                        setRightcollapse(false);
+                        setRightcollapse(false)
                       }}
                     >
                       <i className="bi bi-briefcase-fill"></i>
                       <p className="d-none d-lg-block">Lavoro</p>
                     </NavLink>
                     <NavLink
-                      to={"/"}
-                      className={"justify-content-center justify-content-lg-between"}
+                      to={'/'}
+                      className={
+                        'justify-content-center justify-content-lg-between'
+                      }
                       onClick={() => {
-                        setRightcollapse(false);
+                        setRightcollapse(false)
                       }}
                     >
                       <i className="bi bi-chat-dots-fill"></i>
                       <p className="d-none d-lg-block">Messaggistica</p>
                     </NavLink>
                     <NavLink
-                      to={"/"}
-                      className={"justify-content-center justify-content-lg-between"}
+                      to={'/'}
+                      className={
+                        'justify-content-center justify-content-lg-between'
+                      }
                       onClick={() => {
-                        setRightcollapse(false);
+                        setRightcollapse(false)
                       }}
                     >
                       <i className="bi bi-bell-fill"></i>
@@ -105,9 +113,11 @@ export const CustomNavBar = () => {
                           <p>Tu</p>
                         </div>
                       }
-                      className={"justify-content-center justify-content-lg-between"}
+                      className={
+                        'justify-content-center justify-content-lg-between'
+                      }
                       onClick={() => {
-                        setRightcollapse(false);
+                        setRightcollapse(false)
                       }}
                       id="basic-nav-dropdown"
                     >
@@ -209,7 +219,7 @@ export const CustomNavBar = () => {
           <div
             className="shadower"
             onClick={() => {
-              setRightcollapse(!Rightcollapse);
+              setRightcollapse(!Rightcollapse)
             }}
           ></div>
         ) : (
@@ -240,7 +250,7 @@ export const CustomNavBar = () => {
                     </Col>
                     <Col xs={3}>
                       <i className="bi bi-image"></i>
-                      <p>Pubblica un'offerta di lavoro</p>
+                      <p>Pubblica un&apos;offerta di lavoro</p>
                     </Col>
                     <Col xs={3}>
                       <i className="bi bi-bullseye"></i>
@@ -303,7 +313,7 @@ export const CustomNavBar = () => {
                       <p className="linkBehave">
                         <b>Learning Solutions</b>
                         <br />
-                        Promuovi l'acquisizione di competenze nella tua
+                        Promuovi l&apos;acquisizione di competenze nella tua
                         organizzazione
                       </p>
                     </Col>
@@ -323,7 +333,7 @@ export const CustomNavBar = () => {
         )}
       </Navbar>
     </header>
-  );
-};
+  )
+}
 
-export default CustomNavBar;
+export default CustomNavBar

@@ -97,7 +97,6 @@
     padding: 10px;
     margin: 0;
     background-color: #f1f1f1;
-    position: absolute;
     top: 100%; /* Positioned below the Privacy & Terms item */
     left: 0;
     width: 200px;

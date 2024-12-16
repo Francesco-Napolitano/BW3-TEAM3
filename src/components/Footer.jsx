@@ -1,25 +1,23 @@
-
-import "./CSS/Footer.css";
-import React, { useState } from "react";
-    
-    
-
-
+import '../styles/Footer.css'
+import { useState } from 'react'
 
 const Footer = () => {
-    const [isOpen, setIsOpen] = useState(true); 
-  
-    const toggleMenu = () => {
-      setIsOpen(!isOpen);
-    };
+  const [isOpen, setIsOpen] = useState(false)
+
+  const toggleMenu = () => setIsOpen(!isOpen)
+
   return (
-    <footer className="footer-container">
+    <footer className="footer-container mt-5">
       <div className="footer-section">
         <ul>
           <li>About</li>
           <li>Professional Community Policies</li>
-          <li> Privacy & Terms <span className="arrow">&#9662;</span>
-          {isOpen && (
+          <li>
+            Privacy & Terms
+            <span className="arrow" onClick={toggleMenu}>
+              &#9662;
+            </span>
+            {isOpen && (
               <ul className="dropdown-menu">
                 <li>Privacy Policy</li>
                 <li>User Agreement</li>
@@ -54,17 +52,19 @@ const Footer = () => {
       </div>
 
       <div className="footer-section">
-        <div className="footer-icon"> 
-       
+        <div className="footer-icon">
           <div>
-          <i className="bi bi-question-circle-fill" style={{ marginRight: '0.5em' }}></i>
+            <i
+              className="bi bi-question-circle-fill"
+              style={{ marginRight: '0.5em' }}
+            ></i>
             <strong>Questions?</strong>
             <p>Visit our Help Center.</p>
           </div>
         </div>
 
         <div className="footer-icon">
-        <i className="bi bi-gear-fill" style={{ marginRight: '0.5em' }}></i>
+          <i className="bi bi-gear-fill" style={{ marginRight: '0.5em' }}></i>
           <div>
             <strong>Manage your account and privacy</strong>
             <p>Go to your Settings.</p>
@@ -72,7 +72,7 @@ const Footer = () => {
         </div>
 
         <div className="footer-icon">
-        <i className="bi bi-shield-shaded" ></i>
+          <i className="bi bi-shield-shaded"></i>
           <div>
             <strong>Recommendation transparency</strong>
             <p>Learn more about Recommended Content.</p>
@@ -83,21 +83,19 @@ const Footer = () => {
       <div className="footer-lang">
         <label htmlFor="language">Select Language</label>
         <div>
-        <select id="language">
-          <option>English (English)</option>
-          <option>Italian (Italian)</option>
-          <option>French (French)</option>
-          <option>German (German)</option>
-          <option>Persian (Persian)</option>
-        </select>
+          <select id="language">
+            <option>English (English)</option>
+            <option>Italian (Italian)</option>
+            <option>French (French)</option>
+            <option>German (German)</option>
+            <option>Persian (Persian)</option>
+          </select>
         </div>
       </div>
 
-      <div className="footer-bottom">
-        LinkedIn Corporation &copy; 2024
-      </div>
+      <div className="footer-bottom">LinkedIn Corporation &copy; 2024</div>
     </footer>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer
