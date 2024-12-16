@@ -2,7 +2,7 @@ import { Col, Container, Row } from 'react-bootstrap'
 import '../styles/MainProfilePage.css'
 import { useEffect, useState } from 'react'
 
-const MainProfilePage = () => {
+const UsersProfilePage = () => {
   const [people, setPeople] = useState([])
   const token =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzVmZWEzYTBlYTI4NjAwMTUyOGI5MmUiLCJpYXQiOjE3MzQzMzkxMzEsImV4cCI6MTczNTU0ODczMX0._KemmCFCgbb9RJTBhKl-yp_SxkrBxlhDZviQyL2goDE'
@@ -23,6 +23,7 @@ const MainProfilePage = () => {
         }
       })
       .then((data) => {
+        console.log(data)
         setPeople(data)
       })
       .catch((error) => console.log('Oh no...', error))
@@ -204,4 +205,4 @@ const MainProfilePage = () => {
   )
 }
 
-export default MainProfilePage
+export default UsersProfilePage

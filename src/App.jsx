@@ -1,24 +1,49 @@
-import SideBar from './sidebar/SideBar'
+import SideBar from './Components/SideBar'
 import CustomNavBar from './Components/CustomNavBar'
 import './App.css'
 import Footer from './components/Footer'
 import MainProfilePage from './components/MainProfilePage'
 import { Col, Container, Row } from 'react-bootstrap'
+import { Route, Routes } from 'react-router-dom'
+import UsersProfilePage from './Components/UsersProfilePage'
 
 function App() {
   return (
     <>
       <CustomNavBar />
-      <Container>
-        <Row className="mt-5">
-          <Col xs={12} xl={9}>
-            <MainProfilePage />
-          </Col>
-          <Col xs={3}>
-            <SideBar />
-          </Col>
-        </Row>
-      </Container>
+      <Routes>
+        <Route
+          path="/"
+          // profile/me da aggiungere
+          element={
+            <Container>
+              <Row className="mt-5">
+                <Col xs={12} xl={9}>
+                  <MainProfilePage />
+                </Col>
+                <Col xs={3}>
+                  <SideBar />
+                </Col>
+              </Row>
+            </Container>
+          }
+        />
+        <Route
+          path="/profile/:id"
+          element={
+            <Container>
+              <Row className="mt-5">
+                <Col xs={12} xl={9}>
+                  <UsersProfilePage />
+                </Col>
+                <Col xs={3}>
+                  <SideBar />
+                </Col>
+              </Row>
+            </Container>
+          }
+        />
+      </Routes>
       <Footer />
     </>
   )
