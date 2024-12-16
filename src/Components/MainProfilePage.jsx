@@ -103,7 +103,9 @@ const MainProfilePage = () => {
               />
               <div>
                 <p className="m-0 fw-bold">Epicode</p>
-                <p className="m-0">2024-2025</p>
+                <p className="m-0">
+                  {people.createdAt.slice(0, 4)}/{people.updatedAt.slice(0, 4)}
+                </p>
               </div>
             </div>
           </div>
