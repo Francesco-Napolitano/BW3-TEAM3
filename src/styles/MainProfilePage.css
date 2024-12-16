@@ -1,8 +1,24 @@
-#firstP{
-   font-size: 0.8rem;
-}
 
-#images-schools{
+.images-schools{
    width: 3em;
    object-fit: contain
 }
+
+.interests-img{
+   width: 4em;
+   height: 4em;
+   object-fit: cover;
+}
+
+.interests-writes{
+   font-size: 0.7rem;
+}
+
+.bi-heart{
+   font-size: 0.8rem;
+}
+.bi-heart-fill{
+   font-size: 0.8rem;
+   color: red;  
+}
+

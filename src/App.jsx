@@ -6,11 +6,9 @@ import 'bootstrap-icons/font/bootstrap-icons.css'
 
 function App() {
   return (
-    <>
-      <Container>
-        <MainProfilePage />
-      </Container>
-    </>
+    <Container>
+      <MainProfilePage />
+    </Container>
   )
 }
 
