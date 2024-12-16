@@ -40,3 +40,12 @@
 .read-the-docs {
   color: #888;
 }
+
+.footer-section li {
+  cursor: pointer;
+  transition: color 0.1s ease; 
+}
+
+.footer-section li:hover {
+  color: #0073b1; 
+}

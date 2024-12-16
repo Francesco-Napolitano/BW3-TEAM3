@@ -1,0 +1,117 @@
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: #f4f2ee;
+    color: #62615f;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    font-size: 1rem;
+    text-align: left;
+  }
+  
+  .footer-section ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .footer-section li {
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  
+  .footer-icon {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+  }
+  
+  .footer-icon .icon {
+    font-size: 20px;
+    margin-right: 10px;
+  }
+  
+  .icon.gear {
+    color: #0073b1;
+  }
+  
+  .icon.shield {
+    color: #5d656d;
+  }
+  
+  .footer-lang {
+    width: 100%;
+    margin: 20px 0;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 1em;
+   
+  }
+  
+  .footer-lang select {
+    padding: 5px;
+    margin-left: 2em;
+    background-color: #0073b1;
+  }
+  
+  .footer-bottom {
+    text-align: left;
+    width: 100%;
+    margin-top: 20px;
+    color: #666;
+  }
+  .footer-section li {
+    cursor: pointer;
+    transition: color 0.1s ease; 
+  }
+  
+  .footer-section li:hover {
+    color: #0073b1; 
+  }
+
+  .footer-icon{
+    cursor: pointer;
+    transition: color 0.1s ease; 
+  }
+
+  .footer-icon:hover{
+    color: #0073b1;  
+  }
+
+
+  .footer-section ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .footer-section li {
+    position: relative;
+  }
+  
+  .arrow {
+    cursor: pointer;
+  }
+  
+  .dropdown-menu {
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+    background-color: #f1f1f1;
+    position: absolute;
+    top: 100%; /* Positioned below the Privacy & Terms item */
+    left: 0;
+    width: 200px;
+    border: 1px solid #ddd;
+    display: block;
+  }
+  
+  .dropdown-menu li {
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  
+  .dropdown-menu li:hover {
+    background-color: #0073b1;
+    color: white;
+  }
+  
