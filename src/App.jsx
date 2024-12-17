@@ -1,49 +1,37 @@
-import SideBar from './Components/SideBar'
-import CustomNavBar from './Components/CustomNavBar'
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
 import './App.css'
-import Footer from './components/Footer'
-import MainProfilePage from './components/MainProfilePage'
-import { Col, Container, Row } from 'react-bootstrap'
-import { Route, Routes } from 'react-router-dom'
-import UsersProfilePage from './Components/UsersProfilePage'
+import LeftSidebarHome from "./components/LeftSidebarHome";
+
 
 function App() {
+  const [count, setCount] = useState(0)
+
   return (
     <>
-      <CustomNavBar />
-      <Routes>
-        <Route
-          path="/"
-          // profile/me da aggiungere
-          element={
-            <Container>
-              <Row className="mt-5">
-                <Col xs={12} xl={9}>
-                  <MainProfilePage />
-                </Col>
-                <Col xs={3}>
-                  <SideBar />
-                </Col>
-              </Row>
-            </Container>
-          }
-        />
-        <Route
-          path="/profile/:id"
-          element={
-            <Container>
-              <Row className="mt-5">
-                <Col xs={12} xl={9}>
-                  <UsersProfilePage />
-                </Col>
-                <Col xs={3}>
-                  <SideBar />
-                </Col>
-              </Row>
-            </Container>
-          }
-        />
-      </Routes>
+    
+    <LeftSidebarHome /> 
+      <div>
+        <a href="https://vite.dev" target="_blank">
+          <img src={viteLogo} className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://react.dev" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
+      </div>
+      <h1>Vite + React</h1>
+      <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
+        <p>
+          Edit <code>src/App.jsx</code> and save to test HMR
+        </p>
+      </div>
+      <p className="read-the-docs">
+        Click on the Vite and React logos to learn more
+      </p>
       <Footer />
     </>
   )
