@@ -18,4 +18,4 @@ export const store = configureStore({
     education: educationReducer,
   },
 })
->>>>>>> main
+
