@@ -12,7 +12,7 @@ import {
 } from 'react-bootstrap'
 import '../styles/SideBar.css'
 
-const SideBar = () => {
+const SideBar = ({ onSelectProfile }) => {
   // Definizione degli stati per gestire i dati e le funzionalità della sidebar
   const [profilo, setProfilo] = useState(null) // Stato per il profilo utente
   const [profiliSuggeriti, setProfiliSuggeriti] = useState([]) // Stato per i profili suggeriti
@@ -101,6 +101,11 @@ const SideBar = () => {
     setProfiliFiltrati(nuovoNumero)
     // Aggiorna i profili mostrati
     setProfiliSuggeriti(tuttiProfili.slice(0, nuovoNumero))
+  }
+
+  // Funzione per gestire il click su un profilo suggerito
+  const handleProfileClick = (profilo) => {
+    onSelectProfile(profilo._id)
   }
 
   // Effect per caricare i dati iniziali
@@ -213,7 +218,7 @@ const SideBar = () => {
 
               {/* Lista dei profili suggeriti */}
               {profiliSuggeriti.map((profilo) => (
-                <div key={profilo._id} className="profile-suggestion">
+                <div key={profilo._id} className="profile-suggestion" onClick={() => handleProfileClick(profilo)}>
                   <div className="d-flex align-items-start">
                     <img src={profilo.image} alt="" className="profile-image" />
                     <div className="profile-info">
