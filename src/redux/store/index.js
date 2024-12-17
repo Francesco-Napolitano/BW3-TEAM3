@@ -1,14 +1,21 @@
-import { configureStore } from "@reduxjs/toolkit";
-import profileReducer from "../reducers/profile.Reducer";
-import imageReducer from "../reducers/image.Reducer";
 
-const store = configureStore({
+
+// Importiamo configureStore da Redux Toolkit per creare lo store Redux
+import { configureStore } from '@reduxjs/toolkit'
+// Importiamo i reducer per gestire le esperienze lavorative e la formazione
+import experiencesReducer from '../reducers/experiencesReducer'
+import educationReducer from '../reducers/educationReducer'
+
+// Creiamo e configuriamo lo store Redux
+// Questo store viene utilizzato nel componente MainProfilePage per:
+// - Gestire le esperienze lavorative (aggiunta, eliminazione, visualizzazione)
+// - Gestire la formazione (aggiunta, eliminazione, visualizzazione)
+export const store = configureStore({
   reducer: {
-    profile: profileReducer,
-    image: imageReducer,
+    // Il reducer delle esperienze gestisce l'array delle esperienze lavorative
+    experiences: experiencesReducer,
+    // Il reducer dell'educazione gestisce l'array della formazione
+    education: educationReducer,
   },
-});
-
-export default store;
-
-// Tipi di stato e dispatch non necessari in JavaScript
+})
+>>>>>>> main
