@@ -1,4 +1,4 @@
-import { Alert, Form } from 'react-bootstrap'
+import { Alert } from 'react-bootstrap'
 import { useEffect, useState } from 'react'
 import {
   Card,
@@ -10,8 +10,8 @@ import {
   FormControl,
   InputGroup,
 } from 'react-bootstrap'
-import Button from 'react-bootstrap/Button'
-import Modal from 'react-bootstrap/Modal'
+// import Button from 'react-bootstrap/Button'
+// import Modal from 'react-bootstrap/Modal'
 
 const HomePage = () => {
   const token =
@@ -21,9 +21,9 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
   const [search, setSearch] = useState('')
-  const [show, setShow] = useState(false)
-  const handleClose = () => setShow(false)
-  const handleShow = () => setShow(true)
+  //   const [show, setShow] = useState(false)
+  //   const handleClose = () => setShow(false)
+  //   const handleShow = () => setShow(true)
 
   const getPosts = () => {
     fetch('https://striveschool-api.herokuapp.com/api/posts/', {
@@ -50,38 +50,44 @@ const HomePage = () => {
         setError(true)
       })
   }
-  const createPost = () => {
-    const [link, setLink] = useState('')
-    const [username, setUsername] = useState('')
-    const [description, setDescription] = useState('')
-    const handleSubmit = (e) => {
-      e.preventDefault()
-      const newPost = { link, username, description }
-      fetch('https://striveschool-api.herokuapp.com/api/posts/', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(newPost),
-      }).then((res) => {
-        if (res.ok) {
-          return res.json()
-        } else {
-          throw new Error()
-        }
-      })
-    }
-  }
+  //   const savePost = () => {
+  //     fetch('https://striveschool-api.herokuapp.com/api/posts/', {
+  //       method: 'POST',
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       body: JSON.stringify(),
+  //     })
+  //       .then((res) => {
+  //         if (res.ok) {
+  //           return res.json()
+  //         } else {
+  //           throw new Error()
+  //         }
+  //       })
+  //       .then((data) => {
+  //         const latestPosts = data
+  //           .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+  //           .slice(0, 50)
+  //         setPosts(latestPosts)
+  //         setLoading(false)
+  //       })
+  //       .catch((error) => {
+  //         console.error('Oh no...', error)
+  //         setError(true)
+  //       })
+  //   }
 
   useEffect(() => {
-    getPosts(), createPost()
+    getPosts()
+    //  savePost()
   }, [])
 
   return (
     <Container fluid className="p-4">
       <Row>
         <Col>
-          <Form onSubmit={handleSubmit} className="d-flex justify-content-end">
+          {/* <Form className="d-flex justify-content-end">
             <Button variant="primary" onClick={handleShow}>
               Crea un nuovo post
             </Button>
@@ -128,7 +134,7 @@ const HomePage = () => {
                 </Button>
               </Modal.Footer>
             </Modal>
-          </Form>
+          </Form> */}
           <h1 className="text-center my-3">Ultimi Post</h1>
           <InputGroup className="mb-3">
             <FormControl
