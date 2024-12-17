@@ -7,7 +7,11 @@ import { useEffect, useState } from 'react'
 // Importiamo gli hook di Redux per gestire lo stato globale
 import { useDispatch, useSelector } from 'react-redux'
 // Importiamo le azioni per gestire le esperienze lavorative
-import { fetchExperiences, addExperience, deleteExperience } from '../redux/reducers/experiencesReducer'
+import {
+  fetchExperiences,
+  addExperience,
+  deleteExperience,
+} from '../redux/reducers/experiencesReducer'
 // Importiamo altri componenti di react-bootstrap per i modal e i form
 import { Modal, Button, Form } from 'react-bootstrap'
 
@@ -16,11 +20,11 @@ const MainProfilePage = ({ selectedProfileId }) => {
   // Stato per memorizzare i dati dell'utente
   const [people, setPeople] = useState(null)
   const [selectedUserId, setSelectedUserId] = useState(null)
-  
+
   // Token di autenticazione (in un'app reale dovrebbe essere gestito in modo più sicuro)
   const token =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzVmZWEzYTBlYTI4NjAwMTUyOGI5MmUiLCJpYXQiOjE3MzQzMzkxMzEsImV4cCI6MTczNTU0ODczMX0._KemmCFCgbb9RJTBhKl-yp_SxkrBxlhDZviQyL2goDE'
-  
+
   // Stati per gestire i modal e i form
   const [showModal, setShowModal] = useState(false)
   const [newExperience, setNewExperience] = useState({
@@ -83,11 +87,14 @@ const MainProfilePage = ({ selectedProfileId }) => {
 
   const fetchUserExperiences = async (userId) => {
     try {
-      const response = await fetch(`https://striveschool-api.herokuapp.com/api/profile/${userId}/experiences`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      const response = await fetch(
+        `https://striveschool-api.herokuapp.com/api/profile/${userId}/experiences`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       if (response.ok) {
         const data = await response.json()
         dispatch(fetchExperiences(data))
@@ -118,33 +125,35 @@ const MainProfilePage = ({ selectedProfileId }) => {
     const formattedExperience = {
       ...newExperience,
       startDate: new Date(newExperience.startDate).toISOString().split('T')[0],
-      endDate: newExperience.endDate 
+      endDate: newExperience.endDate
         ? new Date(newExperience.endDate).toISOString().split('T')[0]
-        : null
+        : null,
     }
 
     console.log('Adding experience:', formattedExperience)
 
     // Dispatchiamo l'azione per aggiungere l'esperienza
-    dispatch(addExperience({ 
-      userId: people._id, 
-      experienceData: formattedExperience 
-    }))
-    .unwrap()
-    .then(() => {
-      setShowModal(false)
-      setNewExperience({
-        role: '',
-        company: '',
-        startDate: '',
-        endDate: '',
-        description: '',
-        area: '',
+    dispatch(
+      addExperience({
+        userId: people._id,
+        experienceData: formattedExperience,
       })
-    })
-    .catch((error) => {
-      console.error('Errore nell\'aggiunta dell\'esperienza:', error)
-    })
+    )
+      .unwrap()
+      .then(() => {
+        setShowModal(false)
+        setNewExperience({
+          role: '',
+          company: '',
+          startDate: '',
+          endDate: '',
+          description: '',
+          area: '',
+        })
+      })
+      .catch((error) => {
+        console.error("Errore nell'aggiunta dell'esperienza:", error)
+      })
   }
 
   // Funzione per eliminare un'esperienza
@@ -255,21 +264,27 @@ const MainProfilePage = ({ selectedProfileId }) => {
             <div className="d-flex justify-content-between w-100">
               <h2>Formazione</h2>
               {isCurrentUser && (
-                <Button variant="outline-primary" onClick={() => setShowEducationModal(true)}>
+                <Button
+                  variant="outline-primary"
+                  onClick={() => setShowEducationModal(true)}
+                >
                   <i className="bi bi-plus-lg"></i> Aggiungi formazione
                 </Button>
               )}
             </div>
-            
+
             {education.map((edu, index) => (
-              <div key={index} className="education-card w-100 mt-3 p-3 border rounded">
+              <div
+                key={index}
+                className="education-card w-100 mt-3 p-3 border rounded"
+              >
                 <div className="d-flex gap-3">
                   <div className="w-100">
                     <div className="d-flex justify-content-between">
                       <h5>{edu.school}</h5>
                       {isCurrentUser && (
-                        <Button 
-                          variant="link" 
+                        <Button
+                          variant="link"
                           className="text-danger"
                           onClick={() => handleDeleteEducation(index)}
                         >
@@ -279,8 +294,10 @@ const MainProfilePage = ({ selectedProfileId }) => {
                     </div>
                     <p className="mb-1">{edu.degree}</p>
                     <p className="text-muted">
-                      {new Date(edu.startDate).toLocaleDateString()} - 
-                      {edu.endDate ? new Date(edu.endDate).toLocaleDateString() : 'Presente'}
+                      {new Date(edu.startDate).toLocaleDateString()} -
+                      {edu.endDate
+                        ? new Date(edu.endDate).toLocaleDateString()
+                        : 'Presente'}
                     </p>
                     <p>{edu.description}</p>
                   </div>
@@ -294,34 +311,45 @@ const MainProfilePage = ({ selectedProfileId }) => {
             <div className="d-flex justify-content-between w-100">
               <h2>Esperienze</h2>
               {selectedUserId === null && (
-                <Button variant="outline-primary" onClick={() => setShowModal(true)}>
+                <Button
+                  variant="outline-primary"
+                  onClick={() => setShowModal(true)}
+                >
                   <i className="bi bi-plus-lg"></i> Aggiungi esperienza
                 </Button>
               )}
             </div>
-            
-            {experiences && experiences.map((exp) => (
-              <div key={exp._id} className="experience-card w-100 mt-3 p-3 border rounded">
-                <div className="d-flex justify-content-between">
-                  <h5>{exp.role}</h5>
-                  {selectedUserId === null && (
-                    <Button 
-                      variant="link" 
-                      className="text-danger"
-                      onClick={() => handleDeleteExperience(exp._id)}
-                    >
-                      <i className="bi bi-trash"></i>
-                    </Button>
-                  )}
+
+            {experiences &&
+              experiences.map((exp) => (
+                <div
+                  key={exp._id}
+                  className="experience-card w-100 mt-3 p-3 border rounded"
+                >
+                  <div className="d-flex justify-content-between">
+                    <h5>{exp.role}</h5>
+                    {selectedUserId === null && (
+                      <Button
+                        variant="link"
+                        className="text-danger"
+                        onClick={() => handleDeleteExperience(exp._id)}
+                      >
+                        <i className="bi bi-trash"></i>
+                      </Button>
+                    )}
+                  </div>
+                  <p className="mb-1">
+                    {exp.company} - {exp.area}
+                  </p>
+                  <p className="text-muted">
+                    {new Date(exp.startDate).toLocaleDateString()} -
+                    {exp.endDate
+                      ? new Date(exp.endDate).toLocaleDateString()
+                      : 'Presente'}
+                  </p>
+                  <p>{exp.description}</p>
                 </div>
-                <p className="mb-1">{exp.company} - {exp.area}</p>
-                <p className="text-muted">
-                  {new Date(exp.startDate).toLocaleDateString()} - 
-                  {exp.endDate ? new Date(exp.endDate).toLocaleDateString() : 'Presente'}
-                </p>
-                <p>{exp.description}</p>
-              </div>
-            ))}
+              ))}
           </div>
         </Col>
         <Col className="p-4 bg-white rounded-4 shadow-sm">
@@ -416,7 +444,10 @@ const MainProfilePage = ({ selectedProfileId }) => {
       </Row>
 
       {/* Modal per aggiungere una nuova formazione */}
-      <Modal show={showEducationModal} onHide={() => setShowEducationModal(false)}>
+      <Modal
+        show={showEducationModal}
+        onHide={() => setShowEducationModal(false)}
+      >
         <Modal.Header closeButton>
           <Modal.Title>Aggiungi formazione</Modal.Title>
         </Modal.Header>
@@ -427,7 +458,9 @@ const MainProfilePage = ({ selectedProfileId }) => {
               <Form.Control
                 type="text"
                 value={newEducation.school}
-                onChange={(e) => setNewEducation({...newEducation, school: e.target.value})}
+                onChange={(e) =>
+                  setNewEducation({ ...newEducation, school: e.target.value })
+                }
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -435,7 +468,9 @@ const MainProfilePage = ({ selectedProfileId }) => {
               <Form.Control
                 type="text"
                 value={newEducation.degree}
-                onChange={(e) => setNewEducation({...newEducation, degree: e.target.value})}
+                onChange={(e) =>
+                  setNewEducation({ ...newEducation, degree: e.target.value })
+                }
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -443,7 +478,12 @@ const MainProfilePage = ({ selectedProfileId }) => {
               <Form.Control
                 type="date"
                 value={newEducation.startDate}
-                onChange={(e) => setNewEducation({...newEducation, startDate: e.target.value})}
+                onChange={(e) =>
+                  setNewEducation({
+                    ...newEducation,
+                    startDate: e.target.value,
+                  })
+                }
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -451,7 +491,9 @@ const MainProfilePage = ({ selectedProfileId }) => {
               <Form.Control
                 type="date"
                 value={newEducation.endDate}
-                onChange={(e) => setNewEducation({...newEducation, endDate: e.target.value})}
+                onChange={(e) =>
+                  setNewEducation({ ...newEducation, endDate: e.target.value })
+                }
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -459,7 +501,12 @@ const MainProfilePage = ({ selectedProfileId }) => {
               <Form.Control
                 as="textarea"
                 value={newEducation.description}
-                onChange={(e) => setNewEducation({...newEducation, description: e.target.value})}
+                onChange={(e) =>
+                  setNewEducation({
+                    ...newEducation,
+                    description: e.target.value,
+                  })
+                }
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -467,13 +514,18 @@ const MainProfilePage = ({ selectedProfileId }) => {
               <Form.Control
                 type="text"
                 value={newEducation.area}
-                onChange={(e) => setNewEducation({...newEducation, area: e.target.value})}
+                onChange={(e) =>
+                  setNewEducation({ ...newEducation, area: e.target.value })
+                }
               />
             </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowEducationModal(false)}>
+          <Button
+            variant="secondary"
+            onClick={() => setShowEducationModal(false)}
+          >
             Chiudi
           </Button>
           <Button variant="primary" onClick={handleAddEducation}>
@@ -495,7 +547,9 @@ const MainProfilePage = ({ selectedProfileId }) => {
                 type="text"
                 required
                 value={newExperience.role}
-                onChange={(e) => setNewExperience({...newExperience, role: e.target.value})}
+                onChange={(e) =>
+                  setNewExperience({ ...newExperience, role: e.target.value })
+                }
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -504,7 +558,12 @@ const MainProfilePage = ({ selectedProfileId }) => {
                 type="text"
                 required
                 value={newExperience.company}
-                onChange={(e) => setNewExperience({...newExperience, company: e.target.value})}
+                onChange={(e) =>
+                  setNewExperience({
+                    ...newExperience,
+                    company: e.target.value,
+                  })
+                }
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -513,7 +572,12 @@ const MainProfilePage = ({ selectedProfileId }) => {
                 type="date"
                 required
                 value={newExperience.startDate}
-                onChange={(e) => setNewExperience({...newExperience, startDate: e.target.value})}
+                onChange={(e) =>
+                  setNewExperience({
+                    ...newExperience,
+                    startDate: e.target.value,
+                  })
+                }
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -521,7 +585,12 @@ const MainProfilePage = ({ selectedProfileId }) => {
               <Form.Control
                 type="date"
                 value={newExperience.endDate}
-                onChange={(e) => setNewExperience({...newExperience, endDate: e.target.value})}
+                onChange={(e) =>
+                  setNewExperience({
+                    ...newExperience,
+                    endDate: e.target.value,
+                  })
+                }
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -530,7 +599,12 @@ const MainProfilePage = ({ selectedProfileId }) => {
                 as="textarea"
                 required
                 value={newExperience.description}
-                onChange={(e) => setNewExperience({...newExperience, description: e.target.value})}
+                onChange={(e) =>
+                  setNewExperience({
+                    ...newExperience,
+                    description: e.target.value,
+                  })
+                }
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -539,7 +613,9 @@ const MainProfilePage = ({ selectedProfileId }) => {
                 type="text"
                 required
                 value={newExperience.area}
-                onChange={(e) => setNewExperience({...newExperience, area: e.target.value})}
+                onChange={(e) =>
+                  setNewExperience({ ...newExperience, area: e.target.value })
+                }
               />
             </Form.Group>
           </Form>
@@ -548,10 +624,14 @@ const MainProfilePage = ({ selectedProfileId }) => {
           <Button variant="secondary" onClick={() => setShowModal(false)}>
             Chiudi
           </Button>
-          <Button 
-            variant="primary" 
+          <Button
+            variant="primary"
             onClick={handleAddExperience}
-            disabled={!newExperience.role || !newExperience.company || !newExperience.startDate}
+            disabled={
+              !newExperience.role ||
+              !newExperience.company ||
+              !newExperience.startDate
+            }
           >
             Salva
           </Button>
