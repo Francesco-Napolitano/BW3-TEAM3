@@ -1,4 +1,4 @@
-const apiKey ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzYxNDBiMjc0YTg2ODAwMTVkYjU1MWMiLCJpYXQiOjE3MzQ0MjY4MDIsImV4cCI6MTczNTYzNjQwMn0.MS-obKVdz_9WWgFftg0o7Pt3P7U7ZMWSwQoDqqFx-4k";
+const apiKey ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzVmZWEzYTBlYTI4NjAwMTUyOGI5MmUiLCJpYXQiOjE3MzQzMzkxMzEsImV4cCI6MTczNTU0ODczMX0._KemmCFCgbb9RJTBhKl-yp_SxkrBxlhDZviQyL2goDE";
 
 // Funzione per il request del profilo
 const getProfileRequest = () => ({

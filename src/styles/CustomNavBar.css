@@ -62,6 +62,7 @@
 
 .navbar-nav .dropdown-menu {
   max-width: 300px;
+  width: auto;
 }
 
 .navbar-nav .dropdown-menu .row {
