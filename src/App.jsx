@@ -6,6 +6,7 @@ import MainProfilePage from './components/MainProfilePage'
 import { Col, Container, Row } from 'react-bootstrap'
 import { Route, Routes } from 'react-router-dom'
 import UsersProfilePage from './Components/UsersProfilePage'
+import HomePage from './Components/Homepage'
 
 function App() {
   return (
@@ -35,6 +36,24 @@ function App() {
               <Row className="mt-5">
                 <Col xs={12} xl={9}>
                   <UsersProfilePage />
+                </Col>
+                <Col xs={3}>
+                  <SideBar />
+                </Col>
+              </Row>
+            </Container>
+          }
+        />
+        <Route
+          path="/homepage"
+          element={
+            <Container>
+              <Row className="mt-5">
+                <Col xs={4}>
+                  <SideBar />
+                </Col>
+                <Col xs={12} xl={5}>
+                  <HomePage />
                 </Col>
                 <Col xs={3}>
                   <SideBar />
