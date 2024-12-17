@@ -1,4 +1,4 @@
-import { Alert } from 'react-bootstrap'
+import { Alert, Form } from 'react-bootstrap'
 import { useEffect, useState } from 'react'
 import {
   Card,
@@ -10,6 +10,8 @@ import {
   FormControl,
   InputGroup,
 } from 'react-bootstrap'
+import Button from 'react-bootstrap/Button'
+import Modal from 'react-bootstrap/Modal'
 
 const HomePage = () => {
   const token =
@@ -19,6 +21,9 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
   const [search, setSearch] = useState('')
+  const [show, setShow] = useState(false)
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
 
   const getPosts = () => {
     fetch('https://striveschool-api.herokuapp.com/api/posts/', {
@@ -45,16 +50,86 @@ const HomePage = () => {
         setError(true)
       })
   }
+  const createPost = () => {
+    const [link, setLink] = useState('')
+    const [username, setUsername] = useState('')
+    const [description, setDescription] = useState('')
+    const handleSubmit = (e) => {
+      e.preventDefault()
+      const newPost = { link, username, description }
+      fetch('https://striveschool-api.herokuapp.com/api/posts/', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(newPost),
+      }).then((res) => {
+        if (res.ok) {
+          return res.json()
+        } else {
+          throw new Error()
+        }
+      })
+    }
+  }
 
   useEffect(() => {
-    getPosts()
+    getPosts(), createPost()
   }, [])
 
   return (
     <Container fluid className="p-4">
       <Row>
         <Col>
-          <h1 className="text-center mb-4">Ultimi Post</h1>
+          <Form onSubmit={handleSubmit} className="d-flex justify-content-end">
+            <Button variant="primary" onClick={handleShow}>
+              Crea un nuovo post
+            </Button>
+
+            <Modal show={show} onHide={handleClose}>
+              <Modal.Header closeButton>
+                <Modal.Title>Dai sfogo alla fantasia!</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Form.Label>Immagine</Form.Label>
+                <Form.Control
+                  required
+                  type="text"
+                  placeholder="Link"
+                  onChange={(e) => {
+                    setLink(e.target.value)
+                  }}
+                />
+                <Form.Label>Username</Form.Label>
+                <Form.Control
+                  required
+                  type="text"
+                  placeholder="Aldo"
+                  onChange={(e) => {
+                    setUsername(e.target.value)
+                  }}
+                />
+                <Form.Label>Descrizione</Form.Label>
+                <Form.Control
+                  required
+                  type="text"
+                  placeholder="Baglio"
+                  onChange={(e) => {
+                    setDescription(e.target.value)
+                  }}
+                />
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                  Close
+                </Button>
+                <Button variant="primary" onClick={handleClose}>
+                  Save Changes
+                </Button>
+              </Modal.Footer>
+            </Modal>
+          </Form>
+          <h1 className="text-center my-3">Ultimi Post</h1>
           <InputGroup className="mb-3">
             <FormControl
               placeholder="Cerca post..."
