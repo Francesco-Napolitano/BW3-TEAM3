@@ -38,7 +38,6 @@ const HomePage = () => {
           .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
           .slice(0, 50)
         setPosts(latestPosts)
-
         setLoading(false)
       })
       .catch((error) => {
@@ -49,7 +48,6 @@ const HomePage = () => {
 
   useEffect(() => {
     getPosts()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -74,14 +72,14 @@ const HomePage = () => {
             </Alert>
           )}
           {!loading && !error && (
-            <Row className="g-3">
+            <Row className="g-3 ">
               {posts
                 .filter((post) =>
                   post.text.toLowerCase().includes(search.toLowerCase())
                 )
                 .map((post) => (
-                  <Col key={post._id}>
-                    <Card className="h-100 shadow-sm">
+                  <Col key={post._id} xs={12} sm={6}>
+                    <Card className="h-100 w-100  shadow-sm p-2">
                       <Card.Img
                         variant="top"
                         src={
@@ -107,14 +105,27 @@ const HomePage = () => {
                           {post.createdAt.slice(0, 10)}
                         </ListGroup.Item>
                       </ListGroup>
-                      <Card.Footer className="d-flex justify-content-between align-items-center">
-                        <i
-                          className="bi bi-heart mb-3"
-                          onClick={(e) => {
-                            e.target.classList.toggle('bi-heart-fill')
-                            e.target.classList.toggle('bi-heart')
-                          }}
-                        ></i>
+                      <Card.Footer className="d-flex justify-content-between">
+                        <div className="d-flex align-items-baseline gap-1">
+                          <p className="m-0">Mi piace</p>
+                          <i
+                            className="bi bi-heart "
+                            onClick={(e) => {
+                              e.target.classList.toggle('bi-heart-fill')
+                              e.target.classList.toggle('bi-heart')
+                            }}
+                          ></i>
+                        </div>
+                        <div className="d-flex align-items-baseline gap-1">
+                          <p className="m-0">Salva</p>
+                          <i
+                            className="bi bi-bookmark"
+                            onClick={(e) => {
+                              e.target.classList.toggle('bi-bookmark-fill')
+                              e.target.classList.toggle('bi-bookmark')
+                            }}
+                          ></i>
+                        </div>
                       </Card.Footer>
                     </Card>
                   </Col>

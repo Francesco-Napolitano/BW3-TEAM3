@@ -48,14 +48,14 @@ function App() {
           path="/homepage"
           element={
             <Container>
-              <Row className="mt-5">
-                <Col xs={4}>
+              <Row className="mt-5 ">
+                <Col lg={3}>
                   <SideBar />
                 </Col>
-                <Col xs={12} xl={5}>
+                <Col xs={12} lg={6}>
                   <HomePage />
                 </Col>
-                <Col xs={3}>
+                <Col lg={3}>
                   <SideBar />
                 </Col>
               </Row>
