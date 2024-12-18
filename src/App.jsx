@@ -8,6 +8,7 @@ import { Route, Routes } from 'react-router-dom'
 import UsersProfilePage from './Components/UsersProfilePage'
 import HomePage from './Components/Homepage'
 import LeftSidebarHome from './Components/LeftSidebarHome'
+import ErrorPage from './Components/ErrorPage'
 
 function App() {
   return (
@@ -58,6 +59,18 @@ function App() {
                 </Col>
                 <Col lg={3}>
                   <SideBar />
+                </Col>
+              </Row>
+            </Container>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <Container>
+              <Row className="mt-5">
+                <Col>
+                  <ErrorPage />
                 </Col>
               </Row>
             </Container>
