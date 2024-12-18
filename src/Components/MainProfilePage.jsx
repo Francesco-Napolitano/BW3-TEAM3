@@ -14,6 +14,7 @@ import {
 } from '../redux/reducers/experiencesReducer'
 // Importiamo altri componenti di react-bootstrap per i modal e i form
 import { Modal, Button, Form } from 'react-bootstrap'
+import InfoCard from "./infoCard.jsx"
 
 // Componente principale della pagina profilo
 const MainProfilePage = ({ selectedProfileId }) => {
@@ -199,12 +200,29 @@ const MainProfilePage = ({ selectedProfileId }) => {
     )
   }
 
+  console.log("ciao " + people.name)
   // Il render principale del componente
   return (
     <Container fluid>
       <Row className="row-cols-1 g-4">
+        <Col className="p-4 bg-white rounded-4 shadow-sm"> 
+        <div className="d-flex flex-column align-items-start text-start">
+        <InfoCard
+            name={people.name}
+            title={people.title}
+            area={people.area}
+            email={people.email}
+            image={people.image}
+            id = {people._id}
+            description="La mia carriera è iniziata come freelancer, e oggi sono orgoglioso di collaborare con clienti e team per sviluppare soluzioni web end-to-end."
+            onImageChange={() => alert("Cambia immagine profilo!")}
+          />
+          </div>
+        </Col>
         <Col className="p-4 bg-white rounded-4 shadow-sm">
           <div className="d-flex flex-column align-items-start text-start">
+            
+            
             <h2>Informazioni</h2>
             <p className="m-0 ">
               Ciao! Mi chiamo{' '}
@@ -224,7 +242,7 @@ const MainProfilePage = ({ selectedProfileId }) => {
               end-to-end, con competenze che spaziano dalla progettazione
               front-end allo sviluppo back-end. <br /> <br /> Nel corso degli
               anni ho acquisito esperienza lavorando su progetti di diverse
-              dimensioni, dal piccolo sito web personale a piattaforme complesse
+              dimensioni, dal piccolo sito web personale a piattaforme compless
               per grandi aziende. Sono anche appassionato di mentoring: mi piace
               condividere conoscenze con colleghi e aspiranti sviluppatori per
               aiutarli a crescere nel settore IT.
