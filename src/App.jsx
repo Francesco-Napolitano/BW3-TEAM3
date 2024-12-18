@@ -53,10 +53,9 @@ function App() {
             <Container>
               <Row className="mt-5 ">
                 <Col lg={3}>
-                  <Col lg={3}>
-                    <LeftSidebarHome />{' '}
-                  </Col>
+                  <LeftSidebarHome />
                 </Col>
+
                 <Col xs={12} lg={6}>
                   <HomePage />
                 </Col>
