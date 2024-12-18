@@ -7,6 +7,7 @@ import { Col, Container, Row } from 'react-bootstrap'
 import { Route, Routes } from 'react-router-dom'
 import UsersProfilePage from './Components/UsersProfilePage'
 import HomePage from './Components/Homepage'
+import LeftSidebarHome from './Components/LeftSidebarHome'
 
 function App() {
   return (
@@ -50,7 +51,7 @@ function App() {
             <Container>
               <Row className="mt-5 ">
                 <Col lg={3}>
-                  <SideBar />
+                  <LeftSidebarHome />
                 </Col>
                 <Col xs={12} lg={6}>
                   <HomePage />
