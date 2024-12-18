@@ -9,6 +9,8 @@ import UsersProfilePage from './Components/UsersProfilePage'
 import HomePage from './Components/Homepage'
 import LeftSidebarHome from './Components/LeftSidebarHome'
 import ErrorPage from './Components/ErrorPage'
+import SavedPosts from './Components/SavedPosts'
+import JobsPage from './Components/JobsPage'
 
 function App() {
   return (
@@ -50,14 +52,36 @@ function App() {
           path="/homepage"
           element={
             <Container>
-              <Row className="mt-5 ">
-                <Col lg={3}>
+              <Row className="mt-5 justify-content-center">
+                <Col xl={3}>
                   <LeftSidebarHome />
                 </Col>
-                <Col xs={12} lg={6}>
+
+                <Col xs={12} lg={9} xl={6}>
                   <HomePage />
                 </Col>
-                <Col lg={3}>
+                <Col xl={3}>
+                  <SideBar />
+                </Col>
+              </Row>
+            </Container>
+          }
+        />
+        <Route path="/jobs" element={<JobsPage />} />
+
+        <Route
+          path="/favourites"
+          element={
+            <Container>
+              <Row className="mt-5 justify-content-center">
+                <Col xl={3}>
+                  <LeftSidebarHome />
+                </Col>
+
+                <Col xs={12} lg={9} xl={6}>
+                  <SavedPosts />
+                </Col>
+                <Col xl={3}>
                   <SideBar />
                 </Col>
               </Row>

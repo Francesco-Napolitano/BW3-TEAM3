@@ -1,76 +1,79 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Form, Button, Spinner, Badge } from 'react-bootstrap';
-import '../styles/JobsPage.css';
+import { useState, useEffect } from 'react'
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Form,
+  Button,
+  Spinner,
+  Badge,
+} from 'react-bootstrap'
+import '../styles/JobsPage.css'
 
 const JobsPage = () => {
-  const [jobs, setJobs] = useState([]);
-  const [query, setQuery] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [jobs, setJobs] = useState([])
+  const [query, setQuery] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [categories, setCategories] = useState([])
+  const [selectedCategory, setSelectedCategory] = useState('')
 
-  
   const fetchJobs = async (searchQuery = '', category = '', limit = 10) => {
-    setLoading(true);
+    setLoading(true)
     try {
-      
-      const url = new URL('https://strive-benchmark.herokuapp.com/api/jobs');
-      if (searchQuery) url.searchParams.append('search', searchQuery);
-      if (category) url.searchParams.append('category', category);
-      if (category) url.searchParams.append('limit', limit); 
+      const url = new URL('https://strive-benchmark.herokuapp.com/api/jobs')
+      if (searchQuery) url.searchParams.append('search', searchQuery)
+      if (category) url.searchParams.append('category', category)
+      if (category) url.searchParams.append('limit', limit)
 
-      const response = await fetch(url);
+      const response = await fetch(url)
       if (response.ok) {
-        const data = await response.json();
-        setJobs(data.data);
+        const data = await response.json()
+        setJobs(data.data)
 
-        
         const uniqueCategories = [
           ...new Set(data.data.map((job) => job.category)),
-        ];
-        setCategories(uniqueCategories);
+        ]
+        setCategories(uniqueCategories)
       } else {
-        console.error('Errore nel recupero dei lavori');
+        console.error('Errore nel recupero dei lavori')
       }
     } catch (error) {
-      console.error('Errore durante la chiamata API:', error);
+      console.error('Errore durante la chiamata API:', error)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
- 
   useEffect(() => {
-    fetchJobs(); 
-  }, []);
+    fetchJobs()
+  }, [])
 
- 
   const handleCategoryChange = (e) => {
-    const category = e.target.value;
-    setSelectedCategory(category);
-    fetchJobs(query, category, 10); 
-  };
+    const category = e.target.value
+    setSelectedCategory(category)
+    fetchJobs(query, category, 10)
+  }
 
-  
   const handleSearch = (e) => {
-    e.preventDefault();
-    fetchJobs(query, selectedCategory, 10); 
-    setQuery(''); 
-  };
+    e.preventDefault()
+    fetchJobs(query, selectedCategory, 10)
+    setQuery('')
+  }
 
   return (
     <Container className="mt-4">
       <Row className="mb-4">
-        <Col className='mt-5'>
+        <Col className="mt-5">
           <h1 className="text-center">Offerte di Lavoro</h1>
           <p className="text-center text-muted">
-            Esplora migliaia di offerte di lavoro e trova il tuo prossimo impiego!
+            Esplora migliaia di offerte di lavoro e trova il tuo prossimo
+            impiego!
           </p>
         </Col>
       </Row>
 
       <Row className="mb-4 align-items-center">
-       
         <Col md={8}>
           <Form onSubmit={handleSearch} className="d-flex">
             <Form.Control
@@ -85,7 +88,6 @@ const JobsPage = () => {
           </Form>
         </Col>
 
-        
         <Col md={4} className="mt-3 mt-md-0">
           <Form.Select
             aria-label="Filtra per categoria"
@@ -103,13 +105,14 @@ const JobsPage = () => {
       </Row>
 
       <Row>
-        
         {loading ? (
           <Col className="text-center">
             <Spinner animation="border" role="status" variant="primary">
               <span className="visually-hidden">Caricamento...</span>
             </Spinner>
-            <p className="mt-3">Stiamo cercando le migliori offerte per te...</p>
+            <p className="mt-3">
+              Stiamo cercando le migliori offerte per te...
+            </p>
           </Col>
         ) : jobs.length > 0 ? (
           jobs.map((job) => (
@@ -135,12 +138,15 @@ const JobsPage = () => {
           ))
         ) : (
           <Col className="text-center">
-            <p>Nessun risultato trovato. Prova a cercare un'altra parola chiave o categoria.</p>
+            <p>
+              Nessun risultato trovato. Prova a cercare un'altra parola chiave o
+              categoria.
+            </p>
           </Col>
         )}
       </Row>
     </Container>
-  );
-};
+  )
+}
 
-export default JobsPage;
+export default JobsPage
