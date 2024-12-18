@@ -11,8 +11,9 @@ import {
   Col,
 } from 'react-bootstrap'
 import '../styles/SideBar.css'
+import { useNavigate } from 'react-router-dom'
 
-const SideBar = ({ onSelectProfile }) => {
+const SideBar = () => {
   // Definizione degli stati per gestire i dati e le funzionalità della sidebar
   const [profilo, setProfilo] = useState(null) // Stato per il profilo utente
   const [profiliSuggeriti, setProfiliSuggeriti] = useState([]) // Stato per i profili suggeriti
@@ -22,6 +23,7 @@ const SideBar = ({ onSelectProfile }) => {
   const [nuovaLingua, setNuovaLingua] = useState('') // Stato per la nuova lingua da aggiungere
   const [modalitaModifica, setModalitaModifica] = useState(false) // Stato per la modalità modifica lingue
   const [lingue, setLingue] = useState(['Italiano', 'Inglese']) // Array delle lingue conosciute
+  const navigate = useNavigate()
 
   // Funzioni per gestire l'apertura e chiusura del modal
   const handleClose = () => setShowModal(false)
@@ -105,7 +107,9 @@ const SideBar = ({ onSelectProfile }) => {
 
   // Funzione per gestire il click su un profilo suggerito
   const handleProfileClick = (profilo) => {
-    onSelectProfile(profilo._id)
+    if (profilo?._id) {
+      navigate(`/profile/${profilo._id}`)
+    }
   }
 
   // Effect per caricare i dati iniziali

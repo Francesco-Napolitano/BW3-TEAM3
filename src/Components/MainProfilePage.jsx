@@ -14,7 +14,7 @@ import {
 } from '../redux/reducers/experiencesReducer'
 // Importiamo altri componenti di react-bootstrap per i modal e i form
 import { Modal, Button, Form } from 'react-bootstrap'
-import InfoCard from "./infoCard.jsx"
+import InfoCard from "../Components/infoCard.jsx"
 
 // Componente principale della pagina profilo
 const MainProfilePage = ({ selectedProfileId }) => {
@@ -46,6 +46,24 @@ const MainProfilePage = ({ selectedProfileId }) => {
     area: '',
   })
   const [education, setEducation] = useState([])
+
+  // Aggiungi questo nuovo stato per le statistiche
+  const [profileStats, setProfileStats] = useState(() => {
+    // Controlla se esistono già dei dati nel sessionStorage
+    const savedStats = sessionStorage.getItem('profileStats')
+    if (savedStats) {
+      return JSON.parse(savedStats)
+    }
+    // Se non esistono, genera nuovi numeri casuali
+    const newStats = {
+      visits: Math.floor(Math.random() * 500) + 100,    // Numero tra 100 e 600
+      impressions: Math.floor(Math.random() * 1000) + 200,   // Numero tra 200 e 1200
+      searches: Math.floor(Math.random() * 100) + 20    // Numero tra 20 e 120
+    }
+    // Salva i nuovi numeri nel sessionStorage
+    sessionStorage.setItem('profileStats', JSON.stringify(newStats))
+    return newStats
+  })
 
   // Hook di Redux
   const dispatch = useDispatch()
@@ -265,15 +283,15 @@ const MainProfilePage = ({ selectedProfileId }) => {
             <h2 className="d-flex">Analisi</h2>
             <Col xs={12} lg={4}>
               <i className="bi bi-people-fill me-3 fs-3"></i>
-              <span className="">----- visite al profilo</span>
+              <span className="">{profileStats.visits} collegamenti al profilo</span>
             </Col>
             <Col xs={12} lg={4}>
               <i className="bi bi-bar-chart-fill me-3 fs-3"></i>
-              <span className="">----- impressioni del post</span>
+              <span className="">{profileStats.impressions} impressioni del post</span>
             </Col>
             <Col xs={12} lg={4}>
               <i className="bi bi-search me-3 fs-3"></i>
-              <span className="">----- ricerche del profilo</span>
+              <span className="">{profileStats.searches} ricerche del profilo</span>
             </Col>
           </Row>
         </Col>
