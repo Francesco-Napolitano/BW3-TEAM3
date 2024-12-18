@@ -11,8 +11,13 @@ import {
   Col,
 } from 'react-bootstrap'
 import '../styles/SideBar.css'
+import { useDispatch } from 'react-redux'
+import { fetchSelectedProfile } from '../redux/reducers/selectedProfileReducer'
+import { useNavigate } from 'react-router-dom'
 
-const SideBar = ({ onSelectProfile }) => {
+const SideBar = () => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   // Definizione degli stati per gestire i dati e le funzionalità della sidebar
   const [profilo, setProfilo] = useState(null) // Stato per il profilo utente
   const [profiliSuggeriti, setProfiliSuggeriti] = useState([]) // Stato per i profili suggeriti
@@ -105,7 +110,8 @@ const SideBar = ({ onSelectProfile }) => {
 
   // Funzione per gestire il click su un profilo suggerito
   const handleProfileClick = (profilo) => {
-    onSelectProfile(profilo._id)
+    dispatch(fetchSelectedProfile(profilo._id))
+    navigate(`/profile/${profilo._id}`)
   }
 
   // Effect per caricare i dati iniziali
@@ -192,7 +198,7 @@ const SideBar = ({ onSelectProfile }) => {
                 <i className="bi bi-pencil"></i>
               </div>
               <div className="profile-url">
-                www.linkedin.com/in/francesco-s-255385205
+                www.linkedin.com/in/mario-rossi-dev123
               </div>
             </Card>
 
@@ -218,7 +224,12 @@ const SideBar = ({ onSelectProfile }) => {
 
               {/* Lista dei profili suggeriti */}
               {profiliSuggeriti.map((profilo) => (
-                <div key={profilo._id} className="profile-suggestion" onClick={() => handleProfileClick(profilo)}>
+                <div 
+                  key={profilo._id} 
+                  className="profile-suggestion" 
+                  onClick={() => handleProfileClick(profilo)}
+                  style={{ cursor: 'pointer' }}
+                >
                   <div className="d-flex align-items-start">
                     <img src={profilo.image} alt="" className="profile-image" />
                     <div className="profile-info">

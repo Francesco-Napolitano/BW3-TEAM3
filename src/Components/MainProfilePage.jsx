@@ -184,6 +184,27 @@ const MainProfilePage = ({ selectedProfileId }) => {
     sessionStorage.setItem('education', JSON.stringify(updatedEducation))
   }
 
+  // Funzione per generare e salvare le statistiche nel sessionStorage
+  const getProfileStats = () => {
+    const storageKey = 'profileStats'
+    const storedStats = sessionStorage.getItem(storageKey)
+    
+    if (storedStats) {
+      return JSON.parse(storedStats)
+    }
+
+    const newStats = {
+      connections: Math.floor(Math.random() * (500 - 100 + 1)) + 100,
+      impressions: Math.floor(Math.random() * (200 - 50 + 1)) + 50,
+      searches: Math.floor(Math.random() * (100 - 20 + 1)) + 20
+    }
+
+    sessionStorage.setItem(storageKey, JSON.stringify(newStats))
+    return newStats
+  }
+
+  const [profileStats] = useState(getProfileStats())
+
   // Mostra un loader mentre i dati vengono caricati
   if (!people) {
     return (
@@ -247,15 +268,15 @@ const MainProfilePage = ({ selectedProfileId }) => {
             <h2 className="d-flex">Analisi</h2>
             <Col xs={12} lg={4}>
               <i className="bi bi-people-fill me-3 fs-3"></i>
-              <span className="">----- visite al profilo</span>
+              <span className="">{profileStats.connections} persone collegate</span>
             </Col>
             <Col xs={12} lg={4}>
               <i className="bi bi-bar-chart-fill me-3 fs-3"></i>
-              <span className="">----- impressioni del post</span>
+              <span className="">{profileStats.impressions} impressioni del post</span>
             </Col>
             <Col xs={12} lg={4}>
               <i className="bi bi-search me-3 fs-3"></i>
-              <span className="">----- ricerche del profilo</span>
+              <span className="">{profileStats.searches} ricerche del profilo</span>
             </Col>
           </Row>
         </Col>
