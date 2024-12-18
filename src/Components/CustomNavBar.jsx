@@ -59,7 +59,7 @@ export const CustomNavBar = () => {
                       <p className="d-none d-lg-block">Home</p>
                     </NavLink>
                     <NavLink
-                      to={'/'}
+                      to={'#'}
                       className={
                         'justify-content-center justify-content-lg-between'
                       }
@@ -71,7 +71,7 @@ export const CustomNavBar = () => {
                       <p className="d-none d-lg-block">Rete</p>
                     </NavLink>
                     <NavLink
-                      to={'/'}
+                      to={'#'}
                       className={
                         'justify-content-center justify-content-lg-between'
                       }
@@ -83,7 +83,7 @@ export const CustomNavBar = () => {
                       <p className="d-none d-lg-block">Lavoro</p>
                     </NavLink>
                     <NavLink
-                      to={'/'}
+                      to={'#'}
                       className={
                         'justify-content-center justify-content-lg-between'
                       }
@@ -95,7 +95,7 @@ export const CustomNavBar = () => {
                       <p className="d-none d-lg-block">Messaggistica</p>
                     </NavLink>
                     <NavLink
-                      to={'/'}
+                      to={'#'}
                       className={
                         'justify-content-center justify-content-lg-between'
                       }
