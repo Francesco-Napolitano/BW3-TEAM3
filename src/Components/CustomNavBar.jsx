@@ -26,7 +26,7 @@ export const CustomNavBar = () => {
             <Row className="innerNavbar">
               <Col xs={8} sm={3} lg={6} className="justify-content-start">
                 <Navbar.Brand>
-                  <NavLink to={'/'}>
+                  <NavLink to={'/Homepage'}>
                     <Image
                       src="https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Bug.svg.original.svg"
                       alt="linkedin"
@@ -47,7 +47,7 @@ export const CustomNavBar = () => {
                 <Navbar.Collapse id="basic-navbar-nav">
                   <Nav className="linkWrap">
                     <NavLink
-                      to={'/'}
+                      to={'/Homepage'}
                       className={
                         'justify-content-center justify-content-lg-between'
                       }
