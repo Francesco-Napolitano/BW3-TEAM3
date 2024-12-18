@@ -375,13 +375,6 @@ const MainProfilePage = ({ selectedProfileId }) => {
                 <p className="m-0 interests-writes text-secondary">
                   Fondaotre di Tesla e SpaceX e PayPal
                 </p>
-                <i
-                  className="bi bi-heart mb-3"
-                  onClick={(e) => {
-                    e.target.classList.toggle('bi-heart-fill')
-                    e.target.classList.toggle('bi-heart')
-                  }}
-                ></i>
               </div>
             </div>
             <div className="d-flex gap-3">
@@ -397,13 +390,6 @@ const MainProfilePage = ({ selectedProfileId }) => {
                 <p className="m-0 interests-writes text-secondary">
                   Founder of Amazon and Blue Origin
                 </p>
-                <i
-                  className="bi bi-heart mb-3"
-                  onClick={(e) => {
-                    e.target.classList.toggle('bi-heart-fill')
-                    e.target.classList.toggle('bi-heart')
-                  }}
-                ></i>
               </div>
             </div>
             <div className="d-flex gap-3">
@@ -420,13 +406,6 @@ const MainProfilePage = ({ selectedProfileId }) => {
                 <p className="m-0 interests-writes text-secondary">
                   Co-founder and CEO di Meta
                 </p>
-                <i
-                  className="bi bi-heart mb-3"
-                  onClick={(e) => {
-                    e.target.classList.toggle('bi-heart-fill')
-                    e.target.classList.toggle('bi-heart')
-                  }}
-                ></i>
               </div>
             </div>
           </div>
