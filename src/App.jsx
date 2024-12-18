@@ -1,34 +1,24 @@
-// Importazione dei componenti necessari
 import SideBar from './Components/SideBar'
 import CustomNavBar from './Components/CustomNavBar'
 import './App.css'
 import Footer from './components/Footer'
-import MainProfilePage from './Components/MainProfilePage'
+import MainProfilePage from './components/MainProfilePage'
 import { Col, Container, Row } from 'react-bootstrap'
-import { Route, Routes, useParams } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import UsersProfilePage from './Components/UsersProfilePage'
 import HomePage from './Components/Homepage'
 import LeftSidebarHome from './Components/LeftSidebarHome'
 import ErrorPage from './Components/ErrorPage'
 
-// Componente wrapper per gestire il parametro id dall'URL e passarlo a UsersProfilePage
-function ProfileWrapper() {
-  const { id } = useParams()
-  return <UsersProfilePage selectedUserId={id} />
-}
-
-// Componente principale dell'applicazione
 function App() {
   return (
     <>
-      {/* Navbar sempre visibile in tutte le pagine */}
       <CustomNavBar />
-
-      {/* Configurazione delle rotte dell'applicazione */}
       <Routes>
-        {/* Rotta principale - Profilo personale */}
         <Route
           path="/"
+          // profile/me da aggiungere
+
           element={
             <Container>
               <Row className="mt-5">
@@ -42,15 +32,13 @@ function App() {
             </Container>
           }
         />
-
-        {/* Rotta per visualizzare il profilo di altri utenti */}
         <Route
           path="/profile/:id"
           element={
             <Container>
               <Row className="mt-5">
                 <Col xs={12} xl={9}>
-                  <ProfileWrapper />
+                  <UsersProfilePage />
                 </Col>
                 <Col xs={3}>
                   <SideBar />
@@ -59,8 +47,6 @@ function App() {
             </Container>
           }
         />
-
-        {/* Rotta per la homepage con layout a tre colonne */}
         <Route
           path="/homepage"
           element={
@@ -69,6 +55,7 @@ function App() {
                 <Col lg={3}>
                   <LeftSidebarHome />
                 </Col>
+
                 <Col xs={12} lg={6}>
                   <HomePage />
                 </Col>
@@ -92,8 +79,6 @@ function App() {
           }
         />
       </Routes>
-
-      {/* Footer sempre visibile in tutte le pagine */}
       <Footer />
     </>
   )
