@@ -65,6 +65,7 @@ const MainProfilePage = ({ selectedProfileId }) => {
       if (response.ok) {
         const data = await response.json()
         setPeople(data)
+        console.log(data)
         dispatch(fetchExperiences(data._id))
       } else {
         console.error('Errore nella risposta:', await response.text())
@@ -188,7 +189,7 @@ const MainProfilePage = ({ selectedProfileId }) => {
   const getProfileStats = () => {
     const storageKey = 'profileStats'
     const storedStats = sessionStorage.getItem(storageKey)
-    
+
     if (storedStats) {
       return JSON.parse(storedStats)
     }
@@ -196,7 +197,7 @@ const MainProfilePage = ({ selectedProfileId }) => {
     const newStats = {
       connections: Math.floor(Math.random() * (500 - 100 + 1)) + 100,
       impressions: Math.floor(Math.random() * (200 - 50 + 1)) + 50,
-      searches: Math.floor(Math.random() * (100 - 20 + 1)) + 20
+      searches: Math.floor(Math.random() * (100 - 20 + 1)) + 20,
     }
 
     sessionStorage.setItem(storageKey, JSON.stringify(newStats))
@@ -268,15 +269,21 @@ const MainProfilePage = ({ selectedProfileId }) => {
             <h2 className="d-flex">Analisi</h2>
             <Col xs={12} lg={4}>
               <i className="bi bi-people-fill me-3 fs-3"></i>
-              <span className="">{profileStats.connections} persone collegate</span>
+              <span className="">
+                {profileStats.connections} persone collegate
+              </span>
             </Col>
             <Col xs={12} lg={4}>
               <i className="bi bi-bar-chart-fill me-3 fs-3"></i>
-              <span className="">{profileStats.impressions} impressioni del post</span>
+              <span className="">
+                {profileStats.impressions} impressioni del post
+              </span>
             </Col>
             <Col xs={12} lg={4}>
               <i className="bi bi-search me-3 fs-3"></i>
-              <span className="">{profileStats.searches} ricerche del profilo</span>
+              <span className="">
+                {profileStats.searches} ricerche del profilo
+              </span>
             </Col>
           </Row>
         </Col>

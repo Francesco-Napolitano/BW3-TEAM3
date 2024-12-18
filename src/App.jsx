@@ -16,16 +16,14 @@ function App() {
       <CustomNavBar />
       <Routes>
         <Route
-          path="/"
-          // profile/me da aggiungere
-
+          path="/profile/me"
           element={
             <Container>
               <Row className="mt-5">
-                <Col xs={12} xl={9}>
+                <Col xs={12} lg={9}>
                   <MainProfilePage />
                 </Col>
-                <Col xs={3}>
+                <Col lg={3}>
                   <SideBar />
                 </Col>
               </Row>
@@ -37,10 +35,10 @@ function App() {
           element={
             <Container>
               <Row className="mt-5">
-                <Col xs={12} xl={9}>
+                <Col xs={12} lg={9}>
                   <UsersProfilePage />
                 </Col>
-                <Col xs={3}>
+                <Col lg={3}>
                   <SideBar />
                 </Col>
               </Row>

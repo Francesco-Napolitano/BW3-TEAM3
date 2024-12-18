@@ -103,6 +103,7 @@ const HomePage = () => {
                 <Form.Control
                   required
                   type="text"
+                  className="mb-2"
                   placeholder="Link"
                   onChange={(e) => {
                     setLink(e.target.value)
@@ -120,7 +121,7 @@ const HomePage = () => {
               </Modal.Body>
               <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
-                  Close
+                  Chiudi
                 </Button>
                 <Button
                   variant="primary"
@@ -129,7 +130,7 @@ const HomePage = () => {
                     savePost(e)
                   }}
                 >
-                  Save Changes
+                  Condividi
                 </Button>
               </Modal.Footer>
             </Modal>
