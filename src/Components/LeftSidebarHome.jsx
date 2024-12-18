@@ -1,7 +1,7 @@
 import '../styles/LeftSidebarHome.css'
 const LeftSidebarHome = () => {
   return (
-    <div className="leftSidebar">
+    <div className="d-none d-xl-block leftSidebar w-100">
       {/* Header Section */}
       <div className="profileCard">
         <div className="profileBackground"></div>

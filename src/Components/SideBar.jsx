@@ -119,7 +119,7 @@ const SideBar = ({ onSelectProfile }) => {
   return (
     <Container>
       <Row>
-        <Col className="d-none d-lg-block">
+        <Col className="d-none d-xl-block p-0">
           <div className="sidebar position-sticky top-0">
             {/* Card per la gestione delle lingue conosciute */}
             <Card className="languages-card shadow-sm mb-2">
@@ -218,7 +218,11 @@ const SideBar = ({ onSelectProfile }) => {
 
               {/* Lista dei profili suggeriti */}
               {profiliSuggeriti.map((profilo) => (
-                <div key={profilo._id} className="profile-suggestion" onClick={() => handleProfileClick(profilo)}>
+                <div
+                  key={profilo._id}
+                  className="profile-suggestion"
+                  onClick={() => handleProfileClick(profilo)}
+                >
                   <div className="d-flex align-items-start">
                     <img src={profilo.image} alt="" className="profile-image" />
                     <div className="profile-info">
