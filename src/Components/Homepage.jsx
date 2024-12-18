@@ -1,4 +1,4 @@
-import { Alert } from 'react-bootstrap'
+import { Alert, Form } from 'react-bootstrap'
 import { useEffect, useState } from 'react'
 import {
   Card,
@@ -10,8 +10,8 @@ import {
   FormControl,
   InputGroup,
 } from 'react-bootstrap'
-// import Button from 'react-bootstrap/Button'
-// import Modal from 'react-bootstrap/Modal'
+import Button from 'react-bootstrap/Button'
+import Modal from 'react-bootstrap/Modal'
 
 const HomePage = () => {
   const token =
@@ -21,9 +21,9 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
   const [search, setSearch] = useState('')
-  //   const [show, setShow] = useState(false)
-  //   const handleClose = () => setShow(false)
-  //   const handleShow = () => setShow(true)
+  const [show, setShow] = useState(false)
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
 
   const getPosts = () => {
     fetch('https://striveschool-api.herokuapp.com/api/posts/', {
@@ -35,7 +35,7 @@ const HomePage = () => {
         if (res.ok) {
           return res.json()
         } else {
-          throw new Error()
+          throw new Error('Errore nel recupero dei post')
         }
       })
       .then((data) => {
@@ -50,44 +50,46 @@ const HomePage = () => {
         setError(true)
       })
   }
-  //   const savePost = () => {
-  //     fetch('https://striveschool-api.herokuapp.com/api/posts/', {
-  //       method: 'POST',
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //       body: JSON.stringify(),
-  //     })
-  //       .then((res) => {
-  //         if (res.ok) {
-  //           return res.json()
-  //         } else {
-  //           throw new Error()
-  //         }
-  //       })
-  //       .then((data) => {
-  //         const latestPosts = data
-  //           .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-  //           .slice(0, 50)
-  //         setPosts(latestPosts)
-  //         setLoading(false)
-  //       })
-  //       .catch((error) => {
-  //         console.error('Oh no...', error)
-  //         setError(true)
-  //       })
-  //   }
+  const [link, setLink] = useState('')
+  const [description, setDescription] = useState('')
+  const savePost = (e) => {
+    e.preventDefault()
+    const newPost = { image: link, text: description }
+
+    fetch('https://striveschool-api.herokuapp.com/api/posts/', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newPost),
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json()
+        } else {
+          throw new Error('Errore nel salvataggio del post')
+        }
+      })
+      .then((data) => {
+        console.log(data)
+        getPosts()
+      })
+      .catch((error) => {
+        console.error('Oh no...', error)
+        setError(true)
+      })
+  }
 
   useEffect(() => {
     getPosts()
-    //  savePost()
   }, [])
 
   return (
     <Container fluid className="p-4">
       <Row>
         <Col>
-          {/* <Form className="d-flex justify-content-end">
+          <Form className="d-flex justify-content-end" onSubmit={savePost}>
             <Button variant="primary" onClick={handleShow}>
               Crea un nuovo post
             </Button>
@@ -106,20 +108,11 @@ const HomePage = () => {
                     setLink(e.target.value)
                   }}
                 />
-                <Form.Label>Username</Form.Label>
-                <Form.Control
-                  required
-                  type="text"
-                  placeholder="Aldo"
-                  onChange={(e) => {
-                    setUsername(e.target.value)
-                  }}
-                />
                 <Form.Label>Descrizione</Form.Label>
                 <Form.Control
                   required
                   type="text"
-                  placeholder="Baglio"
+                  placeholder="Un bel post"
                   onChange={(e) => {
                     setDescription(e.target.value)
                   }}
@@ -129,12 +122,18 @@ const HomePage = () => {
                 <Button variant="secondary" onClick={handleClose}>
                   Close
                 </Button>
-                <Button variant="primary" onClick={handleClose}>
+                <Button
+                  variant="primary"
+                  onClick={(e) => {
+                    handleClose()
+                    savePost(e)
+                  }}
+                >
                   Save Changes
                 </Button>
               </Modal.Footer>
             </Modal>
-          </Form> */}
+          </Form>
           <h1 className="text-center my-3">Ultimi Post</h1>
           <InputGroup className="mb-3">
             <FormControl
