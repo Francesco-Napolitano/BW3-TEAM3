@@ -9,6 +9,7 @@ import UsersProfilePage from './Components/UsersProfilePage'
 import HomePage from './Components/Homepage'
 import LeftSidebarHome from './Components/LeftSidebarHome'
 import ErrorPage from './Components/ErrorPage'
+import SavedPosts from './Components/SavedPosts'
 
 function App() {
   return (
@@ -58,6 +59,25 @@ function App() {
 
                 <Col xs={12} lg={9} xl={6}>
                   <HomePage />
+                </Col>
+                <Col xl={3}>
+                  <SideBar />
+                </Col>
+              </Row>
+            </Container>
+          }
+        />
+        <Route
+          path="/favourites"
+          element={
+            <Container>
+              <Row className="mt-5 justify-content-center">
+                <Col xl={3}>
+                  <LeftSidebarHome />
+                </Col>
+
+                <Col xs={12} lg={9} xl={6}>
+                  <SavedPosts />
                 </Col>
                 <Col xl={3}>
                   <SideBar />

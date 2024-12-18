@@ -1,105 +1,170 @@
 .leftSidebar {
-   width: 280px;
-   border: 1px solid #e1e1e1;
-   background-color: white;
-   border-radius: 10px;
-   overflow: hidden;
-   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
- }
- 
- .profileCard {
-   text-align: center;
-   position: relative;
- }
- 
- .profileBackground {
-   height: 70px;
-   background-color: #ffc107;
- }
- 
- .profileImage img {
-   border-radius: 50%;
-   border: 2px solid white;
-   position: absolute;
-   top: 40px;
-   left: 50%;
-   transform: translateX(-50%);
-   width: 70px;
-   height: 70px;
- }
- 
- .profileDetails {
-   margin-top: 50px;
- }
- 
- .profileDetails h3 {
-   margin: 5px 0 0;
-   font-size: 18px;
- }
- 
- .profileDetails p {
-   color: gray;
-   font-size: 12px;
- }
- 
- .profileStats {
-   padding: 10px 15px;
-   border-top: 1px solid #eee;
-   font-size: 12px;
- }
- 
- .statItem {
-   display: flex;
-   justify-content: space-between;
-   margin-bottom: 8px;
- }
- 
- .statValue {
-   font-weight: bold;
-   color: #0073b1;
- }
- 
- .salesPromo {
-   padding: 10px 15px;
-   border-top: 1px solid #eee;
-   font-size: 12px;
- }
- 
- .salesButton {
-   background-color: #0073b1;
-   color: white;
-   border: none;
-   padding: 8px 10px;
-   border-radius: 20px;
-   cursor: pointer;
-   width: 100%;
- }
- 
- .savedItems {
-   padding: 10px 15px;
-   border-top: 1px solid #eee;
-   font-size: 12px;
- }
- 
- .recentSection {
-   padding: 10px 15px;
-   border-top: 1px solid #eee;
-   font-size: 12px;
- }
- 
- .recentSection ul {
-   list-style: none;
-   padding: 0;
-   margin: 0;
- }
- 
- .recentSection li {
-   margin: 5px 0;
-   color: #0073b1;
-   cursor: pointer;
- }
- 
- .recentSection li:hover {
-   text-decoration: underline;
- }
- 
+  width: 280px;
+  border: 1px solid #e1e1e1;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profileCard {
+  text-align: center;
+  position: relative;
+}
+
+.profileBackground {
+  height: 70px;
+  background-color: #ffc107;
+}
+
+.profileImage img {
+  border-radius: 50%;
+  border: 2px solid white;
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 70px;
+}
+
+.profileDetails {
+  margin-top: 50px;
+}
+
+.profileDetails h3 {
+  margin: 5px 0 0;
+  font-size: 18px;
+}
+
+.profileDetails p {
+  color: gray;
+  font-size: 12px;
+}
+
+.profileStats {
+  padding: 10px 15px;
+  border-top: 1px solid #eee;
+  font-size: 12px;
+}
+
+.statItem {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.statValue {
+  font-weight: bold;
+  color: #0073b1;
+}
+
+.salesPromo {
+  padding: 10px 15px;
+  border-top: 1px solid #eee;
+  font-size: 12px;
+}
+
+.salesButton {
+  background-color: #dcb122;
+  color: white;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.savedItems {
+  padding: 10px 15px;
+  border-top: 1px solid #eee;
+  font-size: 14px;
+  text-align: left;
+  text-decoration: none;
+}
+
+.recentSection {
+  padding: 10px 15px;
+  border-top: 1px solid #eee;
+  font-size: 12px;
+}
+
+.recentSection ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.recentSection li {
+  margin: 5px 0;
+  color: #0073b1;
+  cursor: pointer;
+}
+
+.recentSection li:hover {
+  text-decoration: underline;
+}
+
+.leftSidebarContainer {
+ display: flex;
+ flex-direction: column;
+ gap: 15px; 
+ width: 280px; 
+}
+
+
+.leftSidebar {
+ border: 1px solid #e1e1e1;
+ background-color: white;
+ border-radius: 10px;
+ overflow: hidden;
+ box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.rightSidebar {
+ border: 1px solid #e1e1e1;
+ background-color: white;
+ border-radius: 10px;
+ box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+ padding: 10px 15px;
+ text-align: left;
+}
+
+.recentSection {
+ margin-bottom: 15px;
+}
+
+.recentSection h5 {
+ font-size: 20px;
+ margin-bottom: 10px;
+ color: #000;
+ text-align: left;
+}
+
+.recentSection ul {
+ list-style: none;
+ padding: 0;
+ margin: 0;
+ font-size: 10px;
+}
+
+.recentSection li {
+ margin-bottom: 8px;
+ cursor: pointer;
+ color: #0073b1;
+ font-size: 15px;
+}
+
+.recentSection li:hover {
+ text-decoration: underline;
+}
+
+.recentSection p {
+ color: #0073b1;
+ cursor: pointer;
+}
+
+.recentSection p:hover {
+ text-decoration: underline;
+}
