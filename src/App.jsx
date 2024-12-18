@@ -16,7 +16,8 @@ function App() {
       <CustomNavBar />
       <Routes>
         <Route
-          path="/profile/me"
+          path="/"
+          // da aggiungere /profile/me dopo che abbiamo aggiunto il login
           element={
             <Container>
               <Row className="mt-5">
@@ -53,7 +54,6 @@ function App() {
                 <Col lg={3}>
                   <LeftSidebarHome />
                 </Col>
-
                 <Col xs={12} lg={6}>
                   <HomePage />
                 </Col>
