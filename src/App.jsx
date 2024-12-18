@@ -17,14 +17,15 @@ function App() {
       <Routes>
         <Route
           path="/"
-          // da aggiungere /profile/me dopo che abbiamo aggiunto il login
+          // profile/me da aggiungere
+
           element={
             <Container>
               <Row className="mt-5">
-                <Col xs={12} lg={9}>
+                <Col xs={12} xl={9}>
                   <MainProfilePage />
                 </Col>
-                <Col lg={3}>
+                <Col xs={3}>
                   <SideBar />
                 </Col>
               </Row>
@@ -36,10 +37,10 @@ function App() {
           element={
             <Container>
               <Row className="mt-5">
-                <Col xs={12} lg={9}>
+                <Col xs={12} xl={9}>
                   <UsersProfilePage />
                 </Col>
-                <Col lg={3}>
+                <Col xs={3}>
                   <SideBar />
                 </Col>
               </Row>
@@ -50,14 +51,15 @@ function App() {
           path="/homepage"
           element={
             <Container>
-              <Row className="mt-5 ">
-                <Col lg={3}>
+              <Row className="mt-5 justify-content-center">
+                <Col xl={3}>
                   <LeftSidebarHome />
                 </Col>
-                <Col xs={12} lg={6}>
+
+                <Col xs={12} lg={9} xl={6}>
                   <HomePage />
                 </Col>
-                <Col lg={3}>
+                <Col xl={3}>
                   <SideBar />
                 </Col>
               </Row>
