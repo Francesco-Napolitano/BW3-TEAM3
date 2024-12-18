@@ -71,7 +71,7 @@ export const CustomNavBar = () => {
                       <p className="d-none d-lg-block">Rete</p>
                     </NavLink>
                     <NavLink
-                      to={'#'}
+                      to={'/Jobs'}
                       className={
                         'justify-content-center justify-content-lg-between'
                       }
