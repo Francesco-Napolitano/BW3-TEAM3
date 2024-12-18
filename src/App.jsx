@@ -7,7 +7,7 @@ import { Col, Container, Row } from 'react-bootstrap'
 import { Route, Routes } from 'react-router-dom'
 import UsersProfilePage from './Components/UsersProfilePage'
 import HomePage from './Components/Homepage'
-import LeftSidebarHome from './Components/LeftSidebarHome'
+import LeftSidebarHome from './components/LeftSidebarHome'
 
 function App() {
   return (
