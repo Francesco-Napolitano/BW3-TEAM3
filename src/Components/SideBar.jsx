@@ -12,6 +12,7 @@ import {
 } from 'react-bootstrap'
 import '../styles/SideBar.css'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 
 const SideBar = () => {
   // Definizione degli stati per gestire i dati e le funzionalità della sidebar
@@ -24,6 +25,8 @@ const SideBar = () => {
   const [modalitaModifica, setModalitaModifica] = useState(false) // Stato per la modalità modifica lingue
   const [lingue, setLingue] = useState(['Italiano', 'Inglese']) // Array delle lingue conosciute
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const [connectedProfiles, setConnectedProfiles] = useState(new Set())
 
   // Funzioni per gestire l'apertura e chiusura del modal
   const handleClose = () => setShowModal(false)
@@ -109,6 +112,15 @@ const SideBar = () => {
   const handleProfileClick = (profilo) => {
     if (profilo?._id) {
       navigate(`/profile/${profilo._id}`)
+    }
+  }
+
+  const handleConnect = (profileId, event) => {
+    event.stopPropagation() // Previene la navigazione quando si clicca sul pulsante
+    
+    if (!connectedProfiles.has(profileId)) {
+      dispatch({ type: 'ADD_CONNECTION' })
+      setConnectedProfiles(prev => new Set([...prev, profileId]))
     }
   }
 
@@ -230,9 +242,13 @@ const SideBar = () => {
                         {profilo.name} {profilo.surname}
                       </div>
                       <div className="profile-title">{profilo.title}</div>
-                      <button className="connect-button">
-                        <i className="bi bi-person-plus"></i>
-                        Collegati
+                      <button 
+                        className={`connect-button ${connectedProfiles.has(profilo._id) ? 'connected' : ''}`}
+                        onClick={(e) => handleConnect(profilo._id, e)}
+                        disabled={connectedProfiles.has(profilo._id)}
+                      >
+                        <i className={`bi ${connectedProfiles.has(profilo._id) ? 'bi-person-check' : 'bi-person-plus'}`}></i>
+                        {connectedProfiles.has(profilo._id) ? 'Collegato' : 'Collegati'}
                       </button>
                     </div>
                   </div>
