@@ -194,6 +194,18 @@
   transition: all 0.5s;
 }
 
+.custom-nav-link {
+  text-decoration: none; 
+}
+
+.custom-nav-link:hover {
+  text-decoration: none; 
+}
+
+.custom-nav-dropdown .dropdown-toggle::after {
+  display: none; 
+}
+
 .aziendeContent > .container > .sticky-top {
   background-color: white;
   padding: 5% 0;

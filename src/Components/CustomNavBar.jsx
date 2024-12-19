@@ -1,5 +1,4 @@
 import Container from 'react-bootstrap/Container'
-import Form from 'react-bootstrap/Form'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import NavDropdown from 'react-bootstrap/NavDropdown'
@@ -24,7 +23,13 @@ export const CustomNavBar = () => {
         <Container>
           <Container>
             <Row className="innerNavbar">
-              <Col xs={8} sm={3} lg={6} className="justify-content-start">
+              <Col
+                xs={8}
+                sm={3}
+                lg={6}
+                xl={8}
+                className="justify-content-start"
+              >
                 <Navbar.Brand>
                   <NavLink to={'/Homepage'}>
                     <Image
@@ -34,23 +39,14 @@ export const CustomNavBar = () => {
                     />
                   </NavLink>
                 </Navbar.Brand>
-                <Form>
-                  <Form.Control
-                    type="search"
-                    placeholder="Search"
-                    aria-label="Search"
-                  />
-                </Form>
               </Col>
-              <Col xs={4} sm={9} lg={6} className="justify-content-end">
+              <Col className="justify-content-end">
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
-                  <Nav className="linkWrap">
+                  <Nav className="linkWrap ">
                     <NavLink
                       to={'/Homepage'}
-                      className={
-                        'justify-content-center justify-content-lg-between'
-                      }
+                      className="custom-nav-link justify-content-center justify-content-lg-between"
                       onClick={() => {
                         setRightcollapse(false)
                       }}
@@ -60,9 +56,7 @@ export const CustomNavBar = () => {
                     </NavLink>
                     <NavLink
                       to={'/favourites'}
-                      className={
-                        'justify-content-center justify-content-lg-between'
-                      }
+                      className="custom-nav-link justify-content-center justify-content-lg-between"
                       onClick={() => {
                         setRightcollapse(false)
                       }}
@@ -72,9 +66,7 @@ export const CustomNavBar = () => {
                     </NavLink>
                     <NavLink
                       to={'/jobs'}
-                      className={
-                        'justify-content-center justify-content-lg-between'
-                      }
+                      className="custom-nav-link justify-content-center justify-content-lg-between"
                       onClick={() => {
                         setRightcollapse(false)
                       }}
@@ -82,44 +74,23 @@ export const CustomNavBar = () => {
                       <i className="bi bi-briefcase-fill"></i>
                       <p className="d-none d-lg-block">Lavoro</p>
                     </NavLink>
-                    <NavLink
-                      to={'/'}
-                      className={
-                        'justify-content-center justify-content-lg-between'
-                      }
-                      onClick={() => {
-                        setRightcollapse(false)
-                      }}
-                    >
-                      <i className="bi bi-chat-dots-fill"></i>
-                      <p className="d-none d-lg-block">Messaggistica</p>
-                    </NavLink>
-                    <NavLink
-                      to={'/'}
-                      className={
-                        'justify-content-center justify-content-lg-between'
-                      }
-                      onClick={() => {
-                        setRightcollapse(false)
-                      }}
-                    >
-                      <i className="bi bi-bell-fill"></i>
-                      <p className="d-none d-lg-block">Notifiche</p>
-                    </NavLink>
+
                     <NavDropdown
                       title={
-                        <div className="dropdown-title">
-                          <Image src={myProfile?.image}></Image>
-                          <p>Tu</p>
+                        <div className="d-flex align-items-center">
+                          <Image
+                            src={myProfile?.image}
+                            className="rounded-circle border border-primary me-2"
+                            width={40}
+                            height={40}
+                          />
+                          <p className="mb-0 fw-bold text-primary">
+                            {`${myProfile?.name} ${myProfile?.surname}`}
+                          </p>
                         </div>
                       }
-                      className={
-                        'justify-content-center justify-content-lg-between'
-                      }
-                      onClick={() => {
-                        setRightcollapse(false)
-                      }}
                       id="basic-nav-dropdown"
+                      className="bg-light shadow-sm rounded custom-nav-dropdown"
                     >
                       <Row>
                         <Col xs={3} className="p-0">

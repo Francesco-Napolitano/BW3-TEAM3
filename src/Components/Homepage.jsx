@@ -1,5 +1,5 @@
-import { Alert, Form } from 'react-bootstrap';
-import { useEffect, useState } from 'react';
+import { Alert, Form } from 'react-bootstrap'
+import { useEffect, useState } from 'react'
 import {
   Card,
   Col,
@@ -9,62 +9,64 @@ import {
   Spinner,
   FormControl,
   InputGroup,
-} from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import { FaTrash } from 'react-icons/fa'; // Importiamo l'icona del cestino
-import { useDispatch } from 'react-redux';
+} from 'react-bootstrap'
+import Button from 'react-bootstrap/Button'
+import Modal from 'react-bootstrap/Modal'
+import { FaTrash } from 'react-icons/fa'
+import { useDispatch } from 'react-redux'
 
 const HomePage = () => {
-  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzVmZWEzYTBlYTI4NjAwMTUyOGI5MmUiLCJpYXQiOjE3MzQzMzkxMzEsImV4cCI6MTczNTU0ODczMX0._KemmCFCgbb9RJTBhKl-yp_SxkrBxlhDZviQyL2goDE';
-  const commentToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzM3MGUyYThhZDEyOTAwMTU4NzZiYzkiLCJpYXQiOjE3MzQ2MDc0OTAsImV4cCI6MTczNTgxNzA5MH0.c1IJWoEkt9oiMUS4vP0pazfhoEO_I-Zo6A4aA7FHNjw';
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const [search, setSearch] = useState('');
-  const [showPostModal, setShowPostModal] = useState(false);
-  const [showCommentsModal, setShowCommentsModal] = useState(false);
-  const [currentPostComments, setCurrentPostComments] = useState([]); // Stato per i commenti del post
-  const [newComments, setNewComments] = useState({}); // Stato per i commenti dei singoli post
-  const [link, setLink] = useState(''); // Stato per il link dell'immagine
-  const [description, setDescription] = useState(''); // Stato per la descrizione del post
+  const token =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzVmZWEzYTBlYTI4NjAwMTUyOGI5MmUiLCJpYXQiOjE3MzQzMzkxMzEsImV4cCI6MTczNTU0ODczMX0._KemmCFCgbb9RJTBhKl-yp_SxkrBxlhDZviQyL2goDE'
+  const commentToken =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzM3MGUyYThhZDEyOTAwMTU4NzZiYzkiLCJpYXQiOjE3MzQ2MDc0OTAsImV4cCI6MTczNTgxNzA5MH0.c1IJWoEkt9oiMUS4vP0pazfhoEO_I-Zo6A4aA7FHNjw'
+  const [posts, setPosts] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
+  const [search, setSearch] = useState('')
+  const [showPostModal, setShowPostModal] = useState(false)
+  const [showCommentsModal, setShowCommentsModal] = useState(false)
+  const [currentPostComments, setCurrentPostComments] = useState([])
+  const [newComments, setNewComments] = useState({})
+  const [link, setLink] = useState('')
+  const [description, setDescription] = useState('')
 
-  const handleClosePostModal = () => setShowPostModal(false);
-  const handleShowPostModal = () => setShowPostModal(true);
-  const handleCloseCommentsModal = () => setShowCommentsModal(false);
+  const handleClosePostModal = () => setShowPostModal(false)
+  const handleShowPostModal = () => setShowPostModal(true)
+  const handleCloseCommentsModal = () => setShowCommentsModal(false)
 
   const getPosts = () => {
-    console.log('Fetching posts...');
+    console.log('Fetching posts...')
     fetch('https://striveschool-api.herokuapp.com/api/posts/', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
       .then((res) => {
-        console.log('Response:', res);
+        console.log('Response:', res)
         if (res.ok) {
-          return res.json();
+          return res.json()
         } else {
-          throw new Error('Errore nel recupero dei post');
+          throw new Error('Errore nel recupero dei post')
         }
       })
       .then((data) => {
-        console.log('Posts:', data);
+        console.log('Posts:', data)
         const latestPosts = data
           .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-          .slice(0, 50);
-        setPosts(latestPosts);
-        setLoading(false);
+          .slice(0, 50)
+        setPosts(latestPosts)
+        setLoading(false)
       })
       .catch((error) => {
-        console.error('Errore:', error);
-        setError(true);
-      });
-  };
+        console.error('Errore:', error)
+        setError(true)
+      })
+  }
 
   const savePost = (e) => {
-    e.preventDefault();
-    const newPost = { image: link, text: description };
+    e.preventDefault()
+    const newPost = { image: link, text: description }
 
     fetch('https://striveschool-api.herokuapp.com/api/posts/', {
       method: 'POST',
@@ -76,44 +78,59 @@ const HomePage = () => {
     })
       .then((res) => {
         if (res.ok) {
-          return res.json();
+          return res.json()
         } else {
-          throw new Error('Errore nel salvataggio del post');
+          throw new Error('Errore nel salvataggio del post')
         }
       })
       .then((data) => {
-        console.log('Post salvato:', data);
-        getPosts();
+        console.log('Post salvato:', data)
+        getPosts()
       })
       .catch((error) => {
-        console.error('Errore:', error);
-        setError(true);
-      });
-  };
+        console.error('Errore:', error)
+        setError(true)
+      })
+  }
 
   const getComments = (postId) => {
-    console.log(`Fetching comments for post ID: ${postId}`);
-    fetch(`https://striveschool-api.herokuapp.com/api/comments?elementId=${postId}`, {
-      headers: {
-        Authorization: `Bearer ${commentToken}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setCurrentPostComments(data);
-        setShowCommentsModal(true); // Mostra il modal dei commenti
+    console.log(`Fetching comments for post ID: ${postId}`)
+    setCurrentPostComments([])
+    setShowCommentsModal(false)
+
+    fetch(
+      `https://striveschool-api.herokuapp.com/api/comments?elementId=${postId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${commentToken}`,
+        },
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json()
+        } else {
+          throw new Error('Errore nel recupero dei commenti')
+        }
       })
-      .catch((error) => console.error('Errore nel recupero dei commenti:', error));
-  };
+      .then((data) => {
+        setCurrentPostComments(data)
+        setShowCommentsModal(true)
+      })
+      .catch((error) => {
+        console.error('Errore nel recupero dei commenti:', error)
+        setShowCommentsModal(true)
+      })
+  }
 
   const addComment = (postId) => {
-    const comment = newComments[postId]; // Ottieni il commento per il post specifico
+    const comment = newComments[postId]
     if (comment && comment.trim() !== '') {
       const commentData = {
         comment,
-        rate: 5, // Rate a valore fisso
+        rate: 5,
         elementId: postId,
-      };
+      }
 
       fetch('https://striveschool-api.herokuapp.com/api/comments/', {
         method: 'POST',
@@ -125,21 +142,23 @@ const HomePage = () => {
       })
         .then((res) => res.json())
         .then((savedComment) => {
-          // Aggiungi il nuovo commento in cima alla lista (come primo)
-          setCurrentPostComments((prevComments) => [savedComment, ...prevComments]);
+          setCurrentPostComments((prevComments) => [
+            savedComment,
+            ...prevComments,
+          ])
 
-          // Resetta il commento per il post corrente
           setNewComments((prevComments) => ({
             ...prevComments,
             [postId]: '',
-          }));
+          }))
 
-          // Riapri il modal per assicurarti che i commenti siano aggiornati
-          setShowCommentsModal(true);
+          setShowCommentsModal(true)
         })
-        .catch((error) => console.error("Errore nell'aggiunta del commento:", error));
+        .catch((error) =>
+          console.error("Errore nell'aggiunta del commento:", error)
+        )
     }
-  };
+  }
 
   const deleteComment = (commentId) => {
     fetch(`https://striveschool-api.herokuapp.com/api/comments/${commentId}`, {
@@ -151,16 +170,18 @@ const HomePage = () => {
       .then(() => {
         setCurrentPostComments((prevComments) =>
           prevComments.filter((comment) => comment._id !== commentId)
-        );
+        )
       })
-      .catch((error) => console.error("Errore nell'eliminazione del commento:", error));
-  };
+      .catch((error) =>
+        console.error("Errore nell'eliminazione del commento:", error)
+      )
+  }
 
   useEffect(() => {
-    getPosts();
-  }, []);
+    getPosts()
+  }, [])
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   return (
     <Container fluid className="p-4">
@@ -199,8 +220,8 @@ const HomePage = () => {
                 <Button
                   variant="primary"
                   onClick={(e) => {
-                    handleClosePostModal();
-                    savePost(e);
+                    handleClosePostModal()
+                    savePost(e)
                   }}
                 >
                   Condividi
@@ -236,16 +257,19 @@ const HomePage = () => {
                     <Card className="h-100 w-100 shadow-sm p-2">
                       <Card.Img
                         variant="top"
-                        src={post.image || 'https://via.placeholder.com/150'}
+                        src={
+                          post.image ||
+                          'https://imagedelivery.net/DXjruYLvsjZrKNWRKxAjyw/07ffa8ccdf876aad7b324c7415a500ec_s.jpg/dbcover'
+                        }
                         style={{
                           height: '10em',
-                          objectFit: 'contain',
                         }}
-                        className="rounded-3"
+                        className="rounded-3 border border-2 w-100 border-secondary  object-fit-fill"
                       />
                       <Card.Body>
                         <Card.Title>
-                          {post.username.charAt(0).toUpperCase() + post.username.slice(1)}
+                          {post.username.charAt(0).toUpperCase() +
+                            post.username.slice(1)}
                         </Card.Title>
                         <Card.Text>{post.text}</Card.Text>
                       </Card.Body>
@@ -261,30 +285,36 @@ const HomePage = () => {
                           <i
                             className="bi bi-heart"
                             onClick={(e) => {
-                              e.target.classList.toggle('bi-heart-fill');
-                              e.target.classList.toggle('bi-heart');
+                              e.target.classList.toggle('bi-heart-fill')
+                              e.target.classList.toggle('bi-heart')
                             }}
                           ></i>
                         </div>
                         <div className="d-flex align-items-baseline gap-1">
                           <p className="m-0">Salva</p>
                           <i
-                            className={post.saved ? 'bi bi-bookmark-fill' : 'bi bi-bookmark'}
+                            className={
+                              post.saved
+                                ? 'bi bi-bookmark-fill'
+                                : 'bi bi-bookmark'
+                            }
                             onClick={(e) => {
-                              if (e.target.classList.contains('bi-bookmark-fill')) {
-                                e.target.classList.toggle('bi-bookmark-fill');
-                                e.target.classList.toggle('bi-bookmark');
+                              if (
+                                e.target.classList.contains('bi-bookmark-fill')
+                              ) {
+                                e.target.classList.toggle('bi-bookmark-fill')
+                                e.target.classList.toggle('bi-bookmark')
                                 dispatch({
                                   type: 'REMOVE_POST',
                                   payload: post,
-                                });
+                                })
                               } else {
-                                e.target.classList.toggle('bi-bookmark-fill');
-                                e.target.classList.toggle('bi-bookmark');
+                                e.target.classList.toggle('bi-bookmark-fill')
+                                e.target.classList.toggle('bi-bookmark')
                                 dispatch({
                                   type: 'SAVE_POST',
                                   payload: post,
-                                });
+                                })
                               }
                             }}
                           ></i>
@@ -292,15 +322,18 @@ const HomePage = () => {
                       </Card.Footer>
                       <div className="mt-2">
                         <FormControl
-                          className='mt-2'
+                          className="mt-2"
                           placeholder="Aggiungi un commento..."
                           value={newComments[post._id] || ''}
                           onChange={(e) =>
-                            setNewComments({ ...newComments, [post._id]: e.target.value })
+                            setNewComments({
+                              ...newComments,
+                              [post._id]: e.target.value,
+                            })
                           }
                           onKeyDown={(e) => {
                             if (e.key === 'Enter') {
-                              addComment(post._id);
+                              addComment(post._id)
                             }
                           }}
                         />
@@ -323,24 +356,34 @@ const HomePage = () => {
       {/* Modal dei commenti */}
       <Modal show={showCommentsModal} onHide={handleCloseCommentsModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Commenti</Modal.Title>
+          <Modal.Title>Commenti del Post</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {currentPostComments.length === 0 && <p>Nessun commento disponibile.</p>}
-          {currentPostComments.length > 0 &&
+          {currentPostComments.length === 0 ? (
+            <p>Nessun commento disponibile per questo post.</p>
+          ) : (
             currentPostComments.slice(0, 20).map((comment) => (
-              <div key={comment._id} className="d-flex justify-content-between align-items-center">
+              <div
+                key={comment._id}
+                className="d-flex justify-content-between align-items-center mb-2"
+              >
                 <p>{comment.comment}</p>
-                <FaTrash style={{ cursor: 'pointer' }} onClick={() => deleteComment(comment._id)} />
+                <FaTrash
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => deleteComment(comment._id)}
+                />
               </div>
-            ))}
+            ))
+          )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseCommentsModal}>Chiudi</Button>
+          <Button variant="secondary" onClick={handleCloseCommentsModal}>
+            Chiudi
+          </Button>
         </Modal.Footer>
       </Modal>
     </Container>
-  );
-};
+  )
+}
 
-export default HomePage;
+export default HomePage

@@ -69,7 +69,7 @@ const MainProfilePage = ({ selectedProfileId }) => {
   const dispatch = useDispatch()
   const experiences = useSelector((state) => state.experiences.items)
   const isCurrentUser = true // Flag per verificare se è l'utente corrente
-  const connectionCount = useSelector(state => state.connections.count)
+  const connectionCount = useSelector((state) => state.connections.count)
 
   // Funzione per recuperare i dati del profilo
   const getPeople = async () => {
@@ -223,7 +223,11 @@ const MainProfilePage = ({ selectedProfileId }) => {
   return (
     <Container fluid>
       <Row className="row-cols-1 g-4">
-        <Col className=" bg-white rounded-4 shadow-sm" style={{ padding: "0 !important" }}>
+        <Col
+          xs={12}
+          className=" bg-white rounded-4 shadow-sm p-0"
+          style={{ padding: '0 !important' }}
+        >
           <div className="d-flex flex-column align-items-start text-start">
             <InfoCard
               name={people.name}
