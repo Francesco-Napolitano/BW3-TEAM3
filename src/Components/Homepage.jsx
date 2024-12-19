@@ -12,25 +12,19 @@ import {
 } from 'react-bootstrap'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
-import { FaTrash } from 'react-icons/fa'; // Importiamo l'icona del cestino
 import { useDispatch } from 'react-redux'
 
 const HomePage = () => {
   const token =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzVmZWEzYTBlYTI4NjAwMTUyOGI5MmUiLCJpYXQiOjE3MzQzMzkxMzEsImV4cCI6MTczNTU0ODczMX0._KemmCFCgbb9RJTBhKl-yp_SxkrBxlhDZviQyL2goDE'
-  const commentToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzM3MGUyYThhZDEyOTAwMTU4NzZiYzkiLCJpYXQiOjE3MzQ2MDc0OTAsImV4cCI6MTczNTgxNzA5MH0.c1IJWoEkt9oiMUS4vP0pazfhoEO_I-Zo6A4aA7FHNjw"
+
   const [posts, setPosts] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
   const [search, setSearch] = useState('')
-  const [showPostModal, setShowPostModal] = useState(false)
-  const [showCommentsModal, setShowCommentsModal] = useState(false)
-  const [currentPostComments, setCurrentPostComments] = useState([]) // Stato per i commenti del post
-  const [newComments, setNewComments] = useState({}) // Stato per i commenti dei singoli post
-
-  const handleClosePostModal = () => setShowPostModal(false)
-  const handleShowPostModal = () => setShowPostModal(true)
-  const handleCloseCommentsModal = () => setShowCommentsModal(false)
+  const [show, setShow] = useState(false)
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
 
   const getPosts = () => {
     fetch('https://striveschool-api.herokuapp.com/api/posts/', {
@@ -57,7 +51,8 @@ const HomePage = () => {
         setError(true)
       })
   }
-
+  const [link, setLink] = useState('')
+  const [description, setDescription] = useState('')
   const savePost = (e) => {
     e.preventDefault()
     const newPost = { image: link, text: description }
@@ -87,71 +82,6 @@ const HomePage = () => {
       })
   }
 
-  const getComments = (postId) => {
-    fetch(`https://striveschool-api.herokuapp.com/api/comments?elementId=${postId}`, {
-      headers: {
-        Authorization: `Bearer ${commentToken}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setCurrentPostComments(data)
-        setShowCommentsModal(true) // Mostra il modal dei commenti
-      })
-      .catch((error) => console.error('Errore nel recupero dei commenti:', error))
-  }
-
-  const addComment = (postId) => {
-    const comment = newComments[postId]; // Ottieni il commento per il post specifico
-    if (comment && comment.trim() !== '') {
-      const commentData = {
-        comment,
-        rate: 5, // Rate a valore fisso
-        elementId: postId,
-      };
-  
-      fetch('https://striveschool-api.herokuapp.com/api/comments/', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${commentToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(commentData),
-      })
-        .then((res) => res.json())
-        .then((savedComment) => {
-          // Aggiungi il nuovo commento in cima alla lista (come primo)
-          setCurrentPostComments((prevComments) => [savedComment, ...prevComments]);
-  
-          // Resetta il commento per il post corrente
-          setNewComments((prevComments) => ({
-            ...prevComments,
-            [postId]: '',
-          }));
-  
-          // Riapri il modal per assicurarti che i commenti siano aggiornati
-          setShowCommentsModal(true);
-        })
-        .catch((error) => console.error('Errore nell\'aggiunta del commento:', error));
-    }
-  };
-  
-
-  const deleteComment = (commentId) => {
-    fetch(`https://striveschool-api.herokuapp.com/api/comments/${commentId}`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${commentToken}`,
-      },
-    })
-      .then(() => {
-        setCurrentPostComments((prevComments) =>
-          prevComments.filter((comment) => comment._id !== commentId)
-        )
-      })
-      .catch((error) => console.error('Errore nell\'eliminazione del commento:', error))
-  }
-
   useEffect(() => {
     getPosts()
   }, [])
@@ -163,11 +93,11 @@ const HomePage = () => {
       <Row>
         <Col>
           <Form className="d-flex justify-content-end" onSubmit={savePost}>
-            <Button variant="primary" onClick={handleShowPostModal}>
+            <Button variant="primary" onClick={handleShow}>
               Crea un nuovo post
             </Button>
 
-            <Modal show={showPostModal} onHide={handleClosePostModal}>
+            <Modal show={show} onHide={handleClose}>
               <Modal.Header closeButton>
                 <Modal.Title>Dai sfogo alla fantasia!</Modal.Title>
               </Modal.Header>
@@ -178,24 +108,28 @@ const HomePage = () => {
                   type="text"
                   className="mb-2"
                   placeholder="Link"
-                  onChange={(e) => setLink(e.target.value)}
+                  onChange={(e) => {
+                    setLink(e.target.value)
+                  }}
                 />
                 <Form.Label>Descrizione</Form.Label>
                 <Form.Control
                   required
                   type="text"
                   placeholder="Un bel post"
-                  onChange={(e) => setDescription(e.target.value)}
+                  onChange={(e) => {
+                    setDescription(e.target.value)
+                  }}
                 />
               </Modal.Body>
               <Modal.Footer>
-                <Button variant="secondary" onClick={handleClosePostModal}>
+                <Button variant="secondary" onClick={handleClose}>
                   Chiudi
                 </Button>
                 <Button
                   variant="primary"
                   onClick={(e) => {
-                    handleClosePostModal()
+                    handleClose()
                     savePost(e)
                   }}
                 >
@@ -222,19 +156,19 @@ const HomePage = () => {
             </Alert>
           )}
           {!loading && !error && (
-            <Row className="g-3">
+            <Row className="g-3 ">
               {posts
                 .filter((post) =>
                   post.text.toLowerCase().includes(search.toLowerCase())
                 )
                 .map((post) => (
                   <Col key={post._id} xs={12} sm={6}>
-                    <Card className="h-100 w-100 shadow-sm p-2">
+                    <Card className="h-100 w-100  shadow-sm p-2">
                       <Card.Img
                         variant="top"
                         src={
                           post.image ||
-                          'https://via.placeholder.com/150'
+                          'https://play-lh.googleusercontent.com/iiIJq5JmLFYNI1bVz4IBHyoXs508JcEzHhOgau69bnveF9Wat51-ax9LMPVOlneKwqg'
                         }
                         style={{
                           height: '10em',
@@ -244,7 +178,8 @@ const HomePage = () => {
                       />
                       <Card.Body>
                         <Card.Title>
-                          {post.username.charAt(0).toUpperCase() + post.username.slice(1)}
+                          {post.username.charAt(0).toUpperCase() +
+                            post.username.slice(1)}
                         </Card.Title>
                         <Card.Text>{post.text}</Card.Text>
                       </Card.Body>
@@ -258,7 +193,7 @@ const HomePage = () => {
                         <div className="d-flex align-items-baseline gap-1">
                           <p className="m-0">Mi piace</p>
                           <i
-                            className="bi bi-heart"
+                            className="bi bi-heart "
                             onClick={(e) => {
                               e.target.classList.toggle('bi-heart-fill')
                               e.target.classList.toggle('bi-heart')
@@ -268,9 +203,15 @@ const HomePage = () => {
                         <div className="d-flex align-items-baseline gap-1">
                           <p className="m-0">Salva</p>
                           <i
-                            className={post.saved ? 'bi bi-bookmark-fill' : 'bi bi-bookmark'}
+                            className={
+                              post.saved
+                                ? 'bi bi-bookmark-fill'
+                                : 'bi bi-bookmark'
+                            }
                             onClick={(e) => {
-                              if (e.target.classList.contains('bi-bookmark-fill')) {
+                              if (
+                                e.target.classList.contains('bi-bookmark-fill')
+                              ) {
                                 e.target.classList.toggle('bi-bookmark-fill')
                                 e.target.classList.toggle('bi-bookmark')
                                 dispatch({
@@ -289,27 +230,6 @@ const HomePage = () => {
                           ></i>
                         </div>
                       </Card.Footer>
-                      <div className="mt-2">
-                        <FormControl
-                          placeholder="Aggiungi un commento..."
-                          value={newComments[post._id] || ''}
-                          onChange={(e) =>
-                            setNewComments({ ...newComments, [post._id]: e.target.value })
-                          }
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                              addComment(post._id);
-                            }
-                          }}
-                        />
-                        <Button
-                          variant="info"
-                          onClick={() => getComments(post._id)}
-                          className="mt-2"
-                        >
-                          Visualizza Commenti
-                        </Button>
-                      </div>
                     </Card>
                   </Col>
                 ))}
@@ -317,33 +237,6 @@ const HomePage = () => {
           )}
         </Col>
       </Row>
-
-      {/* Modal per i commenti */}
-      <Modal show={showCommentsModal} onHide={handleCloseCommentsModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Commenti</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-  {currentPostComments.length === 0 && (
-    <p>Nessun commento disponibile.</p>
-  )}
-  {currentPostComments.slice(0, 20).map((comment) => (
-    <div key={comment._id} className="d-flex justify-content-between align-items-center">
-      <p>{comment.comment}</p>
-      <FaTrash
-        style={{ cursor: 'pointer' }}
-        onClick={() => deleteComment(comment._id)}
-      />
-    </div>
-  ))}
-</Modal.Body>
-
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseCommentsModal}>
-            Chiudi
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </Container>
   )
 }
