@@ -2,23 +2,33 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../actions/authActions'
 import { RootState, AppDispatch } from '../store/store'
-import '..styles/Login.css'
+import '../styles/Login.css'
+import { useNavigate } from 'react-router-dom'
 
 const Login: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const { loading, error } = useSelector((state: RootState) => state.auth)
+  const { loading, error } = useSelector((state: RootState) => state.auth || { loading: false, error: null })
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
 
+  const navigate = useNavigate()
+
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev)
   }
 
-  const handleLogin = () => {
-    dispatch(login(email, password))
-  }
+  const handleLogin = async () => {
+    try {
+      await dispatch(login(email, password));  // Attendi che l'azione sia completata
+      navigate('/');  // Naviga solo dopo che il login è riuscito
+    } catch (error) {
+      console.error('Login failed:', error);  // Gestisci eventuali errori
+    }
+  };
+  
+  
 
   return (
     <div className="login-container">

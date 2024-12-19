@@ -1,5 +1,6 @@
 import { ThunkAction } from "redux-thunk";
 import { RootState } from "../store/store";
+import { useNavigate } from "react-router-dom";
 
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
@@ -24,44 +25,35 @@ export type AuthAction =
   | LoginSuccessAction
   | LoginFailureAction;
 
-export const login =
-  (email: string, password: string): ThunkAction<void, RootState, unknown, AuthAction> =>
-  async (dispatch) => {
+  export const login = (email: string, password: string): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
     try {
-      dispatch({ type: LOGIN_REQUEST });
-
-      // Verifica le credenziali contro un account hardcoded
-      if (email === "matteo.dilorenzo99@outlook.it" && password === "Parmenide1!") {
-        // Usa il token predefinito per il login
-        console.log("ciao sono qui")
-        const token =
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzYwMjkwOTBlYTI4NjAwMTUyOGI5NjUiLCJpYXQiOjE3MzQzNTUyMTAsImV4cCI6MTczNTU2NDgxMH0.kNzj5TqZfyb3D7yaA1EKtcLStc0Dm__oimsZadyASgA";
-
-        // Esegui la richiesta GET per ottenere il profilo dell'utente
-        const response = await fetch(
-          "https://striveschool-api.herokuapp.com/api/profile/me",
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
+      dispatch({ type: LOGIN_REQUEST })
+      
+      // Simulazione di login
+      if (email === 'matteo.dilorenzo99@outlook.it' && password === 'Parmenide1!') {
+        // Ottieni il token
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzYwMjkwOTBlYTI4NjAwMTUyOGI5NjUiLCJpYXQiOjE3MzQzNTUyMTAsImV4cCI6MTczNTU2NDgxMH0.kNzj5TqZfyb3D7yaA1EKtcLStc0Dm__oimsZadyASgA'
+        
+        const response = await fetch('https://striveschool-api.herokuapp.com/api/profile/me', {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        
         if (!response.ok) {
-          throw new Error("Errore nel recupero del profilo!");
+          throw new Error('Errore nel recupero del profilo!')
         }
-
-        const data = await response.json();
-        dispatch({ type: LOGIN_SUCCESS, payload: data });
-
-        // Redirect al successo
-        window.location.href = "https://www.google.com";
+        
+        const data = await response.json()
+        
+        dispatch({ type: LOGIN_SUCCESS, payload: data })
       } else {
-        throw new Error("Credenziali non valide!");
+        throw new Error('Credenziali non valide!')
       }
     } catch (error: any) {
-      dispatch({ type: LOGIN_FAILURE, payload: error.message });
-      console.error("Errore durante il login:", error.message);
+      dispatch({ type: LOGIN_FAILURE, payload: error.message })
+      console.error('Errore durante il login:', error.message)
     }
-  };
+  }
+  
