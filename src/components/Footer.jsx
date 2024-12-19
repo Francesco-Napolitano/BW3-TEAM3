@@ -7,7 +7,7 @@ const Footer = () => {
   const toggleMenu = () => setIsOpen(!isOpen)
 
   return (
-    <footer className="footer-container mt-5">
+    <footer className="footer-container mt-5" style={{ paddingTop: '5rem' }}>
       <div className="footer-section">
         <ul>
           <li>About</li>

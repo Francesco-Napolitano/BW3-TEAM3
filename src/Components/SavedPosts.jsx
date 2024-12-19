@@ -10,12 +10,20 @@ const SavedPosts = () => {
   return (
     <Container
       className="d-flex flex-wrap justify-content-center"
-      style={{ paddingBottom: '8rem', paddingTop: '6rem' }}
+      style={{ paddingBottom: '2rem', paddingTop: '6rem' }}
     >
       {savedPost.length > 0 ? (
         savedPost.map((post) => (
-          <Col md={4} className="mb-4" key={post._id}>
-            <Card className="h-100 w-100  shadow-sm">
+          <Col
+            xs={11}
+            sm={5}
+            md={5}
+            lg={3}
+            xxl={2}
+            className="mb-4 mx-1"
+            key={post._id}
+          >
+            <Card className="h-100 w-100 shadow-sm p-3">
               <Card.Img
                 variant="top"
                 src={
@@ -67,10 +75,15 @@ const SavedPosts = () => {
           </Col>
         ))
       ) : (
-        <div className="text-center alert alert-warning" role="alert">
-          Non ci sono elementi salvati al momento. Se desideri salvare un post,
-          puoi farlo cliccando sul pulsante &quot;Salva&quot; presente in basso
-          a destra di ogni post.
+        <div
+          className="d-flex align-items-center alert alert-warning mb-5 mt-2"
+          role="alert"
+        >
+          <p>
+            Non ci sono elementi salvati al momento. Se desideri salvare un
+            post, puoi farlo cliccando sul pulsante &quot;Salva&quot; presente
+            in basso a destra di ogni post.
+          </p>
         </div>
       )}
     </Container>

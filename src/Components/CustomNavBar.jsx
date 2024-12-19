@@ -67,8 +67,8 @@ export const CustomNavBar = () => {
                         setRightcollapse(false)
                       }}
                     >
-                      <i className="bi bi-people-fill"></i>
-                      <p className="d-none d-lg-block">Rete</p>
+                      <i className="bi bi-bookmark-fill"></i>
+                      <p className="d-none d-lg-block">Preferiti</p>
                     </NavLink>
                     <NavLink
                       to={'/jobs'}

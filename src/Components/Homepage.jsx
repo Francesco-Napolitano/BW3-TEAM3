@@ -203,12 +203,16 @@ const HomePage = () => {
                         <div className="d-flex align-items-baseline gap-1">
                           <p className="m-0">Salva</p>
                           <i
-                            className="bi bi-bookmark"
+                            className={
+                              post.saved
+                                ? 'bi bi-bookmark-fill'
+                                : 'bi bi-bookmark'
+                            }
                             onClick={(e) => {
                               e.target.classList.toggle('bi-bookmark-fill')
                               e.target.classList.toggle('bi-bookmark')
                               dispatch({
-                                type: 'SAVE_POST',
+                                type: post.saved ? 'REMOVE_POST' : 'SAVE_POST',
                                 payload: post,
                               })
                             }}
