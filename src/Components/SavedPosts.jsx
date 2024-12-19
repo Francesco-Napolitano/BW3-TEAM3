@@ -6,12 +6,13 @@ const SavedPosts = () => {
     console.log(state)
     return state.savedPost.list
   })
-
   console.log(savedPost)
-
   return (
-    <Container className="d-flex flex-wrap justify-content-center mt-5">
-      {savedPost ? (
+    <Container
+      className="d-flex flex-wrap justify-content-center"
+      style={{ paddingBottom: '8rem', paddingTop: '6rem' }}
+    >
+      {savedPost.length > 0 ? (
         savedPost.map((post) => (
           <Col md={4} className="mb-4" key={post._id}>
             <Card className="h-100 w-100  shadow-sm">
@@ -66,7 +67,11 @@ const SavedPosts = () => {
           </Col>
         ))
       ) : (
-        <p className="text-center">Non ci sono post salvati</p>
+        <div className="text-center alert alert-warning" role="alert">
+          Non ci sono elementi salvati al momento. Se desideri salvare un post,
+          puoi farlo cliccando sul pulsante &quot;Salva&quot; presente in basso
+          a destra di ogni post.
+        </div>
       )}
     </Container>
   )

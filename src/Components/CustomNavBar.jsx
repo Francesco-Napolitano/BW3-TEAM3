@@ -59,7 +59,7 @@ export const CustomNavBar = () => {
                       <p className="d-none d-lg-block">Home</p>
                     </NavLink>
                     <NavLink
-                      to={'/'}
+                      to={'/favourites'}
                       className={
                         'justify-content-center justify-content-lg-between'
                       }
