@@ -11,12 +11,28 @@ import LeftSidebarHome from './Components/LeftSidebarHome'
 import ErrorPage from './Components/ErrorPage'
 import SavedPosts from './Components/SavedPosts'
 import JobsPage from './Components/JobsPage'
+import Login from "./Components/Login"
 
 function App() {
   return (
     <>
       <CustomNavBar />
       <Routes>
+
+      <Route
+          path="/login"
+          // profile/me da aggiungere
+          element={
+            <Container>
+              <Row className="mt-5">
+                <Col xs={12} xl={9}>
+                  <Login />
+                </Col>
+              </Row>
+            </Container>
+          }
+        />
+
         <Route
           path="/"
           // profile/me da aggiungere

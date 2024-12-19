@@ -2,22 +2,28 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../actions/authActions'
 import { RootState, AppDispatch } from '../store/store'
-import '..styles/Login.css'
+import '../styles/Login.css'
+import { useNavigate } from 'react-router-dom'
 
 const Login: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const { loading, error } = useSelector((state: RootState) => state.auth)
+  const { loading, error } = useSelector((state: RootState) => state)
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+
+  const navigate = useNavigate()
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev)
   }
 
   const handleLogin = () => {
-    dispatch(login(email, password))
+    if(dispatch(login(email, password))){
+      navigate("/")
+    }
+    
   }
 
   return (
