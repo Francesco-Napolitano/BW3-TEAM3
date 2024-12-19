@@ -1,7 +1,8 @@
 import { Card, Col, Container, ListGroup } from 'react-bootstrap'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 const SavedPosts = () => {
+  const dispatch = useDispatch()
   const savedPost = useSelector((state) => {
     console.log(state)
     return state.savedPost.list
@@ -19,7 +20,6 @@ const SavedPosts = () => {
             sm={5}
             md={5}
             lg={3}
-            xxl={2}
             className="mb-4 mx-1"
             key={post._id}
           >
@@ -65,8 +65,21 @@ const SavedPosts = () => {
                   <i
                     className="bi bi-bookmark-fill"
                     onClick={(e) => {
-                      e.target.classList.toggle('bi-bookmark')
-                      e.target.classList.toggle('bi-bookmark-fill')
+                      if (e.target.classList.contains('bi-bookmark')) {
+                        e.target.classList.toggle('bi-bookmark-fill')
+                        e.target.classList.toggle('bi-bookmark')
+                        dispatch({
+                          type: 'REMOVE_POST',
+                          payload: post,
+                        })
+                      } else {
+                        e.target.classList.toggle('bi-bookmark-fill')
+                        e.target.classList.toggle('bi-bookmark')
+                        dispatch({
+                          type: 'SAVE_POST',
+                          payload: post,
+                        })
+                      }
                     }}
                   ></i>
                 </div>

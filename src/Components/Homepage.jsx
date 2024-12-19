@@ -209,12 +209,23 @@ const HomePage = () => {
                                 : 'bi bi-bookmark'
                             }
                             onClick={(e) => {
-                              e.target.classList.toggle('bi-bookmark-fill')
-                              e.target.classList.toggle('bi-bookmark')
-                              dispatch({
-                                type: post.saved ? 'REMOVE_POST' : 'SAVE_POST',
-                                payload: post,
-                              })
+                              if (
+                                e.target.classList.contains('bi-bookmark-fill')
+                              ) {
+                                e.target.classList.toggle('bi-bookmark-fill')
+                                e.target.classList.toggle('bi-bookmark')
+                                dispatch({
+                                  type: 'REMOVE_POST',
+                                  payload: post,
+                                })
+                              } else {
+                                e.target.classList.toggle('bi-bookmark-fill')
+                                e.target.classList.toggle('bi-bookmark')
+                                dispatch({
+                                  type: 'SAVE_POST',
+                                  payload: post,
+                                })
+                              }
                             }}
                           ></i>
                         </div>

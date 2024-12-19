@@ -4,8 +4,8 @@ const initialState = {
 
 const savedPost = (state = initialState, action) => {
   switch (action.type) {
-    case 'SAVE_POST': // Verifica se il post esiste già
-    {
+    case 'SAVE_POST': {
+      // Verifica se il post esiste già
       const postExists = state.list.some(
         (post) => post._id === action.payload._id
       )
@@ -22,6 +22,11 @@ const savedPost = (state = initialState, action) => {
         list: [...state.list, action.payload],
       }
     }
+    case 'REMOVE_POST':
+      return {
+        ...state,
+        list: state.list.filter((post) => post._id !== action.payload),
+      }
     default:
       return state
   }
