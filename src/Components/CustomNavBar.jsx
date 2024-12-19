@@ -108,7 +108,10 @@ export const CustomNavBar = () => {
                         </Col>
                         <Col xs={12}>
                           <NavDropdown.Item className="d-flex">
-                            <Link to="/" className="btnWhite w-100 text-center">
+                            <Link
+                              to="/profile/me"
+                              className="btnWhite w-100 text-center"
+                            >
                               Visualizza profilo
                             </Link>
                           </NavDropdown.Item>

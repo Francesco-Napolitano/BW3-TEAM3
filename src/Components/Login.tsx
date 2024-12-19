@@ -7,7 +7,9 @@ import { useNavigate } from 'react-router-dom'
 
 const Login: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const { loading, error } = useSelector((state: RootState) => state.auth || { loading: false, error: null })
+  const { loading, error } = useSelector(
+    (state: RootState) => state.auth || { loading: false, error: null }
+  )
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -21,14 +23,12 @@ const Login: React.FC = () => {
 
   const handleLogin = async () => {
     try {
-      await dispatch(login(email, password));  // Attendi che l'azione sia completata
-      navigate('/');  // Naviga solo dopo che il login è riuscito
+      await dispatch(login(email, password)) // Attendi che l'azione sia completata
+      navigate('/profile/me') // Naviga solo dopo che il login è riuscito
     } catch (error) {
-      console.error('Login failed:', error);  // Gestisci eventuali errori
+      console.error('Login failed:', error) // Gestisci eventuali errori
     }
-  };
-  
-  
+  }
 
   return (
     <div className="login-container">

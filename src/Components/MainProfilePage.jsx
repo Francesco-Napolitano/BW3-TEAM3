@@ -339,7 +339,7 @@ const MainProfilePage = ({ selectedProfileId }) => {
                     </div>
                     <p className="mb-1">{edu.degree}</p>
                     <p className="text-muted">
-                      {new Date(edu.startDate).toLocaleDateString()} -
+                      {new Date(edu.startDate).toLocaleDateString()} -{' '}
                       {edu.endDate
                         ? new Date(edu.endDate).toLocaleDateString()
                         : 'Presente'}
