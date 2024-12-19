@@ -56,7 +56,6 @@ function App() {
                 <Col xl={3}>
                   <LeftSidebarHome />
                 </Col>
-
                 <Col xs={12} lg={9} xl={6}>
                   <HomePage />
                 </Col>
@@ -68,21 +67,13 @@ function App() {
           }
         />
         <Route path="/jobs" element={<JobsPage />} />
-
         <Route
           path="/favourites"
           element={
             <Container>
               <Row className="mt-5 justify-content-center">
-                <Col xl={3}>
-                  <LeftSidebarHome />
-                </Col>
-
-                <Col xs={12} lg={9} xl={6}>
+                <Col xs={10}>
                   <SavedPosts />
-                </Col>
-                <Col xl={3}>
-                  <SideBar />
                 </Col>
               </Row>
             </Container>

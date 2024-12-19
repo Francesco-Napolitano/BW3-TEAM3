@@ -12,6 +12,7 @@ import {
 } from 'react-bootstrap'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
+import { useDispatch } from 'react-redux'
 
 const HomePage = () => {
   const token =
@@ -84,6 +85,8 @@ const HomePage = () => {
   useEffect(() => {
     getPosts()
   }, [])
+
+  const dispatch = useDispatch()
 
   return (
     <Container fluid className="p-4">
@@ -204,6 +207,15 @@ const HomePage = () => {
                             onClick={(e) => {
                               e.target.classList.toggle('bi-bookmark-fill')
                               e.target.classList.toggle('bi-bookmark')
+                              console.log(post)
+                              dispatch({
+                                type: 'SAVE_POST',
+                                payload: post,
+                              })
+                              console.log('Azione dispatchata:', {
+                                type: 'SAVE_POST',
+                                payload: post,
+                              })
                             }}
                           ></i>
                         </div>
