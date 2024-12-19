@@ -1,4 +1,3 @@
-
 /* Card per l'URL del profilo */
 .profile-url-card {
   background: white;
@@ -92,6 +91,18 @@
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.connect-button.connected {
+  background-color: #e8f3ff;
+  border-color: #e8f3ff;
+  color: #0a66c2;
+  cursor: default;
+}
+
+.connect-button:hover:not(.connected) {
+  background-color: #e8f3ff;
 }
 
 .connect-button i {

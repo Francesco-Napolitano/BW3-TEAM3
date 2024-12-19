@@ -69,6 +69,7 @@ const MainProfilePage = ({ selectedProfileId }) => {
   const dispatch = useDispatch()
   const experiences = useSelector((state) => state.experiences.items)
   const isCurrentUser = true // Flag per verificare se è l'utente corrente
+  const connectionCount = useSelector(state => state.connections.count)
 
   // Funzione per recuperare i dati del profilo
   const getPeople = async () => {
@@ -282,7 +283,7 @@ const MainProfilePage = ({ selectedProfileId }) => {
             <Col xs={12} lg={4}>
               <i className="bi bi-people-fill me-3 fs-3"></i>
               <span className="">
-                {profileStats.visits} collegamenti al profilo
+                {connectionCount} collegamenti al profilo
               </span>
             </Col>
             <Col xs={12} lg={4}>
