@@ -1,11 +1,17 @@
-// Importiamo combineReducers da Redux Toolkit per combinare i reducer
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
-// Importiamo i reducer per gestire le esperienze lavorative e la formazione
+import { persistStore, persistReducer } from 'redux-persist'
+import sessionStorage from 'redux-persist/lib/storage/session'
 import experiencesReducer from '../reducers/experiencesReducer'
 import educationReducer from '../reducers/educationReducer'
 import selectedProfileReducer from '../reducers/selectedProfileReducer'
 import savedPost from '../reducers/SavedPost'
-// Creiamo la combinazione dei reducer
+
+const persistConfig = {
+  key: 'root',
+  storage: sessionStorage,
+  whitelist: ['savedPost'], // salva solo savedPost nel session storage
+}
+
 const rootReducer = combineReducers({
   experiences: experiencesReducer,
   education: educationReducer,
@@ -13,7 +19,14 @@ const rootReducer = combineReducers({
   savedPost: savedPost,
 })
 
-// Creiamo e configuriamo lo store Redux
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
 export const store = configureStore({
-  reducer: rootReducer,
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 })
+
+export const persistor = persistStore(store)

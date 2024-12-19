@@ -67,18 +67,7 @@ function App() {
           }
         />
         <Route path="/jobs" element={<JobsPage />} />
-        <Route
-          path="/favourites"
-          element={
-            <Container>
-              <Row className="mt-5 justify-content-center">
-                <Col xs={10}>
-                  <SavedPosts />
-                </Col>
-              </Row>
-            </Container>
-          }
-        />
+        <Route path="/favourites" element={<SavedPosts />} />
         <Route
           path="*"
           element={

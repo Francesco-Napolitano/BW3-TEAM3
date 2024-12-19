@@ -207,12 +207,7 @@ const HomePage = () => {
                             onClick={(e) => {
                               e.target.classList.toggle('bi-bookmark-fill')
                               e.target.classList.toggle('bi-bookmark')
-                              console.log(post)
                               dispatch({
-                                type: 'SAVE_POST',
-                                payload: post,
-                              })
-                              console.log('Azione dispatchata:', {
                                 type: 'SAVE_POST',
                                 payload: post,
                               })
