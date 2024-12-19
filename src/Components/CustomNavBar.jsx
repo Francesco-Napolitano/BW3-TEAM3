@@ -71,7 +71,7 @@ export const CustomNavBar = () => {
                       <p className="d-none d-lg-block">Rete</p>
                     </NavLink>
                     <NavLink
-                      to={'/'}
+                      to={'/jobs'}
                       className={
                         'justify-content-center justify-content-lg-between'
                       }
@@ -137,10 +137,7 @@ export const CustomNavBar = () => {
                         </Col>
                         <Col xs={12}>
                           <NavDropdown.Item className="d-flex">
-                            <Link
-                              to="/profile/me"
-                              className="btnWhite w-100 text-center"
-                            >
+                            <Link to="/" className="btnWhite w-100 text-center">
                               Visualizza profilo
                             </Link>
                           </NavDropdown.Item>

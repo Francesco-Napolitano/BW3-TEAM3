@@ -14,7 +14,7 @@ import {
 } from '../redux/reducers/experiencesReducer'
 // Importiamo altri componenti di react-bootstrap per i modal e i form
 import { Modal, Button, Form } from 'react-bootstrap'
-import InfoCard from "../Components/infoCard.jsx"
+import InfoCard from '../Components/infoCard.jsx'
 
 // Componente principale della pagina profilo
 const MainProfilePage = ({ selectedProfileId }) => {
@@ -56,9 +56,9 @@ const MainProfilePage = ({ selectedProfileId }) => {
     }
     // Se non esistono, genera nuovi numeri casuali
     const newStats = {
-      visits: Math.floor(Math.random() * 500) + 100,    // Numero tra 100 e 600
-      impressions: Math.floor(Math.random() * 1000) + 200,   // Numero tra 200 e 1200
-      searches: Math.floor(Math.random() * 100) + 20    // Numero tra 20 e 120
+      visits: Math.floor(Math.random() * 500) + 100, // Numero tra 100 e 600
+      impressions: Math.floor(Math.random() * 1000) + 200, // Numero tra 200 e 1200
+      searches: Math.floor(Math.random() * 100) + 20, // Numero tra 20 e 120
     }
     // Salva i nuovi numeri nel sessionStorage
     sessionStorage.setItem('profileStats', JSON.stringify(newStats))
@@ -218,29 +218,27 @@ const MainProfilePage = ({ selectedProfileId }) => {
     )
   }
 
-  console.log("ciao " + people.name)
+  console.log('ciao ' + people.name)
   // Il render principale del componente
   return (
     <Container fluid>
       <Row className="row-cols-1 g-4">
-        <Col className="p-4 bg-white rounded-4 shadow-sm"> 
-        <div className="d-flex flex-column align-items-start text-start">
-        <InfoCard
-            name={people.name}
-            title={people.title}
-            area={people.area}
-            email={people.email}
-            image={people.image}
-            id = {people._id}
-            description="La mia carriera è iniziata come freelancer, e oggi sono orgoglioso di collaborare con clienti e team per sviluppare soluzioni web end-to-end."
-            onImageChange={() => alert("Cambia immagine profilo!")}
-          />
+        <Col className="p-4 bg-white rounded-4 shadow-sm">
+          <div className="d-flex flex-column align-items-start text-start">
+            <InfoCard
+              name={people.name}
+              title={people.title}
+              area={people.area}
+              email={people.email}
+              image={people.image}
+              id={people._id}
+              description="La mia carriera è iniziata come freelancer, e oggi sono orgoglioso di collaborare con clienti e team per sviluppare soluzioni web end-to-end."
+              onImageChange={() => alert('Cambia immagine profilo!')}
+            />
           </div>
         </Col>
         <Col className="p-4 bg-white rounded-4 shadow-sm">
           <div className="d-flex flex-column align-items-start text-start">
-            
-            
             <h2>Informazioni</h2>
             <p className="m-0 ">
               Ciao! Mi chiamo{' '}
@@ -250,7 +248,7 @@ const MainProfilePage = ({ selectedProfileId }) => {
               >
                 {people.name}
               </span>
-              , sono{' '}
+              , sono un{' '}
               <span className="fst-italic">
                 {people.title === '' ? 'Web Developer' : people.title}{' '}
               </span>
@@ -283,15 +281,21 @@ const MainProfilePage = ({ selectedProfileId }) => {
             <h2 className="d-flex">Analisi</h2>
             <Col xs={12} lg={4}>
               <i className="bi bi-people-fill me-3 fs-3"></i>
-              <span className="">{profileStats.visits} collegamenti al profilo</span>
+              <span className="">
+                {profileStats.visits} collegamenti al profilo
+              </span>
             </Col>
             <Col xs={12} lg={4}>
               <i className="bi bi-bar-chart-fill me-3 fs-3"></i>
-              <span className="">{profileStats.impressions} impressioni del post</span>
+              <span className="">
+                {profileStats.impressions} impressioni del post
+              </span>
             </Col>
             <Col xs={12} lg={4}>
               <i className="bi bi-search me-3 fs-3"></i>
-              <span className="">{profileStats.searches} ricerche del profilo</span>
+              <span className="">
+                {profileStats.searches} ricerche del profilo
+              </span>
             </Col>
           </Row>
         </Col>
