@@ -218,12 +218,11 @@ const MainProfilePage = ({ selectedProfileId }) => {
     )
   }
 
-  console.log('ciao ' + people.name)
   // Il render principale del componente
   return (
     <Container fluid>
       <Row className="row-cols-1 g-4">
-        <Col className="p-4 bg-white rounded-4 shadow-sm">
+        <Col className=" bg-white rounded-4 shadow-sm" style={{ padding: "0 !important" }}>
           <div className="d-flex flex-column align-items-start text-start">
             <InfoCard
               name={people.name}
@@ -231,6 +230,7 @@ const MainProfilePage = ({ selectedProfileId }) => {
               area={people.area}
               email={people.email}
               image={people.image}
+              informazioni={people.bio}
               id={people._id}
               description="La mia carriera è iniziata come freelancer, e oggi sono orgoglioso di collaborare con clienti e team per sviluppare soluzioni web end-to-end."
               onImageChange={() => alert('Cambia immagine profilo!')}
