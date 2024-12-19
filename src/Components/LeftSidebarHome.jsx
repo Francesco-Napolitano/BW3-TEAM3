@@ -46,7 +46,9 @@ const LeftSidebarHome = () => {
             }
           >
             <i className="bi bi-bookmark-fill text-warning"></i>
-            <p className="d-none d-lg-block m-0">Elementi salvati</p>
+            <p style={{ cursor: 'pointer' }} className="d-none d-lg-block m-0">
+              Elementi salvati
+            </p>
           </div>
         </div>
       </div>
