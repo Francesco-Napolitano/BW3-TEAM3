@@ -1,0 +1,113 @@
+.profile-banner {
+  transition: all 0.3s ease;
+}
+
+.profile-banner:hover .camera-icon {
+  opacity: 1;
+}
+
+.camera-icon {
+  opacity: 0;
+  transition: all 0.2s ease;
+}
+
+.camera-icon:hover {
+  background-color: #f3f2ef !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.cursor-pointer:hover {
+  text-decoration: underline;
+}
+
+.dropdown-item:hover {
+  background-color: #f3f2ef;
+}
+
+.btn-outline-primary {
+  border-color: #0a66c2;
+  color: #0a66c2;
+}
+
+.btn-outline-primary:hover {
+  background-color: #e8f3ff;
+  border-color: #0a66c2;
+  color: #0a66c2;
+}
+
+.btn-primary {
+  background-color: #0a66c2;
+  border-color: #0a66c2;
+}
+
+.btn-primary:hover {
+  background-color: #004182;
+  border-color: #004182;
+}
+
+.modal-content {
+  border-radius: 10px;
+}
+
+.form-control:focus {
+  border-color: #0a66c2;
+  box-shadow: 0 0 0 0.2rem rgba(10, 102, 194, 0.25);
+}
+
+.profile-details {
+  max-width: 70%;
+}
+
+.profile-info h2 {
+  color: #191919;
+  font-size: 1.5rem;
+  line-height: 1.25;
+}
+
+.quick-links span {
+  transition: all 0.2s ease;
+}
+
+.quick-links span:hover {
+  background-color: #e8f3ff !important;
+}
+
+.hover-light:hover {
+  background-color: #f3f2ef;
+}
+
+.company-logo {
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.text-primary {
+  color: #0a66c2 !important;
+}
+
+.bg-light {
+  background-color: rgba(10, 102, 194, 0.1) !important;
+}
+
+.btn-outline-primary:focus,
+.btn-primary:focus {
+  box-shadow: 0 0 0 0.2rem rgba(10, 102, 194, 0.25);
+}
+
+.profile-banner img {
+  transition: filter 0.3s ease;
+}
+
+.profile-banner:hover img {
+  filter: brightness(0.95);
+}
+
+.profile-image img {
+  transition: filter 0.3s ease;
+}
+
+.profile-image:hover img {
+  filter: brightness(0.95);
+} 

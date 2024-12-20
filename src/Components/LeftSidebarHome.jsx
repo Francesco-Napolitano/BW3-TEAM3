@@ -1,59 +1,134 @@
 import { useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { useEffect, useState } from 'react'
 import '../styles/LeftSidebarHome.css'
+
 const LeftSidebarHome = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const profileData = useSelector(state => state.profile.profileData)
+  const connectionCount = useSelector(state => state.connections.count)
+  const profileStats = useSelector(state => state.profile.stats)
+  
+  // Stato per gestire l'espansione della bio
+  const [isExpanded, setIsExpanded] = useState(false)
+
+  // Funzione per troncare il testo
+  const truncateText = (text, maxLength) => {
+    if (!text) return ''
+    if (text.length <= maxLength) return text
+    return text.slice(0, maxLength) + '...'
+  }
+
+  // Funzione per recuperare i dati del profilo
+  const fetchProfileData = async () => {
+    try {
+      const response = await fetch(
+        'https://striveschool-api.herokuapp.com/api/profile/me',
+        {
+          headers: {
+            Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
+          },
+        }
+      )
+      if (response.ok) {
+        const data = await response.json()
+        dispatch({ type: 'SET_PROFILE_DATA', payload: data })
+      }
+    } catch (error) {
+      console.error('Errore nel caricamento del profilo:', error)
+    }
+  }
+
+  useEffect(() => {
+    if (!profileData) {
+      fetchProfileData()
+    }
+  }, [dispatch, profileData])
+
   return (
-    <div className="d-none d-xl-block leftSidebar ">
+    <div className="d-none d-xl-block leftSidebarContainer">
       <div className="leftSidebar">
-        {/* Header Section */}
         <div className="profileCard">
-          <div className="profileBackground"></div>
-          <div className="profileImage">
-            <img src="" alt="profile" />
+          <div 
+            className="profileBackground"
+            style={{
+              backgroundImage: profileData?.background ? `url(${profileData.background})` : 'none',
+              backgroundColor: '#f3f2ef'
+            }}
+          ></div>
+          
+          <div className="profileImageContainer">
+            <img 
+              src={profileData?.image || 'https://via.placeholder.com/150'} 
+              alt="profile" 
+              className="profileImg"
+            />
           </div>
-          <div className="profileDetails">
-            <h3>ANDREW TATE</h3>
-            <p>English & Elvish</p>
+
+          <div className="profileInfo">
+            <h3 
+              onClick={() => navigate('/profile/me')} 
+              className="profileName"
+            >
+              {profileData?.name || 'Il tuo nome'}
+            </h3>
+            
+            {/* Bio con gestione espansione */}
+            <div className="profileBio">
+              {profileData?.bio && (
+                <>
+                  <p className={`bioText ${isExpanded ? 'expanded' : ''}`}>
+                    {isExpanded ? profileData.bio : truncateText(profileData.bio, 100)}
+                  </p>
+                  {profileData.bio.length > 100 && (
+                    <button 
+                      className="expandButton"
+                      onClick={() => setIsExpanded(!isExpanded)}
+                    >
+                      {isExpanded ? 'Mostra meno' : 'Mostra altro'}
+                    </button>
+                  )}
+                </>
+              )}
+            </div>
+            
+            
+            <p className="profileLocation">{profileData?.area || 'La tua località'}</p>
           </div>
         </div>
 
         {/* Stats Section */}
-        <div className="profileStats w-100">
+        <div className="statsSection">
           <div className="statItem">
-            <span>Visualizzatori del profilo</span>
-            <span className="statValue">4</span>
+            <span className="statLabel">Collegamenti al profilo</span>
+            <span className="statValue">{connectionCount || 0}</span>
           </div>
           <div className="statItem">
-            <span>Pubblica impressioni</span>
-            <span className="statValue">4</span>
+            <span className="statLabel">Impressioni del post</span>
+            <span className="statValue">{profileStats?.impressions || 0}</span>
           </div>
         </div>
 
-        {/* Sales Navigator Promo */}
-        <div className="salesPromo">
+        {/* Premium Promo */}
+        <div className="premiumPromo">
           <p>LINKEDIN PRO (Paga 299€ al mese e trova un lavoro)</p>
-          <button className="salesButton">
+          <button className="premiumButton">
             Dacci CASH per guadagnare CASH
           </button>
         </div>
 
         {/* Saved Items */}
-        <div>
-          <div
-            onClick={() => navigate('/favourites')}
-            className={
-              'd-flex align-items-center justify-content-center p-3 gap-1'
-            }
-          >
+        <div className="savedItems">
+          <div className="savedItemsContent">
             <i className="bi bi-bookmark-fill text-warning"></i>
-            <p style={{ cursor: 'pointer' }} className="d-none d-lg-block m-0">
-              Elementi salvati
-            </p>
+            <span>Elementi salvati</span>
           </div>
         </div>
       </div>
 
-      <div className="rightSidebar">
+      {/* Recent Section */}
+      <div className="rightSidebar mt-2">
         <div className="recentSection">
           <h5>I post più recenti</h5>
           <ul>

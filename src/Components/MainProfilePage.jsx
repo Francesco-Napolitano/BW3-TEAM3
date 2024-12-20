@@ -1,33 +1,36 @@
-// Importiamo i componenti necessari da react-bootstrap per il layout
+// Importiamo i componenti necessari da react-bootstrap per il layout della pagina
 import { Col, Container, Row } from 'react-bootstrap'
-// Importiamo il file CSS per gli stili personalizzati
+// Importiamo gli stili CSS personalizzati per questa pagina
 import '../styles/MainProfilePage.css'
-// Importiamo gli hook di React che useremo
+// Importiamo gli hook di React per gestire lo stato e gli effetti collaterali
 import { useEffect, useState } from 'react'
-// Importiamo gli hook di Redux per gestire lo stato globale
+// Importiamo gli hook di Redux per interagire con lo store globale
 import { useDispatch, useSelector } from 'react-redux'
-// Importiamo le azioni per gestire le esperienze lavorative
+// Importiamo le action creator per gestire le esperienze lavorative
 import {
   fetchExperiences,
-  addExperience,
+  addExperience, 
   deleteExperience,
 } from '../redux/reducers/experiencesReducer'
-// Importiamo altri componenti di react-bootstrap per i modal e i form
+// Importiamo i componenti di react-bootstrap per i modal e i form
 import { Modal, Button, Form } from 'react-bootstrap'
-import InfoCard from '../Components/infoCard.jsx'
+// Importiamo il componente InfoCard che mostra le informazioni principali del profilo
+import InfoCard from './infoCard.jsx'
 
-// Componente principale della pagina profilo
+// Componente principale che gestisce la visualizzazione del profilo utente
 const MainProfilePage = ({ selectedProfileId }) => {
-  // Stato per memorizzare i dati dell'utente
+  // Stato per memorizzare i dati dell'utente corrente
   const [people, setPeople] = useState(null)
+  // Stato per tenere traccia dell'ID utente selezionato
   const [selectedUserId, setSelectedUserId] = useState(null)
 
-  // Token di autenticazione (in un'app reale dovrebbe essere gestito in modo più sicuro)
+  // Token di autenticazione per le chiamate API (in produzione andrebbe gestito in modo più sicuro)
   const token =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzVmZWEzYTBlYTI4NjAwMTUyOGI5MmUiLCJpYXQiOjE3MzQzMzkxMzEsImV4cCI6MTczNTU0ODczMX0._KemmCFCgbb9RJTBhKl-yp_SxkrBxlhDZviQyL2goDE'
 
-  // Stati per gestire i modal e i form
+  // Stati per gestire l'apertura/chiusura dei modal e i dati dei form
   const [showModal, setShowModal] = useState(false)
+  // Stato per i dati di una nuova esperienza lavorativa
   const [newExperience, setNewExperience] = useState({
     role: '',
     company: '',
@@ -36,6 +39,7 @@ const MainProfilePage = ({ selectedProfileId }) => {
     description: '',
     area: '',
   })
+  // Stati per gestire il modal e i dati della formazione
   const [showEducationModal, setShowEducationModal] = useState(false)
   const [newEducation, setNewEducation] = useState({
     school: '',
@@ -47,31 +51,30 @@ const MainProfilePage = ({ selectedProfileId }) => {
   })
   const [education, setEducation] = useState([])
 
-  // Aggiungi questo nuovo stato per le statistiche
+  // Stato per le statistiche del profilo, inizializzato con dati dal sessionStorage o valori casuali
   const [profileStats, setProfileStats] = useState(() => {
-    // Controlla se esistono già dei dati nel sessionStorage
     const savedStats = sessionStorage.getItem('profileStats')
     if (savedStats) {
       return JSON.parse(savedStats)
     }
-    // Se non esistono, genera nuovi numeri casuali
+    // Genera statistiche casuali se non presenti
     const newStats = {
-      visits: Math.floor(Math.random() * 500) + 100, // Numero tra 100 e 600
-      impressions: Math.floor(Math.random() * 1000) + 200, // Numero tra 200 e 1200
-      searches: Math.floor(Math.random() * 100) + 20, // Numero tra 20 e 120
+      visits: Math.floor(Math.random() * 500) + 100,
+      impressions: Math.floor(Math.random() * 1000) + 200,
+      searches: Math.floor(Math.random() * 100) + 20,
     }
-    // Salva i nuovi numeri nel sessionStorage
     sessionStorage.setItem('profileStats', JSON.stringify(newStats))
     return newStats
   })
 
-  // Hook di Redux
+  // Hook di Redux per dispatching delle azioni e accesso allo store
   const dispatch = useDispatch()
   const experiences = useSelector((state) => state.experiences.items)
-  const isCurrentUser = true // Flag per verificare se è l'utente corrente
+  const isCurrentUser = true // Flag per determinare se è il profilo dell'utente corrente
   const connectionCount = useSelector((state) => state.connections.count)
+  const profileData = useSelector(state => state.profile.profileData)
 
-  // Funzione per recuperare i dati del profilo
+  // Funzione per recuperare i dati del profilo dall'API
   const getPeople = async () => {
     try {
       const response = await fetch(
@@ -85,6 +88,7 @@ const MainProfilePage = ({ selectedProfileId }) => {
       if (response.ok) {
         const data = await response.json()
         setPeople(data)
+        // Recupera le esperienze dopo aver ottenuto i dati del profilo
         dispatch(fetchExperiences(data._id))
       } else {
         console.error('Errore nella risposta:', await response.text())
@@ -94,7 +98,7 @@ const MainProfilePage = ({ selectedProfileId }) => {
     }
   }
 
-  // useEffect per caricare i dati al mount del componente
+  // Effect hook per caricare i dati iniziali
   useEffect(() => {
     if (selectedProfileId) {
       setSelectedUserId(selectedProfileId)
@@ -105,6 +109,7 @@ const MainProfilePage = ({ selectedProfileId }) => {
     loadEducationFromSession()
   }, [selectedProfileId])
 
+  // Funzione per recuperare le esperienze di un utente specifico
   const fetchUserExperiences = async (userId) => {
     try {
       const response = await fetch(
@@ -126,7 +131,7 @@ const MainProfilePage = ({ selectedProfileId }) => {
     }
   }
 
-  // Funzione per caricare l'educazione dal sessionStorage
+  // Funzione per caricare i dati dell'educazione dal sessionStorage
   const loadEducationFromSession = () => {
     const savedEducation = sessionStorage.getItem('education')
     if (savedEducation) {
@@ -134,14 +139,14 @@ const MainProfilePage = ({ selectedProfileId }) => {
     }
   }
 
-  // Funzione per aggiungere una nuova esperienza
+  // Funzione per aggiungere una nuova esperienza lavorativa
   const handleAddExperience = () => {
     if (!people?._id) {
       console.error('ID utente non disponibile')
       return
     }
 
-    // Formattiamo le date prima di inviarle
+    // Formatta le date nel formato richiesto dall'API
     const formattedExperience = {
       ...newExperience,
       startDate: new Date(newExperience.startDate).toISOString().split('T')[0],
@@ -152,7 +157,7 @@ const MainProfilePage = ({ selectedProfileId }) => {
 
     console.log('Adding experience:', formattedExperience)
 
-    // Dispatchiamo l'azione per aggiungere l'esperienza
+    // Dispatch dell'azione per aggiungere l'esperienza
     dispatch(
       addExperience({
         userId: people._id,
@@ -162,6 +167,7 @@ const MainProfilePage = ({ selectedProfileId }) => {
       .unwrap()
       .then(() => {
         setShowModal(false)
+        // Reset del form
         setNewExperience({
           role: '',
           company: '',
@@ -187,6 +193,7 @@ const MainProfilePage = ({ selectedProfileId }) => {
     setEducation(updatedEducation)
     sessionStorage.setItem('education', JSON.stringify(updatedEducation))
     setShowEducationModal(false)
+    // Reset del form
     setNewEducation({
       school: '',
       degree: '',
@@ -219,28 +226,19 @@ const MainProfilePage = ({ selectedProfileId }) => {
     )
   }
 
-  // Il render principale del componente
+  // Rendering del componente principale con tutte le sezioni del profilo
   return (
     <Container fluid>
       <Row className="row-cols-1 g-4">
-        <Col
-          xs={12}
-          className=" bg-white rounded-4 shadow-sm p-0"
-          style={{ padding: '0 !important' }}
-        >
-          <div className="d-flex flex-column align-items-start text-start">
-            <InfoCard
-              name={people.name}
-              title={people.title}
-              area={people.area}
-              email={people.email}
-              image={people.image}
-              informazioni={people.bio}
-              id={people._id}
-              description="La mia carriera è iniziata come freelancer, e oggi sono orgoglioso di collaborare con clienti e team per sviluppare soluzioni web end-to-end."
-              onImageChange={() => alert('Cambia immagine profilo!')}
-            />
-          </div>
+        <Col>
+          <InfoCard
+            name={profileData?.name || people?.name}
+            title={profileData?.title || people?.title}
+            area={profileData?.area || people?.area}
+            image={profileData?.image || people?.image}
+            id={profileData?._id || people?._id}
+            informazioni={profileData?.bio || people?.bio}
+          />
         </Col>
         <Col className="p-4 bg-white rounded-4 shadow-sm">
           <div className="d-flex flex-column align-items-start text-start">
@@ -251,13 +249,13 @@ const MainProfilePage = ({ selectedProfileId }) => {
                 className="
             fst-italic"
               >
-                {people.name}
+                {profileData.name}
               </span>
               , sono un{' '}
               <span className="fst-italic">
-                {people.title === '' ? 'Web Developer' : people.title}{' '}
+                {profileData.title === '' ? 'Web Developer' : profileData.title}{' '}
               </span>
-              e vivo a <span className="fst-italic">{' ' + people.area} </span>.
+              e vivo a <span className="fst-italic">{' ' + profileData.area} </span>.
               La mia carriera è iniziata come freelancer, e oggi sono orgoglioso
               di collaborare con clienti e team per sviluppare soluzioni web
               end-to-end, con competenze che spaziano dalla progettazione
@@ -273,7 +271,7 @@ const MainProfilePage = ({ selectedProfileId }) => {
                 className="
             fst-italic"
               >
-                {people.email}
+                {profileData.email}
               </span>{' '}
               o connettiti su LinkedIn per discutere di nuove opportunità o
               collaborazioni! Grazie per aver visitato il mio profilo, e spero
