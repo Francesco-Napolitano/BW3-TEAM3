@@ -1,8 +1,14 @@
-import React, { useState, useEffect } from 'react'
-import { Container, Card, Button, Dropdown, Modal, Form } from 'react-bootstrap'
-import { FaCamera } from 'react-icons/fa'
-import axios from 'axios'
+// Importazione delle dipendenze necessarie
+import React, { useState, useEffect } from 'react' // Hook di React per gestire stato e ciclo di vita
+import { Container, Card, Button, Dropdown, Modal, Form } from 'react-bootstrap' // Componenti UI di React Bootstrap
+import { FaCamera } from 'react-icons/fa' // Icona della fotocamera da react-icons
+import axios from 'axios' // Client HTTP per le chiamate API
+import { useDispatch } from 'react-redux' // Hook di Redux per dispatching delle azioni
+import { authService } from '../services/authService' // Servizio per gestire l'autenticazione
+import { useNavigate } from 'react-router-dom' // Hook per la navigazione
 
+// Componente principale che mostra il profilo orizzontale
+// Riceve props per i dati del profilo (nome, titolo, area, immagine, id, informazioni)
 const HorizontalProfileCard = ({
   name,
   title,
@@ -11,15 +17,22 @@ const HorizontalProfileCard = ({
   id,
   informazioni,
 }) => {
-  const [bannerImage, setBannerImage] = useState(null)
-  const [menuVisible, setMenuVisible] = useState(false)
-  const [showModal, setShowModal] = useState(false) // Stato per il controllo del modale
+  // Inizializzazione degli hook
+  const dispatch = useDispatch() // Per dispatching azioni Redux
+  const navigate = useNavigate() // Per la navigazione tra le pagine
+
+  // Stati locali del componente
+  const [bannerImage, setBannerImage] = useState(null) // Immagine banner
+  const [menuVisible, setMenuVisible] = useState(false) // Visibilità menu dropdown
+  const [showModal, setShowModal] = useState(false) // Visibilità modale modifica
   const [formData, setFormData] = useState({
+    // Dati form modifica profilo
     nome: name || '',
     bio: title || '',
     posizione: area || '',
-  }) // Stato per i campi del form
+  })
 
+  // Opzioni del menu dropdown "Disponibile per"
   const menuOptions = [
     {
       label: 'Lavoro a tempo pieno',
@@ -35,9 +48,11 @@ const HorizontalProfileCard = ({
     },
   ]
 
+  // Handler per apertura/chiusura modale
   const handleOpenModal = () => setShowModal(true)
   const handleCloseModal = () => setShowModal(false)
 
+  // Handler per gestire i cambiamenti negli input del form
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setFormData((prev) => ({
@@ -46,6 +61,7 @@ const HorizontalProfileCard = ({
     }))
   }
 
+  // Funzione per aggiornare l'immagine del profilo tramite API
   const updateProfileImage = async (newImage) => {
     const token =
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzVmZWEzYTBlYTI4NjAwMTUyOGI5MmUiLCJpYXQiOjE3MzQzMzkxMzEsImV4cCI6MTczNTU0ODczMX0._KemmCFCgbb9RJTBhKl-yp_SxkrBxlhDZviQyL2goDE'
@@ -73,6 +89,7 @@ const HorizontalProfileCard = ({
     }
   }
 
+  // Handler per il cambio dell'immagine banner
   const handleBannerChange = (e) => {
     const file = e.target.files[0]
     if (file && file.type.startsWith('image/')) {
@@ -88,13 +105,12 @@ const HorizontalProfileCard = ({
     }
   }
 
+  // Funzione per salvare le modifiche al profilo
   const handleSaveProfile = async () => {
-    const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzVmZWEzYTBlYTI4NjAwMTUyOGI5MmUiLCJpYXQiOjE3MzQzMzkxMzEsImV4cCI6MTczNTU0ODczMX0._KemmCFCgbb9RJTBhKl-yp_SxkrBxlhDZviQyL2goDE'
-    const endpoint = 'https://striveschool-api.herokuapp.com/api/profile/'
     try {
+      const token = authService.getToken()
       const response = await axios.put(
-        endpoint,
+        'https://striveschool-api.herokuapp.com/api/profile/',
         {
           name: formData.nome,
           bio: formData.bio,
@@ -108,10 +124,11 @@ const HorizontalProfileCard = ({
       )
 
       if (response.status === 200) {
-        window.location.reload(true)
-        handleCloseModal() // Chiudi il modale dopo il salvataggio
-      } else {
-        alert("Errore durante l'aggiornamento del profilo.")
+        dispatch({
+          type: 'profile/updateProfileSuccess',
+          payload: response.data,
+        })
+        handleCloseModal()
       }
     } catch (error) {
       console.error("Errore nell'aggiornamento del profilo:", error)
@@ -119,144 +136,181 @@ const HorizontalProfileCard = ({
     }
   }
 
+  // Effect per controllare autenticazione e caricare profilo all'avvio
   useEffect(() => {
-    const fetchProfile = async () => {
-      const token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzVmZWEzYTBlYTI4NjAwMTUyOGI5MmUiLCJpYXQiOjE3MzQzMzkxMzEsImV4cCI6MTczNTU0ODczMX0._KemmCFCgbb9RJTBhKl-yp_SxkrBxlhDZviQyL2goDE'
-      const endpoint = `https://striveschool-api.herokuapp.com/api/profile/me`
+    if (!authService.isAuthenticated()) {
+      navigate('/')
+      return
+    }
+    fetchProfile()
+  }, [navigate])
 
-      try {
-        const response = await axios.get(endpoint, {
+  // Funzione per recuperare i dati del profilo
+  const fetchProfile = async () => {
+    try {
+      const token = authService.getToken()
+      const response = await axios.get(
+        'https://striveschool-api.herokuapp.com/api/profile/me',
+        {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        })
-
-        if (response.data.image) {
-          setBannerImage(response.data.image)
         }
-      } catch (error) {
-        console.error('Errore nel recupero del profilo:', error)
+      )
+
+      if (response.data.image) {
+        setBannerImage(response.data.image)
+      }
+
+      dispatch({
+        type: 'profile/setProfileData',
+        payload: response.data,
+      })
+    } catch (error) {
+      console.error('Errore nel recupero del profilo:', error)
+      if (error.response?.status === 401) {
+        authService.removeToken()
+        navigate('/')
       }
     }
+  }
 
-    fetchProfile()
-  }, [])
-
+  // Rendering del componente
   return (
-    <Container className="p-0" style={{ padding: 0 }}>
-      <Card className="border-0 shadow-sm rounded-4 p-0">
-        {/* Banner */}
-        <div
-          style={{
-            background: bannerImage
-              ? `url(${bannerImage}) center/cover no-repeat`
-              : '#DDE0E4',
-            height: 190,
-            borderTopLeftRadius: 10,
-            borderTopRightRadius: 10,
-            position: 'relative',
-          }}
-        >
+    <Container className="mb-0 p-0">
+      <Card className="border-0 shadow-sm">
+        <div className="position-relative">
+          {/* Sezione Banner con possibilità di upload immagine */}
           <div
+            className="profile-banner position-relative"
             style={{
-              position: 'absolute',
-              right: 20,
-              top: 20,
-              backgroundColor: 'white',
-              borderRadius: '50%',
-              width: 36,
-              height: 36,
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
-              cursor: 'pointer',
+              width: '100%',
+              height: '200px',
+              backgroundColor: '#f3f2ef',
+              borderRadius: '8px 8px 0 0',
+              overflow: 'hidden',
             }}
-            onClick={() => document.getElementById('bannerInput').click()}
           >
-            <FaCamera color="#333" />
+            {bannerImage && (
+              <img
+                src={bannerImage}
+                alt="Banner"
+                className="w-100 h-100"
+                style={{ objectFit: 'cover' }}
+              />
+            )}
+            <label
+              className="camera-icon position-absolute"
+              style={{
+                right: '20px',
+                bottom: '20px',
+                background: 'white',
+                padding: '8px',
+                borderRadius: '50%',
+                cursor: 'pointer',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+              }}
+            >
+              <FaCamera className="text-secondary" />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleBannerChange}
+                style={{ display: 'none' }}
+              />
+            </label>
           </div>
-          <input
-            type="file"
-            id="bannerInput"
-            style={{ display: 'none' }}
-            accept="image/jpeg, image/png"
-            onChange={handleBannerChange}
-          />
 
-          {/* Immagine Profilo */}
+          {/* Immagine profilo */}
           <div
+            className="profile-image position-absolute"
             style={{
-              borderRadius: '50%',
-              width: 120,
-              height: 120,
-              position: 'absolute',
-              left: 30,
-              bottom: -60,
-              backgroundColor: '#55627A',
-              color: 'white',
-              fontSize: 48,
-              fontWeight: 'bold',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
+              left: '24px',
+              bottom: '-40px',
+              width: '152px',
+              height: '152px',
               border: '4px solid white',
+              borderRadius: '50%',
+              overflow: 'hidden',
+              backgroundColor: '#f3f2ef',
             }}
           >
-            {name ? name.charAt(0) : 'M'}
+            <img
+              src={image || 'https://via.placeholder.com/150'}
+              alt="Profile"
+              className="w-100 h-100"
+              style={{ objectFit: 'cover' }}
+            />
           </div>
         </div>
-        {/* Contenuto Testuale */}
-        <Card.Body className="pt-5 px-4">
-          <h4 className="fw-bold mb-1 pt-3">{name || 'MATTEO DI LORENZO'}</h4>
-          <span
-            style={{
-              fontSize: '14px',
-              color: '#666',
-            }}
-          >
-            {informazioni}
-          </span>
-          <p
-            style={{
-              color: '#666',
-              fontSize: '12px',
-            }}
-            className="mt-2"
-          >
-            {area} •{' '}
-            <span style={{ color: '#0a66c2', cursor: 'pointer' }}>
-              Informazioni di contatto
-            </span>
-          </p>
 
-          {/* Bottoni */}
-          <div className="d-flex gap-2 mt-3">
-            <Dropdown>
+        <Card.Body className="pt-5 mt-4">
+          {/* Informazioni profilo */}
+          <div className="profile-info mb-4 d-flex flex-column align-items-start">
+            <div className="d-flex justify-content-between w-100">
+              <div className="profile-details">
+                <h2 className="fw-bold mb-1 text-start">{name}</h2>
+                <p
+                  className="text-muted mb-1 text-start"
+                  style={{ fontSize: '1.1rem' }}
+                >
+                  {informazioni}
+                </p>
+                <div className="d-flex align-items-center gap-2 text-muted mb-2">
+                  <span style={{ fontSize: '0.95rem' }}>{area}</span>
+                  <span>·</span>
+                  <span
+                    className="text-primary cursor-pointer"
+                    style={{ fontSize: '0.95rem' }}
+                  >
+                    Informazioni di contatto
+                  </span>
+                </div>
+                <div className="connections mt-2 d-flex align-items-center gap-2">
+                  <small className="text-primary fw-bold cursor-pointer">
+                    500+ collegamenti
+                  </small>
+                  <span>·</span>
+                  <small className="text-primary fw-bold cursor-pointer">
+                    Espandi la tua rete
+                  </small>
+                </div>
+              </div>
+            </div>
+
+            {/* Link rapidi */}
+            <div className="quick-links mt-3 d-flex gap-3">
+              <span className="text-primary cursor-pointer px-3 py-1 bg-light rounded-pill">
+                <small className="fw-bold">Disponibile per opportunità</small>
+              </span>
+              <span className="text-primary cursor-pointer px-3 py-1 bg-light rounded-pill">
+                <small className="fw-bold">Aggiungi sezione del profilo</small>
+              </span>
+            </div>
+          </div>
+
+          {/* Pulsanti azione */}
+          <div className="d-flex gap-2 flex-wrap mt-3">
+            <Dropdown
+              show={menuVisible}
+              onToggle={() => setMenuVisible(!menuVisible)}
+            >
               <Dropdown.Toggle
                 variant="primary"
-                style={{ borderRadius: '20px' }}
+                className="rounded-pill px-3 fw-bold"
+                style={{ minWidth: '150px' }}
               >
                 Disponibile per
               </Dropdown.Toggle>
-
-              <Dropdown.Menu>
+              <Dropdown.Menu className="p-3" style={{ width: '300px' }}>
                 {menuOptions.map((option, index) => (
                   <Dropdown.Item
                     key={index}
-                    style={{ whiteSpace: 'normal', wordWrap: 'break-word' }}
+                    className="p-2 rounded hover-light"
                   >
-                    <strong>{option.label}</strong>
-                    <div
-                      style={{
-                        fontSize: '12px',
-                        color: '#666',
-                        whiteSpace: 'normal',
-                        wordWrap: 'break-word',
-                      }}
-                    >
-                      {option.description}
+                    <div>
+                      <strong className="d-block mb-1">{option.label}</strong>
+                      <small className="text-muted">{option.description}</small>
                     </div>
                   </Dropdown.Item>
                 ))}
@@ -265,70 +319,75 @@ const HorizontalProfileCard = ({
 
             <Button
               variant="outline-primary"
-              style={{ borderRadius: '20px', fontWeight: 'bold' }}
+              className="rounded-pill px-3 fw-bold"
+              style={{ minWidth: '150px' }}
             >
-              Aggiungi sezione del profilo
+              Aggiungi sezione
             </Button>
             <Button
               variant="outline-primary"
-              style={{ borderRadius: '20px', fontWeight: 'bold' }}
-              onClick={handleOpenModal} // Apri il modale
+              className="rounded-pill px-3 fw-bold"
+              onClick={handleOpenModal}
+              style={{ minWidth: '150px' }}
             >
               Modifica profilo
             </Button>
-            <Button variant="light" style={{ borderRadius: '20px' }}>
-              Risorse
+            <Button
+              variant="outline-primary"
+              className="rounded-pill px-3 fw-bold ms-auto"
+            >
+              Altro
             </Button>
           </div>
         </Card.Body>
       </Card>
 
-      {/* Modale */}
+      {/* Modale modifica profilo */}
       <Modal show={showModal} onHide={handleCloseModal} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Modifica il tuo profilo</Modal.Title>
+          <Modal.Title>Modifica profilo</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {/* Form */}
           <Form>
-            <Form.Group className="mb-3" controlId="nome">
-              <Form.Label>Nome</Form.Label>
+            <Form.Group className="mb-3">
+              <Form.Label>Nome*</Form.Label>
               <Form.Control
                 type="text"
-                placeholder={name}
                 name="nome"
                 value={formData.nome}
                 onChange={handleInputChange}
+                placeholder="Inserisci il tuo nome"
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="bio">
+            <Form.Group className="mb-3">
               <Form.Label>Bio</Form.Label>
               <Form.Control
-                type="text"
-                placeholder={informazioni}
+                as="textarea"
+                rows={3}
                 name="bio"
                 value={formData.bio}
                 onChange={handleInputChange}
+                placeholder="Descrivi il tuo ruolo professionale"
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="posizione">
-              <Form.Label>Posizione</Form.Label>
+            <Form.Group className="mb-3">
+              <Form.Label>Località</Form.Label>
               <Form.Control
                 type="text"
-                placeholder={area}
                 name="posizione"
                 value={formData.posizione}
                 onChange={handleInputChange}
+                placeholder="Es: Milano, Italia"
               />
             </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
-            Chiudi
+            Annulla
           </Button>
           <Button variant="primary" onClick={handleSaveProfile}>
-            Salva
+            Salva modifiche
           </Button>
         </Modal.Footer>
       </Modal>

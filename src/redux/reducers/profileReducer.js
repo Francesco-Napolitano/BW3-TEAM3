@@ -1,61 +1,68 @@
+// Importiamo createSlice da Redux Toolkit per creare il reducer e le actions
+import { createSlice } from '@reduxjs/toolkit'
+
+// Definiamo lo stato iniziale del profilo con campi vuoti
 const initialState = {
-    list: [],
-    selected: null,
-    me: null,
-    loading: false,
-    error: null,
-  };
-  
-  const profileReducer = (state = initialState, action) => {
-    switch (action.type) {
-      case "GET_PROFILE_REQUEST":
-      case "GET_PROFILES_REQUEST":
-      case "EDIT_PROFILE_REQUEST":
-        return {
-          ...state,
-          error: null,
-          loading: true,
-        };
-      case "GET_PROFILE_FAILURE":
-      case "GET_PROFILES_FAILURE":
-      case "EDIT_PROFILE_FAILURE":
-        return {
-          ...state,
-          error: action.payload,
-          loading: false,
-        };
-      case "GET_PROFILE_SUCCESS":
-        return {
-          ...state,
-          selected: action.payload,
-          error: null,
-          loading: false,
-        };
-      case "GET_MY_PROFILE_SUCCESS":
-        return {
-          ...state,
-          me: action.payload,
-          error: null,
-          loading: false,
-        };
-      case "GET_PROFILES_SUCCESS":
-        return {
-          ...state,
-          list: action.payload,
-          error: null,
-          loading: false,
-        };
-      case "EDIT_PROFILE_SUCCESS":
-        return {
-          ...state,
-          selected: action.payload,
-          error: null,
-          loading: false,
-        };
-      default:
-        return state;
+  profileData: null,
+  stats: (() => {
+    const savedStats = sessionStorage.getItem('profileStats')
+    if (savedStats) {
+      return JSON.parse(savedStats)
     }
-  };
-  
-  export default profileReducer;
-  
+    const newStats = {
+      visits: Math.floor(Math.random() * 500) + 100,
+      impressions: Math.floor(Math.random() * 1000) + 200,
+      searches: Math.floor(Math.random() * 100) + 20,
+      connections: parseInt(sessionStorage.getItem('profileConnections')) || 0
+    }
+    sessionStorage.setItem('profileStats', JSON.stringify(newStats))
+    return newStats
+  })(),
+  loading: false,
+  error: null
+}
+
+// Creiamo lo slice del profilo con i suoi reducers
+const profileSlice = createSlice({
+  name: 'profile',
+  initialState,
+  reducers: {
+    // Avvia l'aggiornamento del profilo
+    updateProfileStart: (state) => {
+      state.loading = true
+      state.error = null
+    },
+    // Gestisce l'aggiornamento riuscito del profilo
+    updateProfileSuccess: (state, action) => {
+      state.profileData = { ...state.profileData, ...action.payload }
+      state.loading = false
+    },
+    // Gestisce il fallimento dell'aggiornamento
+    updateProfileFailure: (state, action) => {
+      state.loading = false
+      state.error = action.payload
+    },
+    // Imposta direttamente i dati del profilo
+    setProfileData: (state, action) => {
+      state.profileData = action.payload
+    },
+    // Aggiorna le statistiche del profilo
+    updateProfileStats: (state, action) => {
+      state.stats = {
+        ...state.stats,
+        ...action.payload
+      }
+    }
+  }
+})
+
+// Esportiamo le action creators generate automaticamente
+export const { 
+  updateProfileStart, 
+  updateProfileSuccess, 
+  updateProfileFailure,
+  setProfileData 
+} = profileSlice.actions
+
+// Esportiamo il reducer
+export default profileSlice.reducer

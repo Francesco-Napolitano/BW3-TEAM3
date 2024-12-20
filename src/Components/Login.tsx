@@ -1,42 +1,57 @@
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { login } from '../actions/authActions'
-import { RootState, AppDispatch } from '../store/store'
-import '../styles/Login.css'
-import { useNavigate } from 'react-router-dom'
+// Importazione delle dipendenze necessarie
+import React, { useState } from 'react' // Hook per gestire lo stato
+import { useDispatch, useSelector } from 'react-redux' // Hook per Redux
+import { login } from '../actions/authActions' // Action creator per il login
+import { RootState, AppDispatch } from '../store/store' // Tipi per Redux store
+import '../styles/Login.css' // Stili CSS
+import { useNavigate } from 'react-router-dom' // Hook per la navigazione
+import { authService } from '../services/authService' // Servizio di autenticazione
 
+// Componente funzionale per la pagina di login
 const Login: React.FC = () => {
+  // Inizializzazione dispatch per Redux
   const dispatch = useDispatch<AppDispatch>()
+  
+  // Selezione dello stato di loading ed error dallo store Redux
   const { loading, error } = useSelector(
     (state: RootState) => state.auth || { loading: false, error: null }
   )
 
+  // Stati locali per gestire form e visibilità password
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
 
+  // Hook per la navigazione
   const navigate = useNavigate()
 
+  // Funzione per mostrare/nascondere la password
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev)
   }
 
+  // Gestore del login
   const handleLogin = async () => {
     try {
-      await dispatch(login(email, password)) // Attendi che l'azione sia completata
-      navigate('/profile/me') // Naviga solo dopo che il login è riuscito
+      // Token hardcoded per demo
+      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzVmZWEzYTBlYTI4NjAwMTUyOGI5MmUiLCJpYXQiOjE3MzQzMzkxMzEsImV4cCI6MTczNTU0ODczMX0._KemmCFCgbb9RJTBhKl-yp_SxkrBxlhDZviQyL2goDE'
+      
+      // Salva il token e naviga al profilo
+      authService.setToken(token)
+      navigate('/profile/me')
     } catch (error) {
-      console.error('Login failed:', error) // Gestisci eventuali errori
+      console.error('Errore login:', error)
     }
   }
 
+  // Rendering del componente
   return (
     <div className="login-container">
       <div className="login-box">
         <h2>Accedi</h2>
         <p>Resta al passo con il tuo mondo professionale</p>
 
-        {/* Email Input */}
+        {/* Campo input email */}
         <div className="input-group">
           <input
             type="text"
@@ -47,7 +62,7 @@ const Login: React.FC = () => {
           />
         </div>
 
-        {/* Password Input */}
+        {/* Campo input password con toggle visibilità */}
         <div className="input-group password-group">
           <input
             type={showPassword ? 'text' : 'password'}
@@ -61,7 +76,7 @@ const Login: React.FC = () => {
           </span>
         </div>
 
-        {/* Login Button */}
+        {/* Pulsante login */}
         <button
           className="login-button"
           onClick={handleLogin}
@@ -70,14 +85,15 @@ const Login: React.FC = () => {
           {loading ? 'Caricamento...' : 'Accedi'}
         </button>
 
-        {/* Error Message */}
+        {/* Messaggio di errore */}
         {error && <p className="error-message">{error}</p>}
 
+        {/* Separatore */}
         <div className="separator">
           <span>oppure</span>
         </div>
 
-        {/* Social Login Buttons */}
+        {/* Pulsanti per login social */}
         <div className="social-buttons">
           <button className="social-button google">Continue with Google</button>
           <button className="social-button microsoft">
@@ -86,9 +102,9 @@ const Login: React.FC = () => {
           <button className="social-button apple">Accedi con Apple</button>
         </div>
 
-        {/* Privacy Links */}
+        {/* Note legali e privacy */}
         <p className="terms">
-          Cliccando su “Continua”, accetti il{' '}
+          Cliccando su "Continua", accetti il{' '}
           <a href="#">Contratto di licenza</a>,{' '}
           <a href="#">l'Informativa sulla privacy</a> e{' '}
           <a href="#">l'Informativa sui cookie</a> di LinkedIn.

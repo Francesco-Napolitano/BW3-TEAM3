@@ -12,8 +12,14 @@
   position: relative;
 }
 
+.profileBio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .profileBackground {
-  height: 10em;
+  height: 60px;
   background-color: #ffc107;
 }
 
@@ -27,13 +33,21 @@
 }
 
 .profileDetails h3 {
-  margin: 5px 0 0;
-  font-size: 18px;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(0,0,0,.9);
+  transition: color 0.2s ease;
+}
+
+.profileDetails h3:hover {
+  color: #0a66c2;
+  text-decoration: underline;
 }
 
 .profileDetails p {
-  color: gray;
-  font-size: 12px;
+  font-size: 14px;
+  margin: 0;
 }
 
 .profileStats {
@@ -43,14 +57,24 @@
 }
 
 .statItem {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid rgba(0,0,0,.15);
+  transition: background-color 0.2s ease;
 }
 
-.statValue {
-  font-weight: bold;
-  color: #0073b1;
+.statItem:hover {
+  background-color: rgba(0,0,0,.05);
+}
+
+.statItem span {
+  display: block;
+  font-size: 12px;
+  color: rgba(0,0,0,.6);
+}
+
+.statItem .statValue {
+  color: #0a66c2;
+  font-weight: 600;
 }
 
 .salesPromo {
@@ -161,4 +185,42 @@
 
 .recentSection p:hover {
  text-decoration: underline;
+}
+
+.profileBio {
+  padding: 0 12px;
+  margin: 8px 0;
+}
+
+.bioText {
+  font-size: 12px;
+  color: rgba(0,0,0,0.6);
+  margin: 0;
+  line-height: 1.33333;
+  text-align: left;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.bioText.expanded {
+  max-height: none;
+}
+
+.expandButton {
+  background: none;
+  border: none;
+  color: #0a66c2;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 0;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin-top: 4px;
+}
+
+.expandButton:hover {
+  text-decoration: underline;
+  color: #004182;
 }
