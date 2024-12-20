@@ -6,14 +6,18 @@ import { Col, Image, Row } from 'react-bootstrap'
 import { Link, NavLink } from 'react-router-dom'
 import '../styles/CustomNavBar.css'
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
 
 export const CustomNavBar = () => {
+  const savedPosts = useSelector((state) => state.profileName.name)
+  const savedImage = useSelector((state) => state.profileName.profileImg)
+
   const [Rightcollapse, setRightcollapse] = useState(false)
 
   const myProfile = {
-    image: 'https://via.placeholder.com/150',
-    name: 'John',
-    surname: 'Doe',
+    image: savedImage,
+    name: savedPosts,
+    surname: '',
     title: 'Software Engineer',
   }
 

@@ -6,6 +6,7 @@ import educationReducer from '../reducers/educationReducer'
 import selectedProfileReducer from '../reducers/selectedProfileReducer'
 import savedPost from '../reducers/SavedPost'
 import connectionsReducer from '../reducers/connectionsReducer'
+import profileNameReducer from '../reducers/profileNameReducer'
 
 const persistConfig = {
   key: 'root',
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   selectedProfile: selectedProfileReducer,
   savedPost: savedPost,
   connections: connectionsReducer,
+  profileName: profileNameReducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

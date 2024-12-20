@@ -92,7 +92,6 @@ const HorizontalProfileCard = ({
     const token =
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzVmZWEzYTBlYTI4NjAwMTUyOGI5MmUiLCJpYXQiOjE3MzQzMzkxMzEsImV4cCI6MTczNTU0ODczMX0._KemmCFCgbb9RJTBhKl-yp_SxkrBxlhDZviQyL2goDE'
     const endpoint = 'https://striveschool-api.herokuapp.com/api/profile/'
-
     try {
       const response = await axios.put(
         endpoint,
@@ -145,7 +144,7 @@ const HorizontalProfileCard = ({
   }, [])
 
   return (
-    <Container className="p-0" style={{ padding: '0 !important' }}>
+    <Container className="p-0" style={{ padding: 0 }}>
       <Card className="border-0 shadow-sm rounded-4 p-0">
         {/* Banner */}
         <div
@@ -153,21 +152,21 @@ const HorizontalProfileCard = ({
             background: bannerImage
               ? `url(${bannerImage}) center/cover no-repeat`
               : '#DDE0E4',
-            height: '190px',
-            borderTopLeftRadius: '10px',
-            borderTopRightRadius: '10px',
+            height: 190,
+            borderTopLeftRadius: 10,
+            borderTopRightRadius: 10,
             position: 'relative',
           }}
         >
           <div
             style={{
               position: 'absolute',
-              right: '20px',
-              top: '20px',
+              right: 20,
+              top: 20,
               backgroundColor: 'white',
               borderRadius: '50%',
-              width: '36px',
-              height: '36px',
+              width: 36,
+              height: 36,
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
@@ -190,14 +189,14 @@ const HorizontalProfileCard = ({
           <div
             style={{
               borderRadius: '50%',
-              width: '120px',
-              height: '120px',
+              width: 120,
+              height: 120,
               position: 'absolute',
-              left: '30px',
-              bottom: '-60px',
+              left: 30,
+              bottom: -60,
               backgroundColor: '#55627A',
               color: 'white',
-              fontSize: '48px',
+              fontSize: 48,
               fontWeight: 'bold',
               display: 'flex',
               justifyContent: 'center',
@@ -208,7 +207,6 @@ const HorizontalProfileCard = ({
             {name ? name.charAt(0) : 'M'}
           </div>
         </div>
-
         {/* Contenuto Testuale */}
         <Card.Body className="pt-5 px-4">
           <h4 className="fw-bold mb-1 pt-3">{name || 'MATTEO DI LORENZO'}</h4>

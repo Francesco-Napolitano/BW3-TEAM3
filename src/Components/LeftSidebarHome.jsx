@@ -1,23 +1,38 @@
 import { useNavigate } from 'react-router-dom'
 import '../styles/LeftSidebarHome.css'
+import { useDispatch, useSelector } from 'react-redux'
 const LeftSidebarHome = () => {
+  const savedPosts = useSelector((state) => state.profileName.name)
+  const savedImage = useSelector((state) => state.profileName.profileImg)
+  const lingueSalvate = useSelector((state) => state.profileName.lingue)
+  const lingueFormattate = lingueSalvate
+    .map((lingua, index) =>
+      index === lingueSalvate.length - 1 // Controlla se è l'ultimo elemento
+        ? lingua // Non aggiunge separatore
+        : lingua.match(/^[A-Z]/)
+        ? `${lingua} / ` // Aggiunge un trattino se non è l'ultimo
+        : lingua
+    )
+    .join(' ') // Unisce gli elementi con uno spazio.
+
   const navigate = useNavigate()
   return (
     <div className="d-none d-xl-block leftSidebar ">
       <div className="leftSidebar">
-        {/* Header Section */}
         <div className="profileCard">
-          <div className="profileBackground"></div>
-          <div className="profileImage">
-            <img src="" alt="profile" />
+          <div className="profileBackground d-flex justify-content-center align-items-center">
+            <img
+              src={savedImage}
+              alt="profile"
+              id="imageProfie"
+              className=" rounded-circle"
+            />
           </div>
           <div className="profileDetails">
-            <h3>ANDREW TATE</h3>
-            <p>English & Elvish</p>
+            <h3>{savedPosts}</h3>
+            <p>{lingueFormattate}</p>
           </div>
         </div>
-
-        {/* Stats Section */}
         <div className="profileStats w-100">
           <div className="statItem">
             <span>Visualizzatori del profilo</span>
@@ -28,16 +43,12 @@ const LeftSidebarHome = () => {
             <span className="statValue">4</span>
           </div>
         </div>
-
-        {/* Sales Navigator Promo */}
         <div className="salesPromo">
           <p>LINKEDIN PRO (Paga 299€ al mese e trova un lavoro)</p>
           <button className="salesButton">
             Dacci CASH per guadagnare CASH
           </button>
         </div>
-
-        {/* Saved Items */}
         <div>
           <div
             onClick={() => navigate('/favourites')}

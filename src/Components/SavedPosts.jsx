@@ -28,7 +28,7 @@ const SavedPosts = () => {
                 variant="top"
                 src={
                   post.image ||
-                  'https://play-lh.googleusercontent.com/iiIJq5JmLFYNI1bVz4IBHyoXs508JcEzHhOgau69bnveF9Wat51-ax9LMPVOlneKwqg'
+                  'https://imagedelivery.net/DXjruYLvsjZrKNWRKxAjyw/07ffa8ccdf876aad7b324c7415a500ec_s.jpg/dbcover'
                 }
                 style={{
                   height: '10em',

@@ -12,9 +12,10 @@ import {
 } from 'react-bootstrap'
 import '../styles/SideBar.css'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 const SideBar = () => {
+  const savedPosts = useSelector((state) => state.profileName.lingue)
   // Definizione degli stati per gestire i dati e le funzionalità della sidebar
   const [profilo, setProfilo] = useState(null) // Stato per il profilo utente
   const [profiliSuggeriti, setProfiliSuggeriti] = useState([]) // Stato per i profili suggeriti
@@ -23,7 +24,7 @@ const SideBar = () => {
   const [showModal, setShowModal] = useState(false) // Stato per controllare la visibilità del modal
   const [nuovaLingua, setNuovaLingua] = useState('') // Stato per la nuova lingua da aggiungere
   const [modalitaModifica, setModalitaModifica] = useState(false) // Stato per la modalità modifica lingue
-  const [lingue, setLingue] = useState(['Italiano', 'Inglese']) // Array delle lingue conosciute
+  const [lingue, setLingue] = useState(savedPosts) // Array delle lingue conosciute
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [connectedProfiles, setConnectedProfiles] = useState(new Set())
@@ -44,7 +45,13 @@ const SideBar = () => {
   // Funzione per rimuovere una lingua esistente
   const rimuoviLingua = (linguaDaRimuovere) => {
     if (modalitaModifica) {
-      setLingue(lingue.filter((lingua) => lingua !== linguaDaRimuovere))
+      setLingue(
+        lingue.filter((lingua) => lingua !== linguaDaRimuovere),
+        dispatch({
+          type: 'RIMUOVI_LINGUA',
+          payload: linguaDaRimuovere,
+        })
+      )
     }
   }
 
@@ -117,10 +124,10 @@ const SideBar = () => {
 
   const handleConnect = (profileId, event) => {
     event.stopPropagation() // Previene la navigazione quando si clicca sul pulsante
-    
+
     if (!connectedProfiles.has(profileId)) {
       dispatch({ type: 'ADD_CONNECTION' })
-      setConnectedProfiles(prev => new Set([...prev, profileId]))
+      setConnectedProfiles((prev) => new Set([...prev, profileId]))
     }
   }
 
@@ -187,7 +194,9 @@ const SideBar = () => {
                     type="text"
                     placeholder="Inserisci una lingua"
                     value={nuovaLingua}
-                    onChange={(e) => setNuovaLingua(e.target.value)}
+                    onChange={(e) => {
+                      setNuovaLingua(e.target.value)
+                    }}
                   />
                 </Form.Group>
               </Modal.Body>
@@ -195,7 +204,16 @@ const SideBar = () => {
                 <Button variant="secondary" onClick={handleClose}>
                   Chiudi
                 </Button>
-                <Button variant="primary" onClick={aggiungiLingua}>
+                <Button
+                  variant="primary"
+                  onClick={() => {
+                    aggiungiLingua()
+                    dispatch({
+                      type: 'NUOVA_LINGUA',
+                      payload: nuovaLingua,
+                    })
+                  }}
+                >
                   Aggiungi
                 </Button>
               </Modal.Footer>
@@ -234,7 +252,11 @@ const SideBar = () => {
 
               {/* Lista dei profili suggeriti */}
               {profiliSuggeriti.map((profilo) => (
-                <div key={profilo._id} className="profile-suggestion" onClick={() => handleProfileClick(profilo)}>
+                <div
+                  key={profilo._id}
+                  className="profile-suggestion"
+                  onClick={() => handleProfileClick(profilo)}
+                >
                   <div className="d-flex align-items-start">
                     <img src={profilo.image} alt="" className="profile-image" />
                     <div className="profile-info">
@@ -242,13 +264,23 @@ const SideBar = () => {
                         {profilo.name} {profilo.surname}
                       </div>
                       <div className="profile-title">{profilo.title}</div>
-                      <button 
-                        className={`connect-button ${connectedProfiles.has(profilo._id) ? 'connected' : ''}`}
+                      <button
+                        className={`connect-button ${
+                          connectedProfiles.has(profilo._id) ? 'connected' : ''
+                        }`}
                         onClick={(e) => handleConnect(profilo._id, e)}
                         disabled={connectedProfiles.has(profilo._id)}
                       >
-                        <i className={`bi ${connectedProfiles.has(profilo._id) ? 'bi-person-check' : 'bi-person-plus'}`}></i>
-                        {connectedProfiles.has(profilo._id) ? 'Collegato' : 'Collegati'}
+                        <i
+                          className={`bi ${
+                            connectedProfiles.has(profilo._id)
+                              ? 'bi-person-check'
+                              : 'bi-person-plus'
+                          }`}
+                        ></i>
+                        {connectedProfiles.has(profilo._id)
+                          ? 'Collegato'
+                          : 'Collegati'}
                       </button>
                     </div>
                   </div>

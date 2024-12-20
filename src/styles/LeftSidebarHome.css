@@ -17,15 +17,9 @@
   background-color: #ffc107;
 }
 
-.profileImage img {
-  border-radius: 50%;
-  border: 2px solid white;
-  position: absolute;
-  top: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 70px;
-  height: 70px;
+#imageProfie{
+  width: 7em;
+  height: 7em;
 }
 
 .profileDetails {
