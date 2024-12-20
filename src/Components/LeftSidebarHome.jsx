@@ -7,13 +7,13 @@ const LeftSidebarHome = () => {
   const lingueSalvate = useSelector((state) => state.profileName.lingue)
   const lingueFormattate = lingueSalvate
     .map((lingua, index) =>
-      index === lingueSalvate.length - 1 // Controlla se è l'ultimo elemento
-        ? lingua // Non aggiunge separatore
+      index === lingueSalvate.length - 1
+        ? lingua
         : lingua.match(/^[A-Z]/)
-        ? `${lingua} / ` // Aggiunge un trattino se non è l'ultimo
+        ? `${lingua} / `
         : lingua
     )
-    .join(' ') // Unisce gli elementi con uno spazio.
+    .join(' ')
 
   const navigate = useNavigate()
   return (
