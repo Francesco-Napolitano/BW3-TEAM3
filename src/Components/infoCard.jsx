@@ -268,10 +268,6 @@ const HorizontalProfileCard = ({
                 </div>
                 <div className="connections mt-2 d-flex align-items-center gap-2">
                   <small className="text-primary fw-bold cursor-pointer">
-                    500+ collegamenti
-                  </small>
-                  <span>·</span>
-                  <small className="text-primary fw-bold cursor-pointer">
                     Espandi la tua rete
                   </small>
                 </div>
