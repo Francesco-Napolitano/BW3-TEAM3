@@ -74,7 +74,7 @@ const LeftSidebarHome = () => {
             <img
               src={profileData?.image || 'https://via.placeholder.com/150'}
               alt="profile"
-              className="profileImg"
+              className="profileImg object-fit-cover"
             />
           </div>
 

@@ -5,21 +5,45 @@ import NavDropdown from 'react-bootstrap/NavDropdown'
 import { Col, Image, Row } from 'react-bootstrap'
 import { Link, NavLink } from 'react-router-dom'
 import '../styles/CustomNavBar.css'
-import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 export const CustomNavBar = () => {
-  const savedPosts = useSelector((state) => state.profileName.name)
-  const savedImage = useSelector((state) => state.profileName.profileImg)
-
   const [Rightcollapse, setRightcollapse] = useState(false)
 
+  const dispatch = useDispatch()
+  const profileData = useSelector((state) => state.profile.profileData)
+
   const myProfile = {
-    image: savedImage,
-    name: savedPosts,
-    surname: '',
-    title: 'Software Engineer',
+    image: profileData?.image || 'https://via.placeholder.com/150',
+    name: profileData?.name,
+    title: profileData?.bio,
   }
+  const fetchProfileData = async () => {
+    try {
+      const response = await fetch(
+        'https://striveschool-api.herokuapp.com/api/profile/me',
+        {
+          headers: {
+            Authorization: `Bearer ${import.meta.env.REACT_APP_API_KEY}`,
+          },
+        }
+      )
+      if (response.ok) {
+        const data = await response.json()
+        dispatch({ type: 'SET_PROFILE_DATA', payload: data })
+      }
+    } catch (error) {
+      console.error('Errore nel caricamento del profilo:', error)
+    }
+  }
+
+  useEffect(() => {
+    if (!profileData) {
+      fetchProfileData()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, profileData])
 
   return (
     <header className="myNavbar">
@@ -31,7 +55,7 @@ export const CustomNavBar = () => {
                 xs={8}
                 sm={3}
                 lg={6}
-                xl={8}
+                xl={7}
                 className="justify-content-start"
               >
                 <Navbar.Brand>
@@ -83,13 +107,16 @@ export const CustomNavBar = () => {
                       title={
                         <div className="d-flex align-items-center">
                           <Image
-                            src={myProfile?.image}
-                            className="rounded-circle border border-primary me-2"
+                            src={
+                              profileData?.image ||
+                              'https://via.placeholder.com/150'
+                            }
+                            className="rounded-circle border border-primary me-2 object-fit-cover"
                             width={40}
                             height={40}
                           />
                           <p className="mb-0 fw-bold text-primary">
-                            {`${myProfile?.name} ${myProfile?.surname}`}
+                            {profileData?.name || 'Il tuo nome'}
                           </p>
                         </div>
                       }
@@ -98,7 +125,11 @@ export const CustomNavBar = () => {
                     >
                       <Row>
                         <Col xs={3} className="p-0">
-                          <img src={myProfile?.image} alt="Foto dropdowns" />
+                          <img
+                            src={myProfile?.image}
+                            alt="Foto dropdowns"
+                            className=" object-fit-cover"
+                          />
                         </Col>
                         <Col xs={9}>
                           <div>
@@ -114,7 +145,7 @@ export const CustomNavBar = () => {
                           <NavDropdown.Item className="d-flex">
                             <Link
                               to="/profile/me"
-                              className="btnWhite w-100 text-center"
+                              className="btnWhite w-100 text-center text-decoration-none"
                             >
                               Visualizza profilo
                             </Link>

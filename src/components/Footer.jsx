@@ -84,11 +84,11 @@ const Footer = () => {
         <label htmlFor="language">Select Language</label>
         <div>
           <select id="language">
+            <option>Italian (Italiano)</option>
             <option>English (English)</option>
-            <option>Italian (Italian)</option>
-            <option>French (French)</option>
-            <option>German (German)</option>
-            <option>Persian (Persian)</option>
+            <option>French (Français)</option>
+            <option>German (Deutsch)</option>
+            <option>Persian (فارسی)</option>
           </select>
         </div>
       </div>

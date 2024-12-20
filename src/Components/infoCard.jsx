@@ -178,7 +178,7 @@ const HorizontalProfileCard = ({
   // Rendering del componente
   return (
     <Container className="mb-0 p-0">
-      <Card className="border-0 shadow-sm">
+      <Card className="border-0 shadow-sm p-0">
         <div className="position-relative">
           {/* Sezione Banner con possibilità di upload immagine */}
           <div
@@ -244,7 +244,7 @@ const HorizontalProfileCard = ({
           </div>
         </div>
 
-        <Card.Body className="pt-5 mt-4">
+        <Card.Body className="pt-5 mt-4 px-4">
           {/* Informazioni profilo */}
           <div className="profile-info mb-4 d-flex flex-column align-items-start">
             <div className="d-flex justify-content-between w-100">
@@ -272,16 +272,6 @@ const HorizontalProfileCard = ({
                   </small>
                 </div>
               </div>
-            </div>
-
-            {/* Link rapidi */}
-            <div className="quick-links mt-3 d-flex gap-3">
-              <span className="text-primary cursor-pointer px-3 py-1 bg-light rounded-pill">
-                <small className="fw-bold">Disponibile per opportunità</small>
-              </span>
-              <span className="text-primary cursor-pointer px-3 py-1 bg-light rounded-pill">
-                <small className="fw-bold">Aggiungi sezione del profilo</small>
-              </span>
             </div>
           </div>
 
@@ -327,12 +317,6 @@ const HorizontalProfileCard = ({
               style={{ minWidth: '150px' }}
             >
               Modifica profilo
-            </Button>
-            <Button
-              variant="outline-primary"
-              className="rounded-pill px-3 fw-bold ms-auto"
-            >
-              Altro
             </Button>
           </div>
         </Card.Body>

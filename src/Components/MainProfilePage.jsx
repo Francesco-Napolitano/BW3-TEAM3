@@ -204,6 +204,11 @@ const MainProfilePage = ({ selectedProfileId }) => {
     sessionStorage.setItem('education', JSON.stringify(updatedEducation))
   }
 
+  const lingueSalvate = useSelector((state) => state.profileName.lingue)
+  const lingueFormattate = lingueSalvate.map((lingua, index) => (
+    <p key={index}>{lingua}</p>
+  ))
+
   // Mostra un loader mentre i dati vengono caricati
   if (!people) {
     return (
@@ -399,9 +404,8 @@ const MainProfilePage = ({ selectedProfileId }) => {
         </Col>
         <Col className="p-4 bg-white rounded-4 shadow-sm">
           <div className="d-flex flex-column align-items-start text-start">
-            <h2>Lingue</h2>
-            <p className="m-0">Italiano</p>
-            <p className="m-0">Inglese</p>
+            <h2 className="mb-3">Lingue</h2>
+            <p className="m-0">{lingueFormattate}</p>
           </div>
         </Col>
         <Col className="p-4 bg-white rounded-4 shadow-sm">
@@ -459,9 +463,9 @@ const MainProfilePage = ({ selectedProfileId }) => {
           <div className="d-flex flex-column align-items-start text-start">
             <h2>Argomenti di interesse</h2>
             <p className="m-0">
-              Sviluppo web • Front-end • Back-end • Database • Cybersecurity •
-              Progettazione • Analisi dati • AI • Machine learning •
-              Ottimizzazione delle prestazioni • Esperienza utente •
+              Sviluppo web • Sviluppo Front-end • Sviluppo Back-end • Basi di
+              dati • Intelligenza artificiale • Apprendimento automatico •
+              Ottimizzazione delle performance • Esperienza d'uso •
             </p>
           </div>
         </Col>

@@ -278,9 +278,9 @@ const HomePage = () => {
                           'https://imagedelivery.net/DXjruYLvsjZrKNWRKxAjyw/07ffa8ccdf876aad7b324c7415a500ec_s.jpg/dbcover'
                         }
                         style={{
-                          height: '10em',
+                          height: '11em',
                         }}
-                        className="rounded-3 border border-2 w-100 border-secondary  object-fit-fill"
+                        className="rounded-3 border border-2 w-100 border-secondary  object-fit-cover"
                       />
                       <Card.Body>
                         <Card.Title>
@@ -376,7 +376,7 @@ const HomePage = () => {
         </Modal.Header>
         <Modal.Body>
           {currentPostComments.length === 0 ? (
-            <p>Nessun commento disponibile per questo post.</p>
+            <p>Nessun commento disponibile per questo post. {profileStats} </p>
           ) : (
             currentPostComments.slice(0, 20).map((comment) => (
               <div
