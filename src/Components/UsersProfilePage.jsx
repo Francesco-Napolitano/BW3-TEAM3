@@ -3,7 +3,6 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchSelectedProfile } from '../redux/reducers/selectedProfileReducer'
 import { Container, Row, Col } from 'react-bootstrap'
-import InfoCard from './infoCard.jsx'
 
 const UsersProfilePage = () => {
   const { id } = useParams()
@@ -39,6 +38,7 @@ const UsersProfilePage = () => {
     if (id) {
       dispatch(fetchSelectedProfile(id))
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, dispatch])
 
   if (status === 'loading') {
@@ -61,7 +61,7 @@ const UsersProfilePage = () => {
         <Row className="row-cols-1 g-4">
           <Col className="p-4 bg-white rounded-4 shadow-sm">
             <div className="text-center">
-              <span>Errore nel caricamento del profilo: {error}</span>
+              <span>Questo profilo non esiste. {error}</span>
             </div>
           </Col>
         </Row>

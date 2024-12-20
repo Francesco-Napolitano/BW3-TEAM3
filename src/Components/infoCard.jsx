@@ -274,8 +274,6 @@ const HorizontalProfileCard = ({
               </div>
             </div>
           </div>
-
-          {/* Pulsanti azione */}
           <div className="d-flex gap-2 flex-wrap mt-3">
             <Dropdown
               show={menuVisible}
@@ -330,7 +328,7 @@ const HorizontalProfileCard = ({
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3">
-              <Form.Label>Nome*</Form.Label>
+              <Form.Label>Username*</Form.Label>
               <Form.Control
                 type="text"
                 name="nome"

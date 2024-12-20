@@ -137,6 +137,7 @@ const SideBar = () => {
     fetchProfiliSuggeriti()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+  const profileData = useSelector((state) => state.profile.profileData)
 
   // Rendering del componente
   return (
@@ -223,10 +224,11 @@ const SideBar = () => {
             <Card className="profile-url-card">
               <div className="profile-url-title">
                 <h5>Profilo pubblico e URL</h5>
-                <i className="bi bi-pencil"></i>
               </div>
               <div className="profile-url">
-                www.linkedin.com/in/francesco-s-255385205
+                www.linkedin.com/in/
+                {profileData?.name.replace(/\s/g, '').toLowerCase()}
+                -255385205
               </div>
             </Card>
 

@@ -139,8 +139,8 @@ const JobsPage = () => {
         ) : (
           <Col className="text-center">
             <p>
-              Nessun risultato trovato. Prova a cercare un'altra parola chiave o
-              categoria.
+              Nessun risultato trovato. Prova a cercare un&apos;altra parola
+              chiave o categoria.
             </p>
           </Col>
         )}
