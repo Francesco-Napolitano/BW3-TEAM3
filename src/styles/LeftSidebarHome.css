@@ -20,12 +20,21 @@
 
 .profileBackground {
   height: 60px;
-  background-color: #ffc107;
+  background-color: #ffc107 !important;
 }
 
-#imageProfie{
-  width: 7em;
-  height: 7em;
+.profileImageContainer {
+  position: relative;
+  margin-top: -40px;
+}
+
+.profileImg {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 2px solid white;
+  margin: 0 auto;
+  display: block;
 }
 
 .profileDetails {
@@ -200,6 +209,10 @@
   text-align: left;
   overflow: hidden;
   transition: max-height 0.3s ease;
+}
+
+#languages{
+  font-size: 0.7em;
 }
 
 .bioText.expanded {

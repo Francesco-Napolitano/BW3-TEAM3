@@ -3,27 +3,23 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 import '../styles/LeftSidebarHome.css'
 
-import { useDispatch, useSelector } from 'react-redux'
 const LeftSidebarHome = () => {
-  const savedPosts = useSelector((state) => state.profileName.name)
-  const savedImage = useSelector((state) => state.profileName.profileImg)
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const lingueSalvate = useSelector((state) => state.profileName.lingue)
   const lingueFormattate = lingueSalvate
     .map((lingua, index) =>
-      index === lingueSalvate.length - 1
-        ? lingua
+      index === lingueSalvate.length - 1 // Controlla se è l'ultimo elemento
+        ? lingua // Non aggiunge separatore
         : lingua.match(/^[A-Z]/)
-        ? `${lingua} / `
+        ? `${lingua} / ` // Aggiunge un trattino se non è l'ultimo
         : lingua
     )
-    .join(' ')
+    .join(' ') // Unisce gli elementi con uno spazio.
 
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const profileData = useSelector(state => state.profile.profileData)
-  const connectionCount = useSelector(state => state.connections.count)
-  const profileStats = useSelector(state => state.profile.stats)
-  
+  const profileData = useSelector((state) => state.profile.profileData)
+  const connectionCount = useSelector((state) => state.connections.count)
+
   // Stato per gestire l'espansione della bio
   const [isExpanded, setIsExpanded] = useState(false)
 
@@ -64,46 +60,40 @@ const LeftSidebarHome = () => {
     <div className="d-none d-xl-block leftSidebarContainer">
       <div className="leftSidebar">
         <div className="profileCard">
-          <div 
+          <div
             className="profileBackground"
             style={{
-              backgroundImage: profileData?.background ? `url(${profileData.background})` : 'none',
-              backgroundColor: '#f3f2ef'
+              backgroundImage: profileData?.background
+                ? `url(${profileData.background})`
+                : 'none',
+              backgroundColor: '#f3f2ef',
             }}
           ></div>
-          
+
           <div className="profileImageContainer">
-            <img 
-              src={profileData?.image || 'https://via.placeholder.com/150'} 
-              alt="profile" 
-              className="profileImg"
-            />
-          <div className="profileBackground d-flex justify-content-center align-items-center">
             <img
-              src={savedImage}
+              src={profileData?.image || 'https://via.placeholder.com/150'}
               alt="profile"
-              id="imageProfie"
-              className=" rounded-circle"
+              className="profileImg"
             />
           </div>
 
           <div className="profileInfo">
-            <h3 
-              onClick={() => navigate('/profile/me')} 
-              className="profileName"
-            >
+            <h3 onClick={() => navigate('/profile/me')} className="profileName">
               {profileData?.name || 'Il tuo nome'}
             </h3>
-            
+
             {/* Bio con gestione espansione */}
             <div className="profileBio">
               {profileData?.bio && (
                 <>
                   <p className={`bioText ${isExpanded ? 'expanded' : ''}`}>
-                    {isExpanded ? profileData.bio : truncateText(profileData.bio, 100)}
+                    {isExpanded
+                      ? profileData.bio
+                      : truncateText(profileData.bio, 100)}
                   </p>
                   {profileData.bio.length > 100 && (
-                    <button 
+                    <button
                       className="expandButton"
                       onClick={() => setIsExpanded(!isExpanded)}
                     >
@@ -113,11 +103,17 @@ const LeftSidebarHome = () => {
                 </>
               )}
             </div>
-            
-            
-            <p className="profileLocation">{profileData?.area || 'La tua località'}</p>
+
+            <p className="profileLocation m-0">
+              {profileData?.area || 'La tua località'}
+            </p>
+            <p id="languages" className="text-primary">
+              {lingueFormattate}
+            </p>
           </div>
         </div>
+
+        {/* Stats Section */}
         <div className="statsSection">
           <div className="statItem">
             <span className="statLabel">Collegamenti al profilo</span>
@@ -132,10 +128,14 @@ const LeftSidebarHome = () => {
             Dacci CASH per guadagnare CASH
           </button>
         </div>
+
+        {/* Saved Items */}
         <div className="savedItems">
           <div className="savedItemsContent">
             <i className="bi bi-bookmark-fill text-warning"></i>
-            <span>Elementi salvati</span>
+            <span onClick={() => navigate('/favourites')}>
+              Elementi salvati
+            </span>
           </div>
         </div>
       </div>

@@ -187,11 +187,13 @@ const HomePage = () => {
 
   const [profileStats] = useState(() => {
     const savedStats = sessionStorage.getItem('profileStats')
-    return savedStats ? JSON.parse(savedStats) : {
-      visits: 0,
-      impressions: 0,
-      searches: 0
-    }
+    return savedStats
+      ? JSON.parse(savedStats)
+      : {
+          visits: 0,
+          impressions: 0,
+          searches: 0,
+        }
   })
 
   return (
@@ -248,10 +250,7 @@ const HomePage = () => {
             />
           </InputGroup>
           <div className="d-flex align-items-baseline gap-1">
-            <p className="m-0">Collegamenti profilo: {connectionCount}</p>
-          </div>
-          <div className="d-flex align-items-baseline gap-1">
-            <p className="m-0">Impressioni post: {profileStats.impressions}</p>
+            <p className="m-0 mb-2">Collegamenti profilo: {connectionCount}</p>
           </div>
         </Col>
       </Row>
