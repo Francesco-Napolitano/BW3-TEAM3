@@ -3,16 +3,23 @@ import { createSlice } from '@reduxjs/toolkit'
 
 // Definiamo lo stato iniziale del profilo con campi vuoti
 const initialState = {
-  profileData: {
-    name: '', // Nome utente
-    title: '', // Titolo professionale
-    area: '', // Area geografica
-    bio: '', // Biografia
-    image: '', // URL immagine profilo
-    email: '', // Email utente
-  },
-  loading: false, // Flag per indicare se è in corso un'operazione
-  error: null, // Eventuale messaggio di errore
+  profileData: null,
+  stats: (() => {
+    const savedStats = sessionStorage.getItem('profileStats')
+    if (savedStats) {
+      return JSON.parse(savedStats)
+    }
+    const newStats = {
+      visits: Math.floor(Math.random() * 500) + 100,
+      impressions: Math.floor(Math.random() * 1000) + 200,
+      searches: Math.floor(Math.random() * 100) + 20,
+      connections: parseInt(sessionStorage.getItem('profileConnections')) || 0
+    }
+    sessionStorage.setItem('profileStats', JSON.stringify(newStats))
+    return newStats
+  })(),
+  loading: false,
+  error: null
 }
 
 // Creiamo lo slice del profilo con i suoi reducers
@@ -38,6 +45,13 @@ const profileSlice = createSlice({
     // Imposta direttamente i dati del profilo
     setProfileData: (state, action) => {
       state.profileData = action.payload
+    },
+    // Aggiorna le statistiche del profilo
+    updateProfileStats: (state, action) => {
+      state.stats = {
+        ...state.stats,
+        ...action.payload
+      }
     }
   }
 })

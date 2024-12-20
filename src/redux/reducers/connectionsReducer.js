@@ -7,6 +7,15 @@ const connectionsReducer = (state = initialState, action) => {
     case 'ADD_CONNECTION':
       const newCount = state.count + 1
       sessionStorage.setItem('profileConnections', newCount.toString())
+      
+      // Aggiorna anche le statistiche del profilo
+      const currentStats = JSON.parse(sessionStorage.getItem('profileStats') || '{}')
+      const updatedStats = {
+        ...currentStats,
+        connections: newCount
+      }
+      sessionStorage.setItem('profileStats', JSON.stringify(updatedStats))
+      
       return {
         ...state,
         count: newCount

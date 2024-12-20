@@ -102,11 +102,7 @@ const LeftSidebarHome = () => {
         <div className="statsSection">
           <div className="statItem">
             <span className="statLabel">Collegamenti al profilo</span>
-            <span className="statValue">{connectionCount || 0}</span>
-          </div>
-          <div className="statItem">
-            <span className="statLabel">Impressioni del post</span>
-            <span className="statValue">{profileStats?.impressions || 0}</span>
+            <span className="statValue">{connectionCount}</span>
           </div>
         </div>
 

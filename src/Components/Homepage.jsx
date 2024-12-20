@@ -13,7 +13,7 @@ import {
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import { FaTrash } from 'react-icons/fa'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 const HomePage = () => {
   const token =
@@ -183,6 +183,17 @@ const HomePage = () => {
 
   const dispatch = useDispatch()
 
+  const connectionCount = useSelector((state) => state.connections.count)
+
+  const [profileStats] = useState(() => {
+    const savedStats = sessionStorage.getItem('profileStats')
+    return savedStats ? JSON.parse(savedStats) : {
+      visits: 0,
+      impressions: 0,
+      searches: 0
+    }
+  })
+
   return (
     <Container fluid className="p-4">
       <Row>
@@ -236,6 +247,12 @@ const HomePage = () => {
               onChange={(e) => setSearch(e.target.value)}
             />
           </InputGroup>
+          <div className="d-flex align-items-baseline gap-1">
+            <p className="m-0">Collegamenti profilo: {connectionCount}</p>
+          </div>
+          <div className="d-flex align-items-baseline gap-1">
+            <p className="m-0">Impressioni post: {profileStats.impressions}</p>
+          </div>
         </Col>
       </Row>
       <Row>
